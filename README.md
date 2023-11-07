@@ -179,3 +179,10 @@ There is also the possibility to connect this example to the simulator using:
 $ ./mavlink_control -u 127.0.0.1 -a
 ```
 The -a argument enables arming, takeoff and landing of the copter. Use this argument with care on a real copter!
+
+Usage:
+
+```
+$ sudo ./my_mavlink_control /dev/ttyUSB0 -a
+```
+
