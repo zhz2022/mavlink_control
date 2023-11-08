@@ -669,7 +669,7 @@ start()
 	//   GET INITIAL POSITION
 	// --------------------------------------------------------------------------
 
-	// Wait for initial position ned
+	// Wait for initial position ned//TODO
 	while ( not ( current_messages.time_stamps.local_position_ned &&
 				  current_messages.time_stamps.attitude            )  )
 	{
