@@ -13,7 +13,8 @@
 // ------------------------------------------------------------------------------
 
 #include "my_mavlink_control.h"
-void mode1()
+int mode_gl;
+void mode1(int argc, char **argv)
 {
     std::cout << "执行模式1的代码" << std::endl;
     // 在此处编写模式1的代码逻辑
@@ -40,12 +41,12 @@ int top(int argc, char **argv)
 
     bool use_udp = false;
     char *udp_ip = (char *)"127.0.0.1";
-    int udp_port = 14540;
+    int udp_port = 14550;
     bool autotakeoff = false;
     printf("autotakeoff = false====================================================\n");
 
     // do the parse, will throw an int if it fails
-    parse_commandline(argc, argv, uart_name, baudrate, use_udp, udp_ip, udp_port, autotakeoff);
+    parse_commandline(argc, argv, uart_name, baudrate, use_udp, udp_ip, udp_port);
 
     // --------------------------------------------------------------------------
     //   PORT and THREAD STARTUP
@@ -135,6 +136,144 @@ int top(int argc, char **argv)
     return 0;
 }
 
+
+
+// ------------------------------------------------------------------------------
+//   Main
+// ------------------------------------------------------------------------------
+int main(int argc, char **argv)
+{
+    mode_select();
+
+    while(1){
+        switch (mode_gl){
+        case 1:
+            ;
+            mode_select();
+        case 2:
+            ;
+            mode_select();
+        default :
+            std::cout << "无效的模式选择" << std::endl;
+            mode_select();
+        }
+    }
+
+    // if (mode == 1)
+    // {
+    //     try
+    //     {
+    //         int result = top(argc, argv);
+    //         return result;
+    //     }
+
+    //     catch (int error)
+    //     {
+    //         fprintf(stderr, "mavlink_control threw exception %i \n", error);
+    //         return error;
+    //     }
+    // }
+    // else if (mode == 2)
+    // {
+    //     mode2(); // 调用模式2的函数
+    // }
+    // else
+    // {
+    //     std::cout << "无效的模式选择" << std::endl;
+    // }
+
+    return 0;
+}
+
+// ------------------------------------------------------------------------------
+//   Parse Command Line
+// ------------------------------------------------------------------------------
+// throws EXIT_FAILURE if could not open the port
+void parse_commandline(int argc, char **argv, char *&uart_name, int &baudrate,
+                       bool &use_udp, char *&udp_ip, int &udp_port)
+{
+
+    // string for command line usage
+    const char *commandline_usage = "usage: mavlink_control [-d <devicename> -b <baudrate>] [-u <udp_ip> -p <udp_port>] [-a ]";
+
+    // Read input arguments
+    for (int i = 1; i < argc; i++)
+    { // argv[0] is "mavlink"
+
+        // Help
+        if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--help") == 0)
+        {
+            printf("%s\n", commandline_usage);
+            throw EXIT_FAILURE;
+        }
+
+        // UART device ID
+        if (strcmp(argv[i], "-d") == 0 || strcmp(argv[i], "--device") == 0)
+        {
+            if (argc > i + 1)
+            {
+                i++;
+                uart_name = argv[i];
+            }
+            else
+            {
+                printf("%s\n", commandline_usage);
+                throw EXIT_FAILURE;
+            }
+        }
+
+        // Baud rate
+        if (strcmp(argv[i], "-b") == 0 || strcmp(argv[i], "--baud") == 0)
+        {
+            if (argc > i + 1)
+            {
+                i++;
+                baudrate = atoi(argv[i]);
+            }
+            else
+            {
+                printf("%s\n", commandline_usage);
+                throw EXIT_FAILURE;
+            }
+        }
+
+        // UDP ip
+        if (strcmp(argv[i], "-u") == 0 || strcmp(argv[i], "--udp_ip") == 0)
+        {
+            if (argc > i + 1)
+            {
+                i++;
+                udp_ip = argv[i];
+                use_udp = true;
+            }
+            else
+            {
+                printf("%s\n", commandline_usage);
+                throw EXIT_FAILURE;
+            }
+        }
+
+        // UDP port
+        if (strcmp(argv[i], "-p") == 0 || strcmp(argv[i], "--port") == 0)
+        {
+            if (argc > i + 1)
+            {
+                i++;
+                udp_port = atoi(argv[i]);
+            }
+            else
+            {
+                printf("%s\n", commandline_usage);
+                throw EXIT_FAILURE;
+            }
+        }
+    }
+    // end: for each input argument
+
+    // Done!
+    return;
+}
+
 // ------------------------------------------------------------------------------
 //   COMMANDS
 // ------------------------------------------------------------------------------
@@ -184,30 +323,22 @@ void commands(Autopilot_Interface &api, bool autotakeoff)
     api.update_setpoint(sp);
     // NOW pixhawk will try to move
 
-    // Wait for 8 seconds, check position
-    for (int i = 0; i < 8; i++)
-    {
-        mavlink_local_position_ned_t pos = api.current_messages.local_position_ned;
-        printf("%i CURRENT POSITION XYZ = [ % .4f , % .4f , % .4f ] \n", i, pos.x, pos.y, pos.z);
-        sleep(1);
-    }
-
     // Example 2 - Set Velocity
-    set_velocity(-1.0, // [m/s]
-                 -1.0, // [m/s]
+    set_velocity(-100.0, // [m/s]
+                 -100.0, // [m/s]
                  0.0,  // [m/s]
                  sp);
 
     // Example 2.1 - Append Yaw Command
-    set_yaw(ip.yaw + 90.0 / 180.0 * M_PI, // [rad]
-            sp);
+    // set_yaw(ip.yaw + 90.0 / 180.0 * M_PI, // [rad]
+    //         sp);
 
     // SEND THE COMMAND
     api.update_setpoint(sp);
     // NOW pixhawk will try to move
 
     // Wait for 4 seconds, check position
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 10000; i++)
     {
         mavlink_local_position_ned_t pos = api.current_messages.local_position_ned;
         printf("%i CURRENT POSITION XYZ = [ % .4f , % .4f , % .4f ] \n", i, pos.x, pos.y, pos.z);
@@ -285,101 +416,6 @@ void commands(Autopilot_Interface &api, bool autotakeoff)
     return;
 }
 
-// ------------------------------------------------------------------------------
-//   Parse Command Line
-// ------------------------------------------------------------------------------
-// throws EXIT_FAILURE if could not open the port
-void parse_commandline(int argc, char **argv, char *&uart_name, int &baudrate,
-                       bool &use_udp, char *&udp_ip, int &udp_port, bool &autotakeoff)
-{
-
-    // string for command line usage
-    const char *commandline_usage = "usage: mavlink_control [-d <devicename> -b <baudrate>] [-u <udp_ip> -p <udp_port>] [-a ]";
-
-    // Read input arguments
-    for (int i = 1; i < argc; i++)
-    { // argv[0] is "mavlink"
-
-        // Help
-        if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--help") == 0)
-        {
-            printf("%s\n", commandline_usage);
-            throw EXIT_FAILURE;
-        }
-
-        // UART device ID
-        if (strcmp(argv[i], "-d") == 0 || strcmp(argv[i], "--device") == 0)
-        {
-            if (argc > i + 1)
-            {
-                i++;
-                uart_name = argv[i];
-            }
-            else
-            {
-                printf("%s\n", commandline_usage);
-                throw EXIT_FAILURE;
-            }
-        }
-
-        // Baud rate
-        if (strcmp(argv[i], "-b") == 0 || strcmp(argv[i], "--baud") == 0)
-        {
-            if (argc > i + 1)
-            {
-                i++;
-                baudrate = atoi(argv[i]);
-            }
-            else
-            {
-                printf("%s\n", commandline_usage);
-                throw EXIT_FAILURE;
-            }
-        }
-
-        // UDP ip
-        if (strcmp(argv[i], "-u") == 0 || strcmp(argv[i], "--udp_ip") == 0)
-        {
-            if (argc > i + 1)
-            {
-                i++;
-                udp_ip = argv[i];
-                use_udp = true;
-            }
-            else
-            {
-                printf("%s\n", commandline_usage);
-                throw EXIT_FAILURE;
-            }
-        }
-
-        // UDP port
-        if (strcmp(argv[i], "-p") == 0 || strcmp(argv[i], "--port") == 0)
-        {
-            if (argc > i + 1)
-            {
-                i++;
-                udp_port = atoi(argv[i]);
-            }
-            else
-            {
-                printf("%s\n", commandline_usage);
-                throw EXIT_FAILURE;
-            }
-        }
-
-        // Autotakeoff
-        if (strcmp(argv[i], "-a") == 0 || strcmp(argv[i], "--autotakeoff") == 0)
-        {
-            autotakeoff = true;
-            printf("autotakeoff = true===================================\n");
-        }
-    }
-    // end: for each input argument
-
-    // Done!
-    return;
-}
 
 // ------------------------------------------------------------------------------
 //   Quit Signal Handler
@@ -412,40 +448,40 @@ void quit_handler(int sig)
     // end program here
     exit(0);
 }
-
-// ------------------------------------------------------------------------------
-//   Main
-// ------------------------------------------------------------------------------
-int main(int argc, char **argv)
+void mode_select()
 {
-    int mode;
-    std::cout << "请选择模式(输入1或2)" << std::endl;
-    std::cout << "1:auto takeoff" << std::endl;
-    std::cout << "2:onboard control" << std::endl;
-    std::cin >> mode;
-
-    if (mode == 1)
-    {
-        try
-        {
-            int result = top(argc, argv);
-            return result;
-        }
-
-        catch (int error)
-        {
-            fprintf(stderr, "mavlink_control threw exception %i \n", error);
-            return error;
-        }
-    }
-    else if (mode == 2)
-    {
-        mode2(); // 调用模式2的函数
-    }
-    else
-    {
-        std::cout << "无效的模式选择" << std::endl;
-    }
-
-    return 0;
+    // int mode;
+    std::cout << "请选择模式(输入number)" << std::endl;
+    std::cout << "1:init" << std::endl;
+    std::cout << "2:auto takeoff" << std::endl;
+    std::cout << ":onboard control" << std::endl;
+    std::cout << ":land" << std::endl;
+    std::cout << ":disable offboard_control" << std::endl;
+    std::cout << ":disarm" << std::endl;
+    std::cin >> mode_gl;
+    // return mode;
+}
+void mode_init(){
+    ;
+}
+void mode_takeoff(){
+    ;
+}
+void mode_move_forward(){
+    ;
+}
+void mode_move_backward(){
+    ;
+}
+void mode_move_left(){
+    ;
+}
+void mode_move_right(){
+    ;
+}
+void mode_land(){
+    ;
+}
+void mode_quit(){
+    ;
 }
