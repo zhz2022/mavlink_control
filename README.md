@@ -185,5 +185,7 @@ Usage:
 ```
 $ sudo ./my_mavlink_control /dev/ttyUSB0 -a
 ./my_mavlink_control -u 127.0.0.1 -p 14550 -a
+cd ~/ardupilot/ArduCopter
+sim_vehicle.py --console --map
 ```
 
