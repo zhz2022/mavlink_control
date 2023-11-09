@@ -32,7 +32,7 @@ void mode2()
 // ------------------------------------------------------------------------------
 int top(int argc, char **argv)
 {
-    printf("top begin====================================================\n");
+    printf("top begin====================================================\n");//
 
     // --------------------------------------------------------------------------
     //   PARSE THE COMMANDS
@@ -447,12 +447,11 @@ void mode_select()
 {
     // int mode;
     std::cout << "请选择模式(输入number)" << std::endl;
-    std::cout << "1:init" << std::endl;
-    std::cout << "2:auto takeoff" << std::endl;
-    std::cout << ":onboard control" << std::endl;
-    std::cout << ":land" << std::endl;
-    std::cout << ":disable offboard_control" << std::endl;
-    std::cout << ":disarm" << std::endl;
+    std::cout << "1:init      2:takeoff" << std::endl;
+    std::cout << "3:forward   4:move_backward" << std::endl;
+    std::cout << "5:move_left 6:move_right" << std::endl;
+    std::cout << "7:land      8:quit" << std::endl;
+
     std::cin >> mode_gl;
     std::cout << ":mode selected to: "<<mode_gl << std::endl;
     // return mode;
