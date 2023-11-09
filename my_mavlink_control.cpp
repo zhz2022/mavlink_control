@@ -14,6 +14,7 @@
 
 #include "my_mavlink_control.h"
 int mode_gl;
+enum Mode {INIT=1,TAKEOFF,MOVE_FORWARD,MOVE_BACKWARD,MOVE_LEFT,MOVE_RIGHT,LAND,QUIT};
 void mode1(int argc, char **argv)
 {
     std::cout << "执行模式1的代码" << std::endl;
@@ -147,41 +148,35 @@ int main(int argc, char **argv)
 
     while(1){
         switch (mode_gl){
-        case 1:
-            ;
+        case INIT:
+            mode_init();
             mode_select();
-        case 2:
-            ;
+        case TAKEOFF:
+            mode_takeoff();
+            mode_select();
+        case MOVE_FORWARD:
+            mode_move_forward();
+            mode_select();
+        case MOVE_BACKWARD:
+            mode_move_backward();
+            mode_select();
+        case MOVE_LEFT:
+            mode_move_left();
+            mode_select();
+        case MOVE_RIGHT:
+            mode_move_right();
+            mode_select();
+        case LAND:
+            mode_land();
+            mode_select();
+        case QUIT:
+            mode_quit();
             mode_select();
         default :
             std::cout << "无效的模式选择" << std::endl;
             mode_select();
         }
     }
-
-    // if (mode == 1)
-    // {
-    //     try
-    //     {
-    //         int result = top(argc, argv);
-    //         return result;
-    //     }
-
-    //     catch (int error)
-    //     {
-    //         fprintf(stderr, "mavlink_control threw exception %i \n", error);
-    //         return error;
-    //     }
-    // }
-    // else if (mode == 2)
-    // {
-    //     mode2(); // 调用模式2的函数
-    // }
-    // else
-    // {
-    //     std::cout << "无效的模式选择" << std::endl;
-    // }
-
     return 0;
 }
 
@@ -459,6 +454,7 @@ void mode_select()
     std::cout << ":disable offboard_control" << std::endl;
     std::cout << ":disarm" << std::endl;
     std::cin >> mode_gl;
+    std::cout << ":mode selected to: "<<mode_gl << std::endl;
     // return mode;
 }
 void mode_init(){
