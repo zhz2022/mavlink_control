@@ -14,27 +14,20 @@
 //   Includes
 // ------------------------------------------------------------------------------
 
-#include "mavlink_control.h"
+#include "my_mavlink_control.h"
 
 
 // ------------------------------------------------------------------------------
 //   TOP
 // ------------------------------------------------------------------------------
-int
-top (int argc, char **argv)
+int top (int argc, char **argv)
 {
 	printf("top begin====================================================\n");
 
 	// --------------------------------------------------------------------------
 	//   PARSE THE COMMANDS
 	// --------------------------------------------------------------------------
-
-	// Default input arguments
-#ifdef __APPLE__
-	char *uart_name = (char*)"/dev/tty.usbmodem1";
-#else
 	char *uart_name = (char*)"/dev/ttyUSB0";
-#endif
 	int baudrate = 57600;
 
 	bool use_udp = false;
@@ -145,8 +138,7 @@ top (int argc, char **argv)
 //   COMMANDS
 // ------------------------------------------------------------------------------
 
-void
-commands(Autopilot_Interface &api, bool autotakeoff)
+void commands(Autopilot_Interface &api, bool autotakeoff)
 {
 
 	// --------------------------------------------------------------------------
@@ -175,9 +167,6 @@ commands(Autopilot_Interface &api, bool autotakeoff)
 	mavlink_set_position_target_local_ned_t ip = api.initial_position;
 
 	// autopilot_interface.h provides some helper functions to build the command
-
-
-
 
 	// Example 1 - Fly up by to 2m
 	set_position( ip.x ,       // [m]
@@ -304,8 +293,7 @@ commands(Autopilot_Interface &api, bool autotakeoff)
 //   Parse Command Line
 // ------------------------------------------------------------------------------
 // throws EXIT_FAILURE if could not open the port
-void
-parse_commandline(int argc, char **argv, char *&uart_name, int &baudrate,
+void parse_commandline(int argc, char **argv, char *&uart_name, int &baudrate,
 		bool &use_udp, char *&udp_ip, int &udp_port, bool &autotakeoff)
 {
 
@@ -412,10 +400,9 @@ quit_handler( int sig )
 // ------------------------------------------------------------------------------
 //   Main
 // ------------------------------------------------------------------------------
-int
-main(int argc, char **argv)
+int main(int argc, char **argv)
 {
-	printf("debug begin====================================================\n");
+	printf("code begin====================================================\n");
 	// This program uses throw, wrap one big try/catch here
 	try
 	{
