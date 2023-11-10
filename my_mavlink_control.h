@@ -55,7 +55,7 @@ void quit_handler( int sig );
 
 void mode_select();
 void mode_init(Autopilot_Interface &autopilot_interface);
-void mode_takeoff(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp);
+void mode_takeoff(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t ip,mavlink_set_position_target_local_ned_t sp);
 void mode_move_forward(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp);
 void mode_move_backward(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp);
 void mode_move_left(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp);

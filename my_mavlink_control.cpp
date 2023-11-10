@@ -41,6 +41,13 @@ int main(int argc, char **argv)
 
     Autopilot_Interface autopilot_interface(port);
 
+    port_quit = port;
+    autopilot_interface_quit = &autopilot_interface;
+    signal(SIGINT, quit_handler);
+
+    port->start();
+    autopilot_interface.start();
+
     autopilot_interface.enable_offboard_control();
 	usleep(100); // give some time to let it sink in
 
@@ -63,7 +70,7 @@ int main(int argc, char **argv)
             mode_init(autopilot_interface);
             mode_select();
         case TAKEOFF:
-            mode_takeoff(autopilot_interface,sp);
+            mode_takeoff(autopilot_interface,ip,sp);
             mode_select();
         case MOVE_FORWARD:
             mode_move_forward(autopilot_interface,sp);
@@ -82,7 +89,8 @@ int main(int argc, char **argv)
             mode_select();
         case QUIT:
             mode_quit(autopilot_interface,port);
-            mode_select();
+            // mode_select();
+            break;
         default :
             std::cout << "无效的模式选择" << std::endl;
             mode_select();
@@ -226,6 +234,7 @@ void mode_select()
     // return mode;
 }
 void mode_init(Autopilot_Interface &autopilot_interface){
+    std::cout << "mode_init started" << std::endl;
     // port_quit = port;
     // autopilot_interface_quit = &autopilot_interface;
     // signal(SIGINT, quit_handler);
@@ -233,11 +242,29 @@ void mode_init(Autopilot_Interface &autopilot_interface){
     // port->start();
     // autopilot_interface.start();
 }
-void mode_takeoff(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
-    // commands(autopilot_interface, autotakeoff);
+void mode_takeoff(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t ip,mavlink_set_position_target_local_ned_t sp){
+    std::cout << "mode_takeoff started" << std::endl;
+	// Example 1 - Fly up by to 2m
+	set_position( ip.x ,       // [m]
+			 	  ip.y ,       // [m]
+				  ip.z - 2.0 , // [m]
+				  sp         );
+    sp.type_mask |= MAVLINK_MSG_SET_POSITION_TARGET_LOCAL_NED_TAKEOFF;
+	// SEND THE COMMAND
+	autopilot_interface.update_setpoint(sp);
+	// NOW pixhawk will try to move
+
+	// Wait for 8 seconds, check position
+	for (int i=0; i < 8; i++)
+	{
+		mavlink_local_position_ned_t pos = autopilot_interface.current_messages.local_position_ned;
+		printf("%i CURRENT POSITION XYZ = [ % .4f , % .4f , % .4f ] \n", i, pos.x, pos.y, pos.z);
+		sleep(1);
+	}
 }
 void mode_move_forward(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
-	set_velocity(  0.0       , // [m/s]
+	std::cout << "mode_move_forward started" << std::endl;
+    set_velocity(  0.0       , // [m/s]
 				   10.0       , // [m/s]
 				   0.0       , // [m/s]
 				   sp        );
@@ -245,7 +272,8 @@ void mode_move_forward(Autopilot_Interface &autopilot_interface,mavlink_set_posi
 	autopilot_interface.update_setpoint(sp);
 }
 void mode_move_backward(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
-	set_velocity(  0.0       , // [m/s]
+	std::cout << "mode_move_backward started" << std::endl;
+    set_velocity(  0.0       , // [m/s]
 				   -10.0       , // [m/s]
 				   0.0       , // [m/s]
 				   sp        );
@@ -253,7 +281,8 @@ void mode_move_backward(Autopilot_Interface &autopilot_interface,mavlink_set_pos
 	autopilot_interface.update_setpoint(sp);
 }
 void mode_move_left(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
-	set_velocity(  10.0       , // [m/s]
+	std::cout << "mode_move_left started" << std::endl;
+    set_velocity(  10.0       , // [m/s]
 				   0.0       , // [m/s]
 				   0.0       , // [m/s]
 				   sp        );
@@ -261,7 +290,8 @@ void mode_move_left(Autopilot_Interface &autopilot_interface,mavlink_set_positio
 	autopilot_interface.update_setpoint(sp);
 }
 void mode_move_right(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
-	set_velocity(  -10.0       , // [m/s]
+	std::cout << "mode_move_right started" << std::endl;
+    set_velocity(  -10.0       , // [m/s]
 				   0.0       , // [m/s]
 				   0.0       , // [m/s]
 				   sp        );
@@ -269,6 +299,7 @@ void mode_move_right(Autopilot_Interface &autopilot_interface,mavlink_set_positi
 	autopilot_interface.update_setpoint(sp);
 }
 void mode_land(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
+    std::cout << "mode_land started" << std::endl;
     // Land using fixed velocity
     set_velocity(  0.0       , // [m/s]
                     0.0       , // [m/s]
@@ -282,9 +313,13 @@ void mode_land(Autopilot_Interface &autopilot_interface,mavlink_set_position_tar
     // NOW pixhawk will try to move
 }
 void mode_quit(Autopilot_Interface &autopilot_interface, Generic_Port *port){
-        // disarm autopilot
+    std::cout << "mode_quit started" << std::endl;
+    // disarm autopilot
     autopilot_interface.arm_disarm(false);
     usleep(100); // give some time to let it sink in
+
+    autopilot_interface.disable_offboard_control();
+
     autopilot_interface.stop();
     port->stop();
     delete port;
