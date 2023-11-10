@@ -1,10 +1,9 @@
 /**
  * @file mavlink_control.cpp
  *
- * @brief An example offboard control process via mavlink
+ * @brief offboard control process via mavlink
  *
  * This process connects an external MAVLink UART device to send an receive data
- *
  *
  */
 
@@ -13,39 +12,15 @@
 // ------------------------------------------------------------------------------
 
 #include "my_mavlink_control.h"
+
 int mode_gl;
 enum Mode {INIT=1,TAKEOFF,MOVE_FORWARD,MOVE_BACKWARD,MOVE_LEFT,MOVE_RIGHT,LAND,QUIT};
-// ------------------------------------------------------------------------------
-//   TOP
-// ------------------------------------------------------------------------------
-// int top(int argc, char **argv)
-// {
-//     // --------------------------------------------------------------------------
-//     //   RUN COMMANDS
-//     // --------------------------------------------------------------------------
-
-//     /*
-//      * Now we can implement the algorithm we want on top of the autopilot interface
-//      */
-//     // commands(autopilot_interface, autotakeoff);
-
-//     // --------------------------------------------------------------------------
-//     //   DONE
-//     // --------------------------------------------------------------------------
-
-//     // woot!
-//     return 0;
-// }
-
-
 
 // ------------------------------------------------------------------------------
 //   Main
 // ------------------------------------------------------------------------------
 int main(int argc, char **argv)
 {
-    mode_select();
-
     char *uart_name = (char *)"/dev/ttyUSB0";
     int baudrate = 57600;
 
@@ -66,31 +41,33 @@ int main(int argc, char **argv)
 
     Autopilot_Interface autopilot_interface(port);
 
+    mode_select();
+
     while(1){
         switch (mode_gl){
         case INIT:
-            mode_init();
+            mode_init(autopilot_interface);
             mode_select();
         case TAKEOFF:
-            mode_takeoff();
+            mode_takeoff(autopilot_interface);
             mode_select();
         case MOVE_FORWARD:
-            mode_move_forward();
+            mode_move_forward(autopilot_interface);
             mode_select();
         case MOVE_BACKWARD:
-            mode_move_backward();
+            mode_move_backward(autopilot_interface);
             mode_select();
         case MOVE_LEFT:
-            mode_move_left();
+            mode_move_left(autopilot_interface);
             mode_select();
         case MOVE_RIGHT:
-            mode_move_right();
+            mode_move_right(autopilot_interface);
             mode_select();
         case LAND:
-            mode_land();
+            mode_land(autopilot_interface);
             mode_select();
         case QUIT:
-            mode_quit();
+            mode_quit(autopilot_interface);
             mode_select();
         default :
             std::cout << "无效的模式选择" << std::endl;
@@ -377,37 +354,7 @@ void mode_select()
     std::cout << "============================" << std::endl;
     // return mode;
 }
-void mode_init(){
-    // --------------------------------------------------------------------------
-    //   PARSE THE COMMANDS
-    // --------------------------------------------------------------------------
-    // char *uart_name = (char *)"/dev/ttyUSB0";
-    // int baudrate = 57600;
-
-    // bool use_udp = false;
-    // char *udp_ip = (char *)"127.0.0.1";
-    // int udp_port = 14550;
-    // bool autotakeoff = false;
-    // printf("autotakeoff = false====================================================\n");
-
-    // // do the parse, will throw an int if it fails
-    // parse_commandline(argc, argv, uart_name, baudrate, use_udp, udp_ip, udp_port);
-
-    // --------------------------------------------------------------------------
-    //   PORT and THREAD STARTUP
-    // --------------------------------------------------------------------------
-    // Generic_Port *port;
-    // if (use_udp)
-    // {
-    //     port = new UDP_Port(udp_ip, udp_port);
-    // }
-    // else
-    // {
-    //     port = new Serial_Port(uart_name, baudrate);
-    // }
-
-    // Autopilot_Interface autopilot_interface(port);
-
+void mode_init(Autopilot_Interface &autopilot_interface){
     // port_quit = port;
     // autopilot_interface_quit = &autopilot_interface;
     // signal(SIGINT, quit_handler);
@@ -415,25 +362,25 @@ void mode_init(){
     // port->start();
     // autopilot_interface.start();
 }
-void mode_takeoff(){
+void mode_takeoff(Autopilot_Interface &autopilot_interface){
     // commands(autopilot_interface, autotakeoff);
 }
-void mode_move_forward(){
+void mode_move_forward(Autopilot_Interface &autopilot_interface){
     ;
 }
-void mode_move_backward(){
+void mode_move_backward(Autopilot_Interface &autopilot_interface){
     ;
 }
-void mode_move_left(){
+void mode_move_left(Autopilot_Interface &autopilot_interface){
     ;
 }
-void mode_move_right(){
+void mode_move_right(Autopilot_Interface &autopilot_interface){
     ;
 }
-void mode_land(){
+void mode_land(Autopilot_Interface &autopilot_interface){
     ;
 }
-void mode_quit(){
+void mode_quit(Autopilot_Interface &autopilot_interface){
     // --------------------------------------------------------------------------
     //   THREAD and PORT SHUTDOWN
     // --------------------------------------------------------------------------TODO

@@ -54,14 +54,14 @@ Generic_Port *port_quit;
 void quit_handler( int sig );
 
 void mode_select();
-void mode_init();
-void mode_takeoff();
-void mode_move_forward();
-void mode_move_backward();
-void mode_move_left();
-void mode_move_right();
-void mode_land();
-void mode_quit();
+void mode_init(Autopilot_Interface &autopilot_interface);
+void mode_takeoff(Autopilot_Interface &autopilot_interface);
+void mode_move_forward(Autopilot_Interface &autopilot_interface);
+void mode_move_backward(Autopilot_Interface &autopilot_interface);
+void mode_move_left(Autopilot_Interface &autopilot_interface);
+void mode_move_right(Autopilot_Interface &autopilot_interface);
+void mode_land(Autopilot_Interface &autopilot_interface);
+void mode_quit(Autopilot_Interface &autopilot_interface);
 
 
 
