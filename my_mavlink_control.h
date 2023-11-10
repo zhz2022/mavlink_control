@@ -1,16 +1,13 @@
 /**
  * @file mavlink_control.h
  *
- * @brief An example offboard control process via mavlink, definition
+ * @brief offboard control process via mavlink, definition
  *
  * This process connects an external MAVLink UART device to send an receive data
  *
- * @author Trent Lukaczyk, <aerialhedgehog@gmail.com>
- * @author Jaycee Lock,    <jaycee.lock@gmail.com>
- * @author Lorenz Meier,   <lm@inf.ethz.ch>
+ * @author zhangpeng, <zhangpengbjut@sina.com>
  *
  */
-
 
 // ------------------------------------------------------------------------------
 //   Includes
