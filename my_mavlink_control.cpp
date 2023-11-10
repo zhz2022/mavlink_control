@@ -15,54 +15,45 @@
 #include "my_mavlink_control.h"
 int mode_gl;
 enum Mode {INIT=1,TAKEOFF,MOVE_FORWARD,MOVE_BACKWARD,MOVE_LEFT,MOVE_RIGHT,LAND,QUIT};
-void mode1(int argc, char **argv)
-{
-    std::cout << "执行模式1的代码" << std::endl;
-    // 在此处编写模式1的代码逻辑
-}
-
-void mode2()
-{
-    std::cout << "执行模式2的代码" << std::endl;
-    // 在此处编写模式2的代码逻辑
-}
-
 // ------------------------------------------------------------------------------
 //   TOP
 // ------------------------------------------------------------------------------
-int top(int argc, char **argv)
-{
-    printf("top begin====================================================\n");//
+// int top(int argc, char **argv)
+// {
+//     // --------------------------------------------------------------------------
+//     //   RUN COMMANDS
+//     // --------------------------------------------------------------------------
 
-    // --------------------------------------------------------------------------
-    //   PARSE THE COMMANDS
-    // --------------------------------------------------------------------------
+//     /*
+//      * Now we can implement the algorithm we want on top of the autopilot interface
+//      */
+//     // commands(autopilot_interface, autotakeoff);
+
+//     // --------------------------------------------------------------------------
+//     //   DONE
+//     // --------------------------------------------------------------------------
+
+//     // woot!
+//     return 0;
+// }
+
+
+
+// ------------------------------------------------------------------------------
+//   Main
+// ------------------------------------------------------------------------------
+int main(int argc, char **argv)
+{
+    mode_select();
+
     char *uart_name = (char *)"/dev/ttyUSB0";
     int baudrate = 57600;
 
     bool use_udp = false;
     char *udp_ip = (char *)"127.0.0.1";
     int udp_port = 14550;
-    bool autotakeoff = false;
-    printf("autotakeoff = false====================================================\n");
-
     // do the parse, will throw an int if it fails
     parse_commandline(argc, argv, uart_name, baudrate, use_udp, udp_ip, udp_port);
-
-    // --------------------------------------------------------------------------
-    //   PORT and THREAD STARTUP
-    // --------------------------------------------------------------------------
-
-    /*
-     * Instantiate a generic port object
-     *
-     * This object handles the opening and closing of the offboard computer's
-     * port over which it will communicate to an autopilot.  It has
-     * methods to read and write a mavlink_message_t object.  To help with read
-     * and write in the context of pthreading, it gaurds port operations with a
-     * pthread mutex lock. It can be a serial or an UDP port.
-     *
-     */
     Generic_Port *port;
     if (use_udp)
     {
@@ -73,78 +64,7 @@ int top(int argc, char **argv)
         port = new Serial_Port(uart_name, baudrate);
     }
 
-    /*
-     * Instantiate an autopilot interface object
-     *
-     * This starts two threads for read and write over MAVlink. The read thread
-     * listens for any MAVlink message and pushes it to the current_messages
-     * attribute.  The write thread at the moment only streams a position target
-     * in the local NED frame (mavlink_set_position_target_local_ned_t), which
-     * is changed by using the method update_setpoint().  Sending these messages
-     * are only half the requirement to get response from the autopilot, a signal
-     * to enter "offboard_control" mode is sent by using the enable_offboard_control()
-     * method.  Signal the exit of this mode with disable_offboard_control().  It's
-     * important that one way or another this program signals offboard mode exit,
-     * otherwise the vehicle will go into failsafe.
-     *
-     */
     Autopilot_Interface autopilot_interface(port);
-
-    /*
-     * Setup interrupt signal handler
-     *
-     * Responds to early exits signaled with Ctrl-C.  The handler will command
-     * to exit offboard mode if required, and close threads and the port.
-     * The handler in this example needs references to the above objects.
-     *
-     */
-    port_quit = port;
-    autopilot_interface_quit = &autopilot_interface;
-    signal(SIGINT, quit_handler);
-
-    /*
-     * Start the port and autopilot_interface
-     * This is where the port is opened, and read and write threads are started.
-     */
-    port->start();
-    autopilot_interface.start();
-    // --------------------------------------------------------------------------
-    //   RUN COMMANDS
-    // --------------------------------------------------------------------------
-
-    /*
-     * Now we can implement the algorithm we want on top of the autopilot interface
-     */
-    commands(autopilot_interface, autotakeoff);
-
-    // --------------------------------------------------------------------------
-    //   THREAD and PORT SHUTDOWN
-    // --------------------------------------------------------------------------
-
-    /*
-     * Now that we are done we can stop the threads and close the port
-     */
-    autopilot_interface.stop();
-    port->stop();
-
-    delete port;
-
-    // --------------------------------------------------------------------------
-    //   DONE
-    // --------------------------------------------------------------------------
-
-    // woot!
-    return 0;
-}
-
-
-
-// ------------------------------------------------------------------------------
-//   Main
-// ------------------------------------------------------------------------------
-int main(int argc, char **argv)
-{
-    mode_select();
 
     while(1){
         switch (mode_gl){
@@ -446,21 +366,57 @@ void quit_handler(int sig)
 void mode_select()
 {
     // int mode;
-    std::cout << "请选择模式(输入number)" << std::endl;
-    std::cout << "1:init      2:takeoff" << std::endl;
-    std::cout << "3:forward   4:move_backward" << std::endl;
-    std::cout << "5:move_left 6:move_right" << std::endl;
-    std::cout << "7:land      8:quit" << std::endl;
-
-    std::cin >> mode_gl;
-    std::cout << ":mode selected to: "<<mode_gl << std::endl;
+    std::cout << "请选择模式(输入number)"         << std::endl;
+    std::cout << "1:init      2:takeoff"        << std::endl;
+    std::cout << "3:forward   4:move_backward"  << std::endl;
+    std::cout << "5:move_left 6:move_right"     << std::endl;
+    std::cout << "7:land      8:quit"           << std::endl;
+    std::cout << "============================" << std::endl;
+    std::cin  >> mode_gl;
+    std::cout << ":mode selected to: "<< mode_gl<< std::endl;
+    std::cout << "============================" << std::endl;
     // return mode;
 }
 void mode_init(){
-    ;
+    // --------------------------------------------------------------------------
+    //   PARSE THE COMMANDS
+    // --------------------------------------------------------------------------
+    // char *uart_name = (char *)"/dev/ttyUSB0";
+    // int baudrate = 57600;
+
+    // bool use_udp = false;
+    // char *udp_ip = (char *)"127.0.0.1";
+    // int udp_port = 14550;
+    // bool autotakeoff = false;
+    // printf("autotakeoff = false====================================================\n");
+
+    // // do the parse, will throw an int if it fails
+    // parse_commandline(argc, argv, uart_name, baudrate, use_udp, udp_ip, udp_port);
+
+    // --------------------------------------------------------------------------
+    //   PORT and THREAD STARTUP
+    // --------------------------------------------------------------------------
+    // Generic_Port *port;
+    // if (use_udp)
+    // {
+    //     port = new UDP_Port(udp_ip, udp_port);
+    // }
+    // else
+    // {
+    //     port = new Serial_Port(uart_name, baudrate);
+    // }
+
+    // Autopilot_Interface autopilot_interface(port);
+
+    // port_quit = port;
+    // autopilot_interface_quit = &autopilot_interface;
+    // signal(SIGINT, quit_handler);
+
+    // port->start();
+    // autopilot_interface.start();
 }
 void mode_takeoff(){
-    ;
+    // commands(autopilot_interface, autotakeoff);
 }
 void mode_move_forward(){
     ;
@@ -478,5 +434,11 @@ void mode_land(){
     ;
 }
 void mode_quit(){
-    ;
+    // --------------------------------------------------------------------------
+    //   THREAD and PORT SHUTDOWN
+    // --------------------------------------------------------------------------TODO
+//     autopilot_interface.stop();
+//     port->stop();
+
+//     delete port;
 }
