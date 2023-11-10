@@ -41,6 +41,20 @@ int main(int argc, char **argv)
 
     Autopilot_Interface autopilot_interface(port);
 
+    autopilot_interface.enable_offboard_control();
+	usleep(100); // give some time to let it sink in
+
+	// now the autopilot is accepting setpoint commands
+
+    autopilot_interface.arm_disarm(true);
+    usleep(100); // give some time to let it sink in
+
+	printf("SEND OFFBOARD COMMANDS\n");
+
+	// initialize command data strtuctures
+	mavlink_set_position_target_local_ned_t sp;
+	mavlink_set_position_target_local_ned_t ip = autopilot_interface.initial_position;
+
     mode_select();
 
     while(1){
@@ -49,25 +63,25 @@ int main(int argc, char **argv)
             mode_init(autopilot_interface);
             mode_select();
         case TAKEOFF:
-            mode_takeoff(autopilot_interface);
+            mode_takeoff(autopilot_interface,sp);
             mode_select();
         case MOVE_FORWARD:
-            mode_move_forward(autopilot_interface);
+            mode_move_forward(autopilot_interface,sp);
             mode_select();
         case MOVE_BACKWARD:
-            mode_move_backward(autopilot_interface);
+            mode_move_backward(autopilot_interface,sp);
             mode_select();
         case MOVE_LEFT:
-            mode_move_left(autopilot_interface);
+            mode_move_left(autopilot_interface,sp);
             mode_select();
         case MOVE_RIGHT:
-            mode_move_right(autopilot_interface);
+            mode_move_right(autopilot_interface,sp);
             mode_select();
         case LAND:
             mode_land(autopilot_interface);
             mode_select();
         case QUIT:
-            mode_quit(autopilot_interface);
+            mode_quit(autopilot_interface,port);
             mode_select();
         default :
             std::cout << "无效的模式选择" << std::endl;
@@ -362,30 +376,31 @@ void mode_init(Autopilot_Interface &autopilot_interface){
     // port->start();
     // autopilot_interface.start();
 }
-void mode_takeoff(Autopilot_Interface &autopilot_interface){
+void mode_takeoff(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
     // commands(autopilot_interface, autotakeoff);
 }
-void mode_move_forward(Autopilot_Interface &autopilot_interface){
+void mode_move_forward(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
+	set_velocity( -1.0       , // [m/s]
+				  -1.0       , // [m/s]
+				   0.0       , // [m/s]
+				   sp        );
+	// SEND THE COMMAND
+	autopilot_interface.update_setpoint(sp);
+}
+void mode_move_backward(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
     ;
 }
-void mode_move_backward(Autopilot_Interface &autopilot_interface){
+void mode_move_left(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
     ;
 }
-void mode_move_left(Autopilot_Interface &autopilot_interface){
-    ;
-}
-void mode_move_right(Autopilot_Interface &autopilot_interface){
+void mode_move_right(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
     ;
 }
 void mode_land(Autopilot_Interface &autopilot_interface){
     ;
 }
-void mode_quit(Autopilot_Interface &autopilot_interface){
-    // --------------------------------------------------------------------------
-    //   THREAD and PORT SHUTDOWN
-    // --------------------------------------------------------------------------TODO
-//     autopilot_interface.stop();
-//     port->stop();
-
-//     delete port;
+void mode_quit(Autopilot_Interface &autopilot_interface, Generic_Port *port){
+    autopilot_interface.stop();
+    port->stop();
+    delete port;
 }
