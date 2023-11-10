@@ -13,7 +13,6 @@
 
 #include "my_mavlink_control.h"
 
-int mode_gl;
 enum Mode {INIT=1,TAKEOFF,MOVE_FORWARD,MOVE_BACKWARD,MOVE_LEFT,MOVE_RIGHT,LAND,QUIT};
 
 // ------------------------------------------------------------------------------
@@ -62,38 +61,45 @@ int main(int argc, char **argv)
 	mavlink_set_position_target_local_ned_t sp;
 	mavlink_set_position_target_local_ned_t ip = autopilot_interface.initial_position;
 
-    mode_select();
+    int mode_select = 0;
 
     while(1){
-        switch (mode_gl){
-        case INIT:
-            mode_init(autopilot_interface);
-            mode_select();
-        case TAKEOFF:
-            mode_takeoff(autopilot_interface,ip,sp);
-            mode_select();
-        case MOVE_FORWARD:
-            mode_move_forward(autopilot_interface,sp);
-            mode_select();
-        case MOVE_BACKWARD:
-            mode_move_backward(autopilot_interface,sp);
-            mode_select();
-        case MOVE_LEFT:
-            mode_move_left(autopilot_interface,sp);
-            mode_select();
-        case MOVE_RIGHT:
-            mode_move_right(autopilot_interface,sp);
-            mode_select();
-        case LAND:
-            mode_land(autopilot_interface,sp);
-            mode_select();
-        case QUIT:
-            mode_quit(autopilot_interface,port);
-            // mode_select();
-            break;
-        default :
-            std::cout << "无效的模式选择" << std::endl;
-            mode_select();
+        switch (mode_select){
+            case INIT:
+                mode_init(autopilot_interface);
+                mode_select = mode_selecter();
+                break;
+            case TAKEOFF:
+                mode_takeoff(autopilot_interface,ip,sp);
+                mode_select = mode_selecter();
+                break;
+            case MOVE_FORWARD:
+                mode_move_forward(autopilot_interface,sp);
+                mode_select = mode_selecter();
+                break;
+            case MOVE_BACKWARD:
+                mode_move_backward(autopilot_interface,sp);
+                mode_select = mode_selecter();
+                break;
+            case MOVE_LEFT:
+                mode_move_left(autopilot_interface,sp);
+                mode_select = mode_selecter();
+                break;
+            case MOVE_RIGHT:
+                mode_move_right(autopilot_interface,sp);
+                mode_select = mode_selecter();
+                break;
+            case LAND:
+                mode_land(autopilot_interface,sp);
+                mode_select = mode_selecter();
+                break;
+            case QUIT:
+                mode_quit(autopilot_interface,port);
+                // mode_selecter();
+                break;
+            default :
+                std::cout << "无效的模式选择" << std::endl;
+                mode_select = mode_selecter();
         }
     }
     return 0;
@@ -219,19 +225,19 @@ void quit_handler(int sig)
     // end program here
     exit(0);
 }
-void mode_select()
+int mode_selecter()
 {
-    // int mode;
+    int mode;
     std::cout << "请选择模式(输入number)"         << std::endl;
     std::cout << "1:init      2:takeoff"        << std::endl;
     std::cout << "3:forward   4:move_backward"  << std::endl;
     std::cout << "5:move_left 6:move_right"     << std::endl;
     std::cout << "7:land      8:quit"           << std::endl;
     std::cout << "============================" << std::endl;
-    std::cin  >> mode_gl;
-    std::cout << ":mode selected to: "<< mode_gl<< std::endl;
+    std::cin  >> mode;
+    std::cout << ":mode selected to: "<< mode<< std::endl;
     std::cout << "============================" << std::endl;
-    // return mode;
+    return mode;
 }
 void mode_init(Autopilot_Interface &autopilot_interface){
     std::cout << "mode_init started" << std::endl;
@@ -270,6 +276,13 @@ void mode_move_forward(Autopilot_Interface &autopilot_interface,mavlink_set_posi
 				   sp        );
 	// SEND THE COMMAND
 	autopilot_interface.update_setpoint(sp);
+    // Wait for 4 seconds, check position
+	for (int i=0; i < 4; i++)
+	{
+		mavlink_local_position_ned_t pos = autopilot_interface.current_messages.local_position_ned;
+		printf("%i CURRENT POSITION XYZ = [ % .4f , % .4f , % .4f ] \n", i, pos.x, pos.y, pos.z);
+		sleep(1);
+	}
 }
 void mode_move_backward(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
 	std::cout << "mode_move_backward started" << std::endl;
@@ -279,6 +292,13 @@ void mode_move_backward(Autopilot_Interface &autopilot_interface,mavlink_set_pos
 				   sp        );
 	// SEND THE COMMAND
 	autopilot_interface.update_setpoint(sp);
+    // Wait for 4 seconds, check position
+	for (int i=0; i < 4; i++)
+	{
+		mavlink_local_position_ned_t pos = autopilot_interface.current_messages.local_position_ned;
+		printf("%i CURRENT POSITION XYZ = [ % .4f , % .4f , % .4f ] \n", i, pos.x, pos.y, pos.z);
+		sleep(1);
+	}
 }
 void mode_move_left(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
 	std::cout << "mode_move_left started" << std::endl;
@@ -288,6 +308,13 @@ void mode_move_left(Autopilot_Interface &autopilot_interface,mavlink_set_positio
 				   sp        );
 	// SEND THE COMMAND
 	autopilot_interface.update_setpoint(sp);
+	// Wait for 4 seconds, check position
+	for (int i=0; i < 4; i++)
+	{
+		mavlink_local_position_ned_t pos = autopilot_interface.current_messages.local_position_ned;
+		printf("%i CURRENT POSITION XYZ = [ % .4f , % .4f , % .4f ] \n", i, pos.x, pos.y, pos.z);
+		sleep(1);
+	}
 }
 void mode_move_right(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
 	std::cout << "mode_move_right started" << std::endl;
@@ -297,6 +324,13 @@ void mode_move_right(Autopilot_Interface &autopilot_interface,mavlink_set_positi
 				   sp        );
 	// SEND THE COMMAND
 	autopilot_interface.update_setpoint(sp);
+	// Wait for 4 seconds, check position
+	for (int i=0; i < 4; i++)
+	{
+		mavlink_local_position_ned_t pos = autopilot_interface.current_messages.local_position_ned;
+		printf("%i CURRENT POSITION XYZ = [ % .4f , % .4f , % .4f ] \n", i, pos.x, pos.y, pos.z);
+		sleep(1);
+	}
 }
 void mode_land(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
     std::cout << "mode_land started" << std::endl;
