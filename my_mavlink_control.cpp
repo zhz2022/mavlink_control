@@ -373,11 +373,12 @@ void mode_quit(Autopilot_Interface &autopilot_interface, Generic_Port *port){
     std::cout << "mode_quit started" << std::endl;
     // disarm autopilot
     autopilot_interface.arm_disarm(false);
+    std::cout << "mode_quit started disarm" << std::endl;
     usleep(100); // give some time to let it sink in
 
     autopilot_interface.disable_offboard_control();
 
-    autopilot_interface.stop();
-    port->stop();
-    delete port;
+    // autopilot_interface.stop();
+    // port->stop();
+    // delete port;
 }
