@@ -101,7 +101,7 @@ int main(int argc, char **argv)
                 break;
             case QUIT:
                 mode_quit(autopilot_interface,port);
-                // mode_selecter();
+                mode_selecter();
                 break;
             default :
                 std::cout << "无效的模式选择" << std::endl;
