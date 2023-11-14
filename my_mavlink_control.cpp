@@ -15,7 +15,7 @@
 
 #include "my_mavlink_control.h"
 
-enum Mode {INIT=1,TAKEOFF,MOVE_FORWARD,MOVE_BACKWARD,MOVE_LEFT,MOVE_RIGHT,LAND,QUIT};
+enum Mode {INIT=1,TAKEOFF,MOVE_FORWARD,MOVE_BACKWARD,MOVE_LEFT,MOVE_RIGHT,STOP,LAND,QUIT};
 
 // ------------------------------------------------------------------------------
 //   Main
@@ -89,6 +89,10 @@ int main(int argc, char **argv)
                 break;
             case MOVE_RIGHT:
                 mode_move_right(autopilot_interface,sp);
+                mode_select = mode_selecter();
+                break;
+            case STOP:
+                mode_stop(autopilot_interface,sp);
                 mode_select = mode_selecter();
                 break;
             case LAND:
@@ -321,6 +325,22 @@ void mode_move_left(Autopilot_Interface &autopilot_interface,mavlink_set_positio
 void mode_move_right(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
 	std::cout << "mode_move_right started" << std::endl;
     set_velocity(  -10.0       , // [m/s]
+				   0.0       , // [m/s]
+				   0.0       , // [m/s]
+				   sp        );
+	// SEND THE COMMAND
+	autopilot_interface.update_setpoint(sp);
+	// Wait for 4 seconds, check position
+	for (int i=0; i < 4; i++)
+	{
+		mavlink_local_position_ned_t pos = autopilot_interface.current_messages.local_position_ned;
+		printf("%i CURRENT POSITION XYZ = [ % .4f , % .4f , % .4f ] \n", i, pos.x, pos.y, pos.z);
+		sleep(1);
+	}
+}
+void mode_stop(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
+	std::cout << "mode_stop started" << std::endl;
+    set_velocity(  0.0       , // [m/s]
 				   0.0       , // [m/s]
 				   0.0       , // [m/s]
 				   sp        );
