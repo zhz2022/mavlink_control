@@ -448,8 +448,8 @@ write_setpoint()
 	// check the write
 	if ( len <= 0 )
 		fprintf(stderr,"WARNING: could not send POSITION_TARGET_LOCAL_NED \n");
-	else
-		printf("%lu POSITION_TARGET  = [ %f , %f , %f ] \n", write_count, position_target.x, position_target.y, position_target.z);
+	// else
+	// 	printf("%lu POSITION_TARGET  = [ %f , %f , %f ] \n", write_count, position_target.x, position_target.y, position_target.z);
 
 	return;
 }
