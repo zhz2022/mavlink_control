@@ -47,17 +47,17 @@ int main(int argc, char **argv)
     signal(SIGINT, quit_handler);
 
     port->start();
-    autopilot_interface.start();
+    // autopilot_interface.start();
 
-    autopilot_interface.enable_offboard_control();
-	usleep(100); // give some time to let it sink in
+    // autopilot_interface.enable_offboard_control();
+	// usleep(100); // give some time to let it sink in
 
-	// now the autopilot is accepting setpoint commands
+	// // now the autopilot is accepting setpoint commands
 
-    autopilot_interface.arm_disarm(true);
-    usleep(100); // give some time to let it sink in
+    // autopilot_interface.arm_disarm(true);
+    // usleep(100); // give some time to let it sink in
 
-	printf("SEND OFFBOARD COMMANDS\n");
+	// printf("SEND OFFBOARD COMMANDS\n");
 
 	// initialize command data strtuctures
 	mavlink_set_position_target_local_ned_t sp;
@@ -248,12 +248,17 @@ int mode_selecter()
 }
 void mode_init(Autopilot_Interface &autopilot_interface){
     std::cout << "mode_init started" << std::endl;
-    // port_quit = port;
-    // autopilot_interface_quit = &autopilot_interface;
-    // signal(SIGINT, quit_handler);
+    autopilot_interface.start();
 
-    // port->start();
-    // autopilot_interface.start();
+    autopilot_interface.enable_offboard_control();
+	usleep(100); // give some time to let it sink in
+
+	// now the autopilot is accepting setpoint commands
+
+    autopilot_interface.arm_disarm(true);
+    usleep(100); // give some time to let it sink in
+
+	printf("SEND OFFBOARD COMMANDS\n");
 }
 void mode_takeoff(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t ip,mavlink_set_position_target_local_ned_t sp){
     std::cout << "mode_takeoff started" << std::endl;
@@ -378,7 +383,7 @@ void mode_quit(Autopilot_Interface &autopilot_interface, Generic_Port *port){
 
     autopilot_interface.disable_offboard_control();
 
-    // autopilot_interface.stop();
-    // port->stop();
-    // delete port;
+    autopilot_interface.stop();
+    port->stop();
+    delete port;
 }
