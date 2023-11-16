@@ -283,7 +283,7 @@ void mode_takeoff(Autopilot_Interface &autopilot_interface,mavlink_set_position_
 void mode_move_forward(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
 	std::cout << "mode_move_forward started" << std::endl;
     set_velocity(  0.0       , // [m/s]
-				   10.0       , // [m/s]
+				   0.1       , // [m/s]
 				   0.0       , // [m/s]
 				   sp        );
 	// SEND THE COMMAND
@@ -299,7 +299,7 @@ void mode_move_forward(Autopilot_Interface &autopilot_interface,mavlink_set_posi
 void mode_move_backward(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
 	std::cout << "mode_move_backward started" << std::endl;
     set_velocity(  0.0       , // [m/s]
-				   -10.0       , // [m/s]
+				   -0.1       , // [m/s]
 				   0.0       , // [m/s]
 				   sp        );
 	// SEND THE COMMAND
@@ -314,7 +314,7 @@ void mode_move_backward(Autopilot_Interface &autopilot_interface,mavlink_set_pos
 }
 void mode_move_left(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
 	std::cout << "mode_move_left started" << std::endl;
-    set_velocity(  10.0       , // [m/s]
+    set_velocity(  0.1       , // [m/s]
 				   0.0       , // [m/s]
 				   0.0       , // [m/s]
 				   sp        );
@@ -330,7 +330,7 @@ void mode_move_left(Autopilot_Interface &autopilot_interface,mavlink_set_positio
 }
 void mode_move_right(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
 	std::cout << "mode_move_right started" << std::endl;
-    set_velocity(  -10.0       , // [m/s]
+    set_velocity(  -0.1       , // [m/s]
 				   0.0       , // [m/s]
 				   0.0       , // [m/s]
 				   sp        );
