@@ -104,7 +104,7 @@ int main(int argc, char **argv)
                 mode_selecter();
                 break;
             case RTL:
-                mode_rtl(autopilot_interface,port);
+                mode_rtl(autopilot_interface);
                 mode_selecter();
                 break;
             default :
