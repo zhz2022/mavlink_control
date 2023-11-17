@@ -15,7 +15,7 @@
 
 #include "my_mavlink_control.h"
 
-enum Mode {INIT=1,TAKEOFF,MOVE_FORWARD,MOVE_BACKWARD,MOVE_LEFT,MOVE_RIGHT,STOP,LAND,QUIT,RTL};
+enum Mode {INIT=1,TAKEOFF,MOVE_FORWARD,MOVE_BACKWARD,MOVE_LEFT,MOVE_RIGHT,STOP,LAND,QUIT,RTL,TAKEOFF_LOCAL};
 
 // ------------------------------------------------------------------------------
 //   Main
@@ -105,6 +105,10 @@ int main(int argc, char **argv)
                 break;
             case RTL:
                 mode_rtl(autopilot_interface);
+                mode_selecter();
+                break;
+            case TAKEOFF_LOCAL:
+                mode_takeoff_local(autopilot_interface);
                 mode_selecter();
                 break;
             default :
@@ -239,15 +243,16 @@ int mode_selecter()
 {
     int mode;
     std::cout << "请选择模式(输入number)"            << std::endl;
-    std::cout << "1:init      2:takeoff"            << std::endl;
-    std::cout << "3:forward   4:move_backward"      << std::endl;
-    std::cout << "5:move_left 6:move_right"         << std::endl;
-    std::cout << "7:stop      8:land"               << std::endl;
-    std::cout << "9:quit      10:return to launch"  << std::endl;
-    std::cout << "==============================="  << std::endl;
+    std::cout << "1:init           2:takeoff"            << std::endl;
+    std::cout << "3:forward        4:move_backward"      << std::endl;
+    std::cout << "5:move_left      6:move_right"         << std::endl;
+    std::cout << "7:stop           8:land"               << std::endl;
+    std::cout << "9:quit           10:return to launch"  << std::endl;
+    std::cout << "11:takeoff_local                    "  << std::endl;
+    std::cout << "===================================="  << std::endl;
     std::cin  >> mode;
-    std::cout << ":mode selected to: "<< mode       << std::endl;
-    std::cout << "==============================="  << std::endl;
+    std::cout << ":mode selected to: "<< mode            << std::endl;
+    std::cout << "===================================="  << std::endl;
     return mode;
 }
 void mode_init(Autopilot_Interface &autopilot_interface){
@@ -395,5 +400,11 @@ void mode_rtl(Autopilot_Interface &autopilot_interface){
     std::cout << "mode_rtl started" << std::endl;
     // return to launch
     autopilot_interface.return_to_launch();
+    usleep(100); // give some time to let it sink in
+}
+void mode_takeoff_local(Autopilot_Interface &autopilot_interface){
+    std::cout << "mode_takeoff_local started" << std::endl;
+    // return to launch
+    autopilot_interface.takeoff_local();
     usleep(100); // give some time to let it sink in
 }

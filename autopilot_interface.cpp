@@ -613,6 +613,31 @@ return_to_launch()
 	return len;
 }
 // ------------------------------------------------------------------------------
+//   TAKEOFF_LOCAL Mode
+// ------------------------------------------------------------------------------
+int
+Autopilot_Interface::
+takeoff_local()
+{
+	// Prepare command for off-board mode
+	mavlink_command_long_t com = { 0 };
+	com.target_system    = system_id;
+	com.target_component = autopilot_id;
+	com.command          = MAV_CMD_NAV_TAKEOFF_LOCAL;
+	com.confirmation     = true;
+	// com.param1           = (float) flag; // flag >0.5 => start, <0.5 => stop
+
+	// Encode
+	mavlink_message_t message;
+	mavlink_msg_command_long_encode(system_id, companion_id, &message, &com);
+
+	// Send the message
+	int len = port->write_message(message);
+
+	// Done!
+	return len;
+}
+// ------------------------------------------------------------------------------
 //   STARTUP
 // ------------------------------------------------------------------------------
 void
