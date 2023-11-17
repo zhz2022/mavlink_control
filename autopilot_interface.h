@@ -279,6 +279,7 @@ public:
 	void start_write_thread(void);
 
 	void handle_quit( int sig );
+	int  return_to_launch();
 
 
 private:
