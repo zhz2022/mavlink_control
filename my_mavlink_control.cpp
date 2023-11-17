@@ -15,7 +15,7 @@
 
 #include "my_mavlink_control.h"
 
-enum Mode {INIT=1,TAKEOFF,MOVE_FORWARD,MOVE_BACKWARD,MOVE_LEFT,MOVE_RIGHT,STOP,LAND,QUIT,RTL,TAKEOFF_LOCAL};
+enum Mode {INIT=1,TAKEOFF,MOVE_FORWARD,MOVE_BACKWARD,MOVE_LEFT,MOVE_RIGHT,STOP,LAND,QUIT,RTL,TAKEOFF_LOCAL,OFFBOARD_CONTROL};
 
 // ------------------------------------------------------------------------------
 //   Main
@@ -109,6 +109,10 @@ int main(int argc, char **argv)
                 break;
             case TAKEOFF_LOCAL:
                 mode_takeoff_local(autopilot_interface);
+                mode_selecter();
+                break;
+            case OFFBOARD_CONTROL:
+                enable_offboard_control(autopilot_interface);
                 mode_selecter();
                 break;
             default :
@@ -248,7 +252,7 @@ int mode_selecter()
     std::cout << "5:move_left      6:move_right"         << std::endl;
     std::cout << "7:stop           8:land"               << std::endl;
     std::cout << "9:quit           10:return to launch"  << std::endl;
-    std::cout << "11:takeoff_local                    "  << std::endl;
+    std::cout << "11:takeoff_local 12:offboard_control"  << std::endl;
     std::cout << "===================================="  << std::endl;
     std::cin  >> mode;
     std::cout << ":mode selected to: "<< mode            << std::endl;
@@ -406,5 +410,11 @@ void mode_takeoff_local(Autopilot_Interface &autopilot_interface){
     std::cout << "mode_takeoff_local started" << std::endl;
     // return to launch
     autopilot_interface.takeoff_local();
+    usleep(100); // give some time to let it sink in
+}
+void enable_offboard_control(Autopilot_Interface &autopilot_interface){
+    std::cout << "enable_offboard_control started" << std::endl;
+    // return to launch
+    autopilot_interface.enable_offboard_control(true);
     usleep(100); // give some time to let it sink in
 }

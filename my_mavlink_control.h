@@ -62,6 +62,7 @@ void mode_land(Autopilot_Interface &autopilot_interface,mavlink_set_position_tar
 void mode_quit(Autopilot_Interface &autopilot_interface,Generic_Port *port);
 void mode_rtl(Autopilot_Interface &autopilot_interface);
 void mode_takeoff_local(Autopilot_Interface &autopilot_interface);
+void enable_offboard_control(Autopilot_Interface &autopilot_interface);
 
 
 
