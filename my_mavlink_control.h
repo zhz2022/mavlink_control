@@ -60,6 +60,7 @@ void mode_move_right(Autopilot_Interface &autopilot_interface,mavlink_set_positi
 void mode_stop(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp);
 void mode_land(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp);
 void mode_quit(Autopilot_Interface &autopilot_interface,Generic_Port *port);
+void mode_rtl(Autopilot_Interface &autopilot_interface);
 
 
 

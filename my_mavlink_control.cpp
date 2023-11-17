@@ -15,7 +15,7 @@
 
 #include "my_mavlink_control.h"
 
-enum Mode {INIT=1,TAKEOFF,MOVE_FORWARD,MOVE_BACKWARD,MOVE_LEFT,MOVE_RIGHT,STOP,LAND,QUIT};
+enum Mode {INIT=1,TAKEOFF,MOVE_FORWARD,MOVE_BACKWARD,MOVE_LEFT,MOVE_RIGHT,STOP,LAND,QUIT,RTL};
 
 // ------------------------------------------------------------------------------
 //   Main
@@ -101,6 +101,10 @@ int main(int argc, char **argv)
                 break;
             case QUIT:
                 mode_quit(autopilot_interface,port);
+                mode_selecter();
+                break;
+            case RTL:
+                mode_rtl(autopilot_interface,port);
                 mode_selecter();
                 break;
             default :
@@ -386,4 +390,10 @@ void mode_quit(Autopilot_Interface &autopilot_interface, Generic_Port *port){
     autopilot_interface.stop();
     port->stop();
     delete port;
+}
+void mode_rtl(Autopilot_Interface &autopilot_interface){
+    std::cout << "mode_rtl started" << std::endl;
+    // return to launch
+    autopilot_interface.return_to_launch();
+    usleep(100); // give some time to let it sink in
 }
