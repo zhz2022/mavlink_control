@@ -415,6 +415,6 @@ void mode_takeoff_local(Autopilot_Interface &autopilot_interface){
 void enable_offboard_control(Autopilot_Interface &autopilot_interface){
     std::cout << "enable_offboard_control started" << std::endl;
     // return to launch
-    autopilot_interface.enable_offboard_control(true);
+    autopilot_interface.enable_offboard_control();
     usleep(100); // give some time to let it sink in
 }
