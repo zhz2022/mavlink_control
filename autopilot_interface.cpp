@@ -462,6 +462,8 @@ void
 Autopilot_Interface::
 enable_offboard_control()
 {
+	control_status = false;
+	printf(" the value of control_status is %d\n",control_status);
 	// Should only send this command once
 	if ( control_status == false )
 	{
@@ -477,6 +479,7 @@ enable_offboard_control()
 		// Check the command was written
 		if ( success )
 			control_status = true;
+			printf(" the value of control_status is %d\n",control_status);
 		else
 		{
 			fprintf(stderr,"Error: off-board mode not set, could not write message\n");
