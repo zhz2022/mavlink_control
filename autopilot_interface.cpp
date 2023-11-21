@@ -633,7 +633,7 @@ takeoff_local()
 	// com.param1           = (float) flag; // flag >0.5 => start, <0.5 => stop
 	com.param5           = 0.0; // 
 	com.param6           = 0.0; // 
-	com.param7           = 40.0; // 
+	com.param7           = -40.0; // 
 
 	// Encode
 	mavlink_message_t message;
