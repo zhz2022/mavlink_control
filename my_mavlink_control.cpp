@@ -408,7 +408,7 @@ void mode_rtl(Autopilot_Interface &autopilot_interface){
 }
 void mode_takeoff_local(Autopilot_Interface &autopilot_interface){
     std::cout << "mode_takeoff_local started" << std::endl;
-    // return to launch
+    // takeoff local(0,0,40)
     autopilot_interface.takeoff_local();
     usleep(100); // give some time to let it sink in
 }
