@@ -624,13 +624,16 @@ int
 Autopilot_Interface::
 takeoff_local()
 {
-	// Prepare command for off-board mode
+	// Prepare command for takeoff_local mode
 	mavlink_command_long_t com = { 0 };
 	com.target_system    = system_id;
 	com.target_component = autopilot_id;
 	com.command          = MAV_CMD_NAV_TAKEOFF_LOCAL;
 	com.confirmation     = true;
 	// com.param1           = (float) flag; // flag >0.5 => start, <0.5 => stop
+	com.param5           = 0.0; // 
+	com.param6           = 0.0; // 
+	com.param7           = 40.0; // 
 
 	// Encode
 	mavlink_message_t message;
