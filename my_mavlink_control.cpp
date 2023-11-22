@@ -15,7 +15,8 @@
 
 #include "my_mavlink_control.h"
 
-enum Mode {INIT=1,TAKEOFF,MOVE_FORWARD,MOVE_BACKWARD,MOVE_LEFT,MOVE_RIGHT,STOP,LAND,QUIT,RTL,TAKEOFF_LOCAL,OFFBOARD_CONTROL};
+enum Mode {INIT=1,TAKEOFF,MOVE_FORWARD,MOVE_BACKWARD,MOVE_LEFT,MOVE_RIGHT,STOP,LAND,QUIT,RTL,\
+TAKEOFF_LOCAL,OFFBOARD_CONTROL,SET_GUIDED};
 
 // ------------------------------------------------------------------------------
 //   Main
@@ -113,6 +114,10 @@ int main(int argc, char **argv)
                 break;
             case OFFBOARD_CONTROL:
                 enable_offboard_control(autopilot_interface);
+                mode_selecter();
+                break;
+            case SET_GUIDED:
+                set_guided(autopilot_interface);
                 mode_selecter();
                 break;
             default :
@@ -246,13 +251,14 @@ void quit_handler(int sig)
 int mode_selecter()
 {
     int mode;
-    std::cout << "请选择模式(输入number)"            << std::endl;
+    std::cout << "请选择模式(输入number)"                 << std::endl;
     std::cout << "1:init           2:takeoff"            << std::endl;
     std::cout << "3:forward        4:move_backward"      << std::endl;
     std::cout << "5:move_left      6:move_right"         << std::endl;
     std::cout << "7:stop           8:land"               << std::endl;
     std::cout << "9:quit           10:return to launch"  << std::endl;
     std::cout << "11:takeoff_local 12:offboard_control"  << std::endl;
+    std::cout << "11:set guided    14:xxx             "  << std::endl;
     std::cout << "===================================="  << std::endl;
     std::cin  >> mode;
     std::cout << ":mode selected to: "<< mode            << std::endl;
@@ -416,5 +422,11 @@ void enable_offboard_control(Autopilot_Interface &autopilot_interface){
     std::cout << "enable_offboard_control started" << std::endl;
     // return to launch
     autopilot_interface.enable_offboard_control();
+    usleep(100); // give some time to let it sink in
+}
+void set_guided(Autopilot_Interface &autopilot_interface){
+    std::cout << "setmode_guided started" << std::endl;
+    // return to launch
+    autopilot_interface.do_setmode_guided();
     usleep(100); // give some time to let it sink in
 }

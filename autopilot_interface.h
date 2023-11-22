@@ -281,6 +281,7 @@ public:
 	void handle_quit( int sig );
 	int  return_to_launch();
 	int  takeoff_local();
+	int  do_setmode_guided();
 
 
 private:
