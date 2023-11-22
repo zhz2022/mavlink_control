@@ -659,7 +659,7 @@ do_setmode_guided()
 	com.command          = MAV_CMD_DO_SET_MODE;
 	com.confirmation     = true;
 	// com.param1           = (float) flag; // flag >0.5 => start, <0.5 => stop
-	com.param2           = 4; // GUIDED
+	com.param2           = 6; // 4GUIDED 6RTL
 	// com.param6           = 0.0; // 
 	// com.param7           = -40.0; // 
 
