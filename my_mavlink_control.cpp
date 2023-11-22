@@ -258,7 +258,7 @@ int mode_selecter()
     std::cout << "7:stop           8:land"               << std::endl;
     std::cout << "9:quit           10:return to launch"  << std::endl;
     std::cout << "11:takeoff_local 12:offboard_control"  << std::endl;
-    std::cout << "11:set guided    14:xxx             "  << std::endl;
+    std::cout << "13:set guided    14:xxx             "  << std::endl;
     std::cout << "===================================="  << std::endl;
     std::cin  >> mode;
     std::cout << ":mode selected to: "<< mode            << std::endl;
