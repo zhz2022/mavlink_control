@@ -630,10 +630,10 @@ takeoff_local()
 	com.target_component = autopilot_id;
 	com.command          = MAV_CMD_NAV_TAKEOFF_LOCAL;
 	com.confirmation     = true;
-	com.param1           = 0; // 
+	com.param1           = 1.0; // 
 	// com.param2           = 0.0; // 
-	com.param3           = 2; // 
-	com.param4           = 0; // 
+	com.param3           = 2.0; // 
+	com.param4           = 0.0; // 
 	com.param5           = 0.0; // 
 	com.param6           = 0.0; // 
 	com.param7           = -40.0; // 
