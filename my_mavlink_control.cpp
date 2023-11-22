@@ -16,7 +16,7 @@
 #include "my_mavlink_control.h"
 
 enum Mode {INIT=1,TAKEOFF,MOVE_FORWARD,MOVE_BACKWARD,MOVE_LEFT,MOVE_RIGHT,STOP,LAND,QUIT,RTL,\
-TAKEOFF_LOCAL,OFFBOARD_CONTROL,SET_GUIDED};
+TAKEOFF_LOCAL,OFFBOARD_CONTROL,SET_GUIDED,SET_AUTO};
 
 // ------------------------------------------------------------------------------
 //   Main
@@ -118,6 +118,10 @@ int main(int argc, char **argv)
                 break;
             case SET_GUIDED:
                 set_guided(autopilot_interface);
+                mode_selecter();
+                break;
+            case SET_AUTO:
+                set_auto(autopilot_interface);
                 mode_selecter();
                 break;
             default :
@@ -258,7 +262,7 @@ int mode_selecter()
     std::cout << "7:stop           8:land"               << std::endl;
     std::cout << "9:quit           10:return to launch"  << std::endl;
     std::cout << "11:takeoff_local 12:offboard_control"  << std::endl;
-    std::cout << "13:set guided    14:xxx             "  << std::endl;
+    std::cout << "13:set guided    14:set auto        "  << std::endl;
     std::cout << "===================================="  << std::endl;
     std::cin  >> mode;
     std::cout << ":mode selected to: "<< mode            << std::endl;
@@ -428,5 +432,11 @@ void set_guided(Autopilot_Interface &autopilot_interface){
     std::cout << "setmode_guided started" << std::endl;
     // return to launch
     autopilot_interface.do_setmode_guided();
+    usleep(100); // give some time to let it sink in
+}
+void set_auto(Autopilot_Interface &autopilot_interface){
+    std::cout << "set_auto started" << std::endl;
+    // return to launch
+    autopilot_interface.do_setmode_auto();
     usleep(100); // give some time to let it sink in
 }

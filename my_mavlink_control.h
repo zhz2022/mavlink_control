@@ -64,6 +64,7 @@ void mode_rtl(Autopilot_Interface &autopilot_interface);
 void mode_takeoff_local(Autopilot_Interface &autopilot_interface);
 void enable_offboard_control(Autopilot_Interface &autopilot_interface);
 void set_guided(Autopilot_Interface &autopilot_interface);
+void set_auto(Autopilot_Interface &autopilot_interface);
 
 
 

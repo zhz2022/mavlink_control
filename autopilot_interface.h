@@ -282,6 +282,7 @@ public:
 	int  return_to_launch();
 	int  takeoff_local();
 	int  do_setmode_guided();
+	int  do_setmode_auto();
 
 
 private:

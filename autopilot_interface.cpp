@@ -676,7 +676,34 @@ do_setmode_guided()
 	// Done!
 	return len;
 }
+// ------------------------------------------------------------------------------
+//   MAV_CMD_DO_SET_MODE Mode
+// ------------------------------------------------------------------------------
+int
+Autopilot_Interface::
+do_setmode_auto()
+{
+	// Prepare command for takeoff_local mode
+	mavlink_command_long_t com = { 0 };
+	com.target_system    = system_id;
+	com.target_component = autopilot_id;
+	com.command          = MAV_CMD_DO_SET_MODE;
+	com.confirmation     = true;
+	com.param1           = 1; // TODO:
+	com.param2           = 3; // 3AUTO4GUIDED 6RTL
+	// com.param6           = 0.0; // 
+	// com.param7           = -40.0; // 
 
+	// Encode
+	mavlink_message_t message;
+	mavlink_msg_command_long_encode(system_id, companion_id, &message, &com);
+
+	// Send the message
+	int len = port->write_message(message);
+
+	// Done!
+	return len;
+}
 
 // ------------------------------------------------------------------------------
 //   STARTUP
