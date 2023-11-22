@@ -689,7 +689,7 @@ do_setmode_auto()
 	com.target_component = autopilot_id;
 	com.command          = MAV_CMD_DO_SET_MODE;
 	com.confirmation     = true;
-	com.param1           = 1; // TODO:
+	com.param1           = 4; // TODO:
 	com.param2           = 3; // 3AUTO4GUIDED 6RTL
 	// com.param6           = 0.0; // 
 	// com.param7           = -40.0; // 
