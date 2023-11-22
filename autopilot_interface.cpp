@@ -630,7 +630,10 @@ takeoff_local()
 	com.target_component = autopilot_id;
 	com.command          = MAV_CMD_NAV_TAKEOFF_LOCAL;
 	com.confirmation     = true;
-	// com.param1           = (float) flag; // flag >0.5 => start, <0.5 => stop
+	com.param1           = 0; // 
+	// com.param2           = 0.0; // 
+	com.param3           = 2; // 
+	com.param4           = 0; // 
 	com.param5           = 0.0; // 
 	com.param6           = 0.0; // 
 	com.param7           = -40.0; // 
@@ -658,7 +661,7 @@ do_setmode_guided()
 	com.target_component = autopilot_id;
 	com.command          = MAV_CMD_DO_SET_MODE;
 	com.confirmation     = true;
-	com.param1           = 1; // flag >0.5 => start, <0.5 => stop
+	com.param1           = 1; // TODO:
 	com.param2           = 4; // 4GUIDED 6RTL
 	// com.param6           = 0.0; // 
 	// com.param7           = -40.0; // 
