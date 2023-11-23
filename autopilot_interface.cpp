@@ -617,7 +617,7 @@ return_to_launch()
 	// Done!
 	return len;
 }
-/*
+
 // ------------------------------------------------------------------------------
 //   TAKEOFF_LOCAL Mode
 // ------------------------------------------------------------------------------
@@ -629,14 +629,14 @@ takeoff_local()
 	mavlink_command_long_t com = { 0 };
 	com.target_system    = system_id;
 	com.target_component = autopilot_id;
-	com.command          = MAV_CMD_NAV_TAKEOFF_LOCAL;
+	com.command          = MAV_CMD_NAV_TAKEOFF;
 	com.confirmation     = true;
-	com.param1           = 1.0; // 
-	// com.param2           = 0.0; // 
-	com.param3           = 2.0; // 
-	com.param4           = 0.0; // 
-	com.param5           = 0.0; // 
-	com.param6           = 0.0; // 
+	com.param1           = 0; // 
+	com.param2           = 0; // 
+	com.param3           = 0; // 
+	com.param4           = 0; // 
+	com.param5           = 0; // 
+	com.param6           = 0; // 
 	com.param7           = -40.0; // 
 
 	// Encode
@@ -648,7 +648,8 @@ takeoff_local()
 
 	// Done!
 	return len;
-}*/
+}
+/*
 // ------------------------------------------------------------------------------
 //   TAKEOFF_LOCAL Mode
 // ------------------------------------------------------------------------------
@@ -682,7 +683,7 @@ takeoff_local()
 
 	// Done!
 	return len;
-}
+}*/
 // ------------------------------------------------------------------------------
 //   MAV_CMD_DO_SET_MODE Mode
 // ------------------------------------------------------------------------------
