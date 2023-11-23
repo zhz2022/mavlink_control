@@ -15,6 +15,7 @@
 
 #include "my_mavlink_control.h"
 
+int gl_mode_select = 0;
 enum Mode {INIT=1,TAKEOFF,MOVE_FORWARD,MOVE_BACKWARD,MOVE_LEFT,MOVE_RIGHT,STOP,LAND,QUIT,RTL,\
 TAKEOFF_LOCAL,OFFBOARD_CONTROL,SET_GUIDED,SET_AUTO};
 
@@ -64,70 +65,69 @@ int main(int argc, char **argv)
 	mavlink_set_position_target_local_ned_t sp;
 	mavlink_set_position_target_local_ned_t ip = autopilot_interface.initial_position;
 
-    int mode_select = 0;
 
     while(1){
         usleep(100);
-        switch (mode_select){
+        switch (gl_mode_select){
             case INIT:
                 mode_init(autopilot_interface);
-                mode_select = mode_selecter();
+                gl_mode_select = mode_selecter();
                 break;
             case TAKEOFF:
                 mode_takeoff(autopilot_interface,ip,sp);
-                mode_select = mode_selecter();
+                gl_mode_select = mode_selecter();
                 break;
             case MOVE_FORWARD:
                 mode_move_forward(autopilot_interface,sp);
-                mode_select = mode_selecter();
+                gl_mode_select = mode_selecter();
                 break;
             case MOVE_BACKWARD:
                 mode_move_backward(autopilot_interface,sp);
-                mode_select = mode_selecter();
+                gl_mode_select = mode_selecter();
                 break;
             case MOVE_LEFT:
                 mode_move_left(autopilot_interface,sp);
-                mode_select = mode_selecter();
+                gl_mode_select = mode_selecter();
                 break;
             case MOVE_RIGHT:
                 mode_move_right(autopilot_interface,sp);
-                mode_select = mode_selecter();
+                gl_mode_select = mode_selecter();
                 break;
             case STOP:
                 mode_stop(autopilot_interface,sp);
-                mode_select = mode_selecter();
+                gl_mode_select = mode_selecter();
                 break;
             case LAND:
                 mode_land(autopilot_interface);
-                mode_select = mode_selecter();
+                gl_mode_select = mode_selecter();
                 break;
             case QUIT:
                 mode_quit(autopilot_interface,port);
-                mode_selecter();
+                gl_mode_select = mode_selecter();
                 break;
             case RTL:
                 mode_rtl(autopilot_interface);
-                mode_selecter();
+                gl_mode_select = mode_selecter();
                 break;
             case TAKEOFF_LOCAL:
                 mode_takeoff_local(autopilot_interface);
-                mode_selecter();
+                gl_mode_select = mode_selecter();
                 break;
             case OFFBOARD_CONTROL:
                 enable_offboard_control(autopilot_interface);
-                mode_selecter();
+                gl_mode_select = mode_selecter();
                 break;
             case SET_GUIDED:
                 set_guided(autopilot_interface);
-                mode_selecter();
+                gl_mode_select = mode_selecter();
                 break;
             case SET_AUTO:
                 set_auto(autopilot_interface);
-                mode_selecter();
+                gl_mode_select = mode_selecter();
                 break;
             default :
                 std::cout << "无效的模式选择" << std::endl;
-                mode_select = mode_selecter();
+                gl_mode_select = mode_selecter();
         }
     }
     return 0;
