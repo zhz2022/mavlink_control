@@ -67,6 +67,7 @@ int main(int argc, char **argv)
     int mode_select = 0;
 
     while(1){
+        usleep(100);
         switch (mode_select){
             case INIT:
                 mode_init(autopilot_interface);
