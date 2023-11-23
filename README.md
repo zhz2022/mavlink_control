@@ -195,7 +195,10 @@ simulate:
 
 ```
 sim_vehicle.py --console --map
+mode guided
 arm throttle
 takeoff 40
+setspeed 2
+velocity 100 0 0
 
 ```
