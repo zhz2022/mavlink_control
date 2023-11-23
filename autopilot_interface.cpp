@@ -650,6 +650,37 @@ takeoff_local()
 	return len;
 }
 // ------------------------------------------------------------------------------
+//   MAV_CMD_NAV_LAND Mode
+// ------------------------------------------------------------------------------
+int
+Autopilot_Interface::
+land()
+{
+	// Prepare command for MAV_CMD_NAV_LAND mode
+	mavlink_command_long_t com = { 0 };
+	com.target_system    = system_id;
+	com.target_component = autopilot_id;
+	com.command          = MAV_CMD_NAV_LAND;
+	com.confirmation     = true;
+	com.param1           = 0; // 
+	com.param2           = 0; // 
+	com.param3           = 0; // 
+	com.param4           = 0; // 
+	com.param5           = 0; // 
+	com.param6           = 0; // 
+	com.param7           = 0; // 
+
+	// Encode
+	mavlink_message_t message;
+	mavlink_msg_command_long_encode(system_id, companion_id, &message, &com);
+
+	// Send the message
+	int len = port->write_message(message);
+
+	// Done!
+	return len;
+}
+// ------------------------------------------------------------------------------
 //   MAV_CMD_DO_SET_MODE Mode
 // ------------------------------------------------------------------------------
 int

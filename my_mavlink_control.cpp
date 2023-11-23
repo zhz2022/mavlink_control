@@ -97,7 +97,7 @@ int main(int argc, char **argv)
                 mode_select = mode_selecter();
                 break;
             case LAND:
-                mode_land(autopilot_interface,sp);
+                mode_land(autopilot_interface);
                 mode_select = mode_selecter();
                 break;
             case QUIT:
@@ -383,19 +383,11 @@ void mode_stop(Autopilot_Interface &autopilot_interface,mavlink_set_position_tar
 		sleep(1);
 	}
 }
-void mode_land(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
+void mode_land(Autopilot_Interface &autopilot_interface){
     std::cout << "mode_land started" << std::endl;
-    // Land using fixed velocity
-    set_velocity(  0.0       , // [m/s]
-                    0.0       , // [m/s]
-                    1.0       , // [m/s]
-                    sp        );
-
-    sp.type_mask |= MAVLINK_MSG_SET_POSITION_TARGET_LOCAL_NED_LAND;
-
-    // SEND THE COMMAND
-    autopilot_interface.update_setpoint(sp);
-    // NOW pixhawk will try to move
+    // land
+    autopilot_interface.land();
+    usleep(100); // give some time to let it sink in
 }
 void mode_quit(Autopilot_Interface &autopilot_interface, Generic_Port *port){
     std::cout << "mode_quit started" << std::endl;
