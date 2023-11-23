@@ -649,41 +649,6 @@ takeoff_local()
 	// Done!
 	return len;
 }
-/*
-// ------------------------------------------------------------------------------
-//   TAKEOFF_LOCAL Mode
-// ------------------------------------------------------------------------------
-int
-Autopilot_Interface::
-takeoff_local()
-{
-	// Prepare command for takeoff_local mode
-	mavlink_command_int_t com = { 0 };
-	com.target_system    = system_id;
-	com.target_component = autopilot_id;
-	com.command          = MAV_CMD_NAV_TAKEOFF_LOCAL;
-	com.autocontinue     = 0;
-	com.current          = 0;
-	com.frame            = 2;//- 0：LOCAL_NED（本地NED坐标系） - 1：LOCAL_OFFSET_NED（本地偏移NED坐标系） - 2：NED（NED坐标系） - 3：OFFSET_NED（偏移NED坐标系）
-	// com.confirmation     = true;
-	com.param1           = 1.0; // 
-	// com.param2           = 0.0; // 
-	com.param3           = 2.0; // 
-	com.param4           = 0.0; // 
-	com.x                = 0; // 
-	com.y                = 0; // 
-	com.z                = 40; // 
-
-	// Encode
-	mavlink_message_t message;
-	mavlink_msg_command_int_encode(system_id, companion_id, &message, &com);
-
-	// Send the message
-	int len = port->write_message(message);
-
-	// Done!
-	return len;
-}*/
 // ------------------------------------------------------------------------------
 //   MAV_CMD_DO_SET_MODE Mode
 // ------------------------------------------------------------------------------
