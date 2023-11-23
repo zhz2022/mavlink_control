@@ -288,7 +288,7 @@ void mode_takeoff(Autopilot_Interface &autopilot_interface,mavlink_set_position_
 	// Example 1 - Fly up by to 2m
 	set_position( ip.x ,       // [m]
 			 	  ip.y ,       // [m]
-				  ip.z - 2.0 , // [m]
+				  ip.z - 12.0 , // [m]
 				  sp         );
     sp.type_mask |= MAVLINK_MSG_SET_POSITION_TARGET_LOCAL_NED_TAKEOFF;
 	// SEND THE COMMAND
@@ -296,7 +296,7 @@ void mode_takeoff(Autopilot_Interface &autopilot_interface,mavlink_set_position_
 	// NOW pixhawk will try to move
 
 	// Wait for 8 seconds, check position
-	for (int i=0; i < 2; i++)
+	for (int i=0; i < 8; i++)
 	{
 		mavlink_local_position_ned_t pos = autopilot_interface.current_messages.local_position_ned;
 		printf("%i CURRENT POSITION XYZ = [ % .4f , % .4f , % .4f ] \n", i, pos.x, pos.y, pos.z);
@@ -312,7 +312,7 @@ void mode_move_forward(Autopilot_Interface &autopilot_interface,mavlink_set_posi
 	// SEND THE COMMAND
 	autopilot_interface.update_setpoint(sp);
     // Wait for 4 seconds, check position
-	for (int i=0; i < 2; i++)
+	for (int i=0; i < 20; i++)
 	{
 		mavlink_local_position_ned_t pos = autopilot_interface.current_messages.local_position_ned;
 		printf("%i CURRENT POSITION XYZ = [ % .4f , % .4f , % .4f ] \n", i, pos.x, pos.y, pos.z);
