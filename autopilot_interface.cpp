@@ -668,7 +668,7 @@ takeoff_local()
 	com.param4           = 0.0; // 
 	com.x                = 0; // 
 	com.y                = 0; // 
-	com.z                = -40; // 
+	com.z                = 40; // 
 
 	// Encode
 	mavlink_message_t message;
