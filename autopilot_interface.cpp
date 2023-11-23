@@ -672,7 +672,7 @@ takeoff_local()
 
 	// Encode
 	mavlink_message_t message;
-	mavlink_msg_command_long_encode(system_id, companion_id, &message, &com);
+	mavlink_msg_command_int_encode(system_id, companion_id, &message, &com);
 
 	// Send the message
 	int len = port->write_message(message);
