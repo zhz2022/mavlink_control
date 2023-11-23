@@ -629,7 +629,7 @@ takeoff_local()
 	mavlink_command_long_t com = { 0 };
 	com.target_system    = system_id;
 	com.target_component = autopilot_id;
-	com.command          = MAV_CMD_NAV_TAKEOFF;
+	com.command          = MAV_CMD_NAV_TAKEOFF_LOCAL;
 	com.confirmation     = true;
 	com.param1           = 0; // 
 	com.param2           = 0; // 
@@ -637,7 +637,7 @@ takeoff_local()
 	com.param4           = 0; // 
 	com.param5           = 0; // 
 	com.param6           = 0; // 
-	com.param7           = -40.0; // 
+	com.param7           = 40.0; // 
 
 	// Encode
 	mavlink_message_t message;
