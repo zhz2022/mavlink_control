@@ -202,3 +202,6 @@ setspeed 2
 velocity 100 0 0
 
 ```
+outdoor test:
+===========
+2023/11/24 guided auto RTL 接口测试通过，实现返航，起飞、降落功能，前后左右控制及上传航点功能待实现。
