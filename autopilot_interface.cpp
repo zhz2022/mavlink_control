@@ -681,7 +681,7 @@ land()
 	return len;
 }
 // ------------------------------------------------------------------------------
-//   MAV_CMD_DO_SET_MODE Mode
+//   MAV_CMD_DO_SET_MODE Mode guided
 // ------------------------------------------------------------------------------
 int
 Autopilot_Interface::
@@ -709,7 +709,7 @@ do_setmode_guided()
 	return len;
 }
 // ------------------------------------------------------------------------------
-//   MAV_CMD_DO_SET_MODE Mode
+//   MAV_CMD_DO_SET_MODE Mode auto
 // ------------------------------------------------------------------------------
 int
 Autopilot_Interface::
@@ -729,6 +729,39 @@ do_setmode_auto()
 	// Encode
 	mavlink_message_t message;
 	mavlink_msg_command_long_encode(system_id, companion_id, &message, &com);
+
+	// Send the message
+	int len = port->write_message(message);
+
+	// Done!
+	return len;
+}
+// ------------------------------------------------------------------------------
+//   MAV_CMD_NAV_WAYPOINT Mode
+// ------------------------------------------------------------------------------
+int
+Autopilot_Interface::
+waypoint()
+{
+	// Prepare command for MAV_CMD_NAV_WAYPOINT mode
+	mavlink_command_int_t com = { 0 };
+	com.target_system    = system_id;
+	com.target_component = autopilot_id;
+	com.frame            = MAV_FRAME_GLOBAL_RELATIVE_ALT_INT;
+    com.current          = 2;
+    com.autocontinue     = 0;
+	com.command          = MAV_CMD_NAV_WAYPOINT;
+	com.param1           = 0; // 
+	com.param2           = 0; // 
+	com.param3           = 0; // 
+	com.param4           = 0; // 
+	com.x                = 0; // 
+	com.y                = 0; // 
+	com.z                = 0; // 
+
+	// Encode
+	mavlink_message_t message;
+	mavlink_msg_command_int_encode(system_id, companion_id, &message, &com);
 
 	// Send the message
 	int len = port->write_message(message);

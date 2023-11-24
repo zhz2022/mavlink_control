@@ -17,7 +17,7 @@
 
 int gl_mode_select = 0;
 enum Mode {INIT=1,TAKEOFF,MOVE_FORWARD,MOVE_BACKWARD,MOVE_LEFT,MOVE_RIGHT,STOP,LAND,QUIT,RTL,\
-TAKEOFF_LOCAL,OFFBOARD_CONTROL,SET_GUIDED,SET_AUTO};
+TAKEOFF_LOCAL,WAYPOINT,SET_GUIDED,SET_AUTO};
 
 // ------------------------------------------------------------------------------
 //   Main
@@ -113,8 +113,8 @@ int main(int argc, char **argv)
                 mode_takeoff_local(autopilot_interface);
                 gl_mode_select = mode_selecter();
                 break;
-            case OFFBOARD_CONTROL:
-                enable_offboard_control(autopilot_interface);
+            case WAYPOINT:
+                waypoint(autopilot_interface);
                 gl_mode_select = mode_selecter();
                 break;
             case SET_GUIDED:
@@ -262,7 +262,7 @@ int mode_selecter()
     std::cout << "5:move_left      6:move_right"         << std::endl;
     std::cout << "7:stop           8:land"               << std::endl;
     std::cout << "9:quit           10:return to launch"  << std::endl;
-    std::cout << "11:takeoff_local 12:offboard_control"  << std::endl;
+    std::cout << "11:takeoff_local 12:waypoint        "  << std::endl;
     std::cout << "13:set guided    14:set auto        "  << std::endl;
     std::cout << "===================================="  << std::endl;
     std::cin  >> mode;
@@ -415,10 +415,10 @@ void mode_takeoff_local(Autopilot_Interface &autopilot_interface){
     autopilot_interface.takeoff_local();
     usleep(100); // give some time to let it sink in
 }
-void enable_offboard_control(Autopilot_Interface &autopilot_interface){
+void waypoint(Autopilot_Interface &autopilot_interface){
     std::cout << "enable_offboard_control started" << std::endl;
     // return to launch
-    autopilot_interface.enable_offboard_control();
+    autopilot_interface.waypoint();
     usleep(100); // give some time to let it sink in
 }
 void set_guided(Autopilot_Interface &autopilot_interface){
