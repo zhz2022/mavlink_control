@@ -752,17 +752,18 @@ set_velocity_test()
 	com.target_system    = system_id;
 	com.target_component = autopilot_id;
 	// com.type_mask        = MAVLINK_MSG_SET_POSITION_TARGET_LOCAL_NED_VELOCITY;
+	com.type_mask        = MAVLINK_MSG_SET_POSITION_TARGET_LOCAL_NED_POSITION;
 	com.x                = 1000; // 
 	com.y                = 1000; // 
 	com.z                = -1000; // 
-	com.vx               = 100; //
-	com.vy               = 100; // 
-	com.vz               = -10; // 
-	com.afx              = 10; //
-	com.afy              = 10; // 
-	com.afz              = -0; //
-	com.yaw              = 10; // 
-	com.yaw_rate         = 10; // 
+	// com.vx               = 100; //
+	// com.vy               = 100; // 
+	// com.vz               = -10; // 
+	// com.afx              = 10; //
+	// com.afy              = 10; // 
+	// com.afz              = -0; //
+	// com.yaw              = 10; // 
+	// com.yaw_rate         = 10; // 
 
 	// Encode
 	mavlink_message_t message;
