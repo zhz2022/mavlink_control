@@ -186,7 +186,7 @@ Usage:
 ```
 $ sudo ./my_mavlink_control /dev/ttyUSB0
 ./my_mavlink_control -u 127.0.0.1 -p 14550
-cd ~/ardupilot/ArduCopter
+
 
 ```
 
@@ -194,6 +194,9 @@ simulate:
 ===========
 
 ```
+cd ~/ardupilot/ArduCopter
+output add 127.0.0.1:14552
+
 sim_vehicle.py --console --map
 mode guided
 arm throttle
