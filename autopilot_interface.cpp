@@ -748,7 +748,7 @@ set_velocity_test()
 	com.coordinate_frame = MAV_FRAME_LOCAL_NED;
 	com.target_system    = system_id;
 	com.target_component = autopilot_id;
-	com.typemask         = MAVLINK_MSG_SET_POSITION_TARGET_LOCAL_NED_VELOCITY;
+	com.type_mask        = MAVLINK_MSG_SET_POSITION_TARGET_LOCAL_NED_VELOCITY;
 	com.x                = 0; // 
 	com.y                = 0; // 
 	com.z                = 0; // 
@@ -827,8 +827,6 @@ waypoint()
 // y=int(target_locations[seq - 2][1] * 1e7),
 // z=target_locations[seq - 2][2],
 // mission_type=dialect.MAV_MISSION_TYPE_MISSION)
-
-SET_POSITION_TARGET_LOCAL_NED
 int
 Autopilot_Interface::
 waypoint()
