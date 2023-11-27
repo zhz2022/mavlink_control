@@ -400,7 +400,10 @@ write_message(mavlink_message_t message)
 
 	// book keep
 	write_count++;
-
+	std::cout << "write_count = " << write_count << std::endl;
+	// check the write
+	if ( len <= 0 )
+		fprintf(stderr,"WARNING: could not send message \n");
 	// Done!
 	return len;
 }
