@@ -758,11 +758,11 @@ set_velocity_test()
 	com.vx               = 100; //
 	com.vy               = 100; // 
 	com.vz               = -10; // 
-	com.afx              = 0; //
-	com.afy              = 0; // 
-	com.afz              = 0; //
-	com.yaw              = 0; // 
-	com.yaw_rate         = 0; // 
+	com.afx              = 10; //
+	com.afy              = 10; // 
+	com.afz              = -0; //
+	com.yaw              = 10; // 
+	com.yaw_rate         = 10; // 
 
 	// Encode
 	mavlink_message_t message;
