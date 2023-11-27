@@ -441,6 +441,10 @@ void set_auto(Autopilot_Interface &autopilot_interface){
 void set_velocity_test(Autopilot_Interface &autopilot_interface){
     std::cout << "set_velocity_test started" << std::endl;
     // return to launch
-    autopilot_interface.set_velocity_test();
-    usleep(100); // give some time to let it sink in
+    while(1){
+        autopilot_interface.set_velocity_test();
+        usleep(100); // give some time to let it sink in
+    }
+    // autopilot_interface.set_velocity_test();
+    // usleep(100); // give some time to let it sink in
 }
