@@ -279,7 +279,7 @@ void mode_init(Autopilot_Interface &autopilot_interface){
     std::cout << "mode_init started" << std::endl;
     autopilot_interface.start();
 
-    autopilot_interface.enable_offboard_control();
+    // autopilot_interface.enable_offboard_control();
 	usleep(100); // give some time to let it sink in
 
 	// now the autopilot is accepting setpoint commands
