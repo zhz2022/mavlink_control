@@ -755,9 +755,9 @@ set_velocity_test()
 	com.x                = 0; // 
 	com.y                = 0; // 
 	com.z                = 0; // 
-	com.vx               = 10; //
-	com.vy               = 10; // 
-	com.vz               = 10; // 
+	com.vx               = 100; //
+	com.vy               = 100; // 
+	com.vz               = 0; // 
 	com.afx              = 0; //
 	com.afy              = 0; // 
 	com.afz              = 0; //
