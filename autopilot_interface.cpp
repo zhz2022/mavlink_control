@@ -751,7 +751,7 @@ set_velocity_test()
 	com.coordinate_frame = MAV_FRAME_LOCAL_NED;
 	com.target_system    = system_id;
 	com.target_component = autopilot_id;
-	com.type_mask        = MAVLINK_MSG_SET_POSITION_TARGET_LOCAL_NED_VELOCITY;
+	// com.type_mask        = MAVLINK_MSG_SET_POSITION_TARGET_LOCAL_NED_VELOCITY;
 	com.x                = 1000; // 
 	com.y                = 1000; // 
 	com.z                = -1000; // 
