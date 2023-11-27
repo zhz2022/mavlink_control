@@ -770,7 +770,8 @@ set_velocity_test()
 
 	// Send the message
 	int len = port->write_message(message);
-
+	printf("mydebug===================");
+	printf("%d",len);
 	// Done!
 	return len;
 }
