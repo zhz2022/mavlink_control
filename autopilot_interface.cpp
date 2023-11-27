@@ -736,6 +736,41 @@ do_setmode_auto()
 	// Done!
 	return len;
 }
+// ------------------------------------------------------------------------------
+//   MAV_CMD_DO_SET_MODE Mode auto
+// ------------------------------------------------------------------------------
+int
+Autopilot_Interface::
+set_velocity_test()
+{
+	// Prepare command for takeoff_local mode
+	mavlink_set_position_target_local_ned_t com = { 0 };
+	com.coordinate_frame = MAV_FRAME_LOCAL_NED;
+	com.target_system    = system_id;
+	com.target_component = autopilot_id;
+	com.typemask         = MAVLINK_MSG_SET_POSITION_TARGET_LOCAL_NED_VELOCITY;
+	com.x                = 0; // 
+	com.y                = 0; // 
+	com.z                = 0; // 
+	com.vx               = 10; //
+	com.vy               = 10; // 
+	com.vz               = 10; // 
+	com.afx              = 0; //
+	com.afy              = 0; // 
+	com.afz              = 0; //
+	com.yaw              = 0; // 
+	com.yaw_rate         = 0; // 
+
+	// Encode
+	mavlink_message_t message;
+	mavlink_msg_set_position_target_local_ned_encode(system_id, companion_id, &message, &com);
+
+	// Send the message
+	int len = port->write_message(message);
+
+	// Done!
+	return len;
+}
 /*
 // ------------------------------------------------------------------------------
 //   MAV_CMD_NAV_WAYPOINT Mode
@@ -793,6 +828,7 @@ waypoint()
 // z=target_locations[seq - 2][2],
 // mission_type=dialect.MAV_MISSION_TYPE_MISSION)
 
+SET_POSITION_TARGET_LOCAL_NED
 int
 Autopilot_Interface::
 waypoint()

@@ -17,7 +17,7 @@
 
 int gl_mode_select = 0;
 enum Mode {INIT=1,TAKEOFF,MOVE_FORWARD,MOVE_BACKWARD,MOVE_LEFT,MOVE_RIGHT,STOP,LAND,QUIT,RTL,\
-TAKEOFF_LOCAL,WAYPOINT,SET_GUIDED,SET_AUTO};
+TAKEOFF_LOCAL,WAYPOINT,SET_GUIDED,SET_AUTO,SET_VEL};
 
 // ------------------------------------------------------------------------------
 //   Main
@@ -123,6 +123,10 @@ int main(int argc, char **argv)
                 break;
             case SET_AUTO:
                 set_auto(autopilot_interface);
+                gl_mode_select = mode_selecter();
+                break;
+            case SET_VEL:
+                set_velocity_test(autopilot_interface);
                 gl_mode_select = mode_selecter();
                 break;
             default :
@@ -431,5 +435,11 @@ void set_auto(Autopilot_Interface &autopilot_interface){
     std::cout << "set_auto started" << std::endl;
     // return to launch
     autopilot_interface.do_setmode_auto();
+    usleep(100); // give some time to let it sink in
+}
+void set_velocity_test(Autopilot_Interface &autopilot_interface){
+    std::cout << "set_velocity_test started" << std::endl;
+    // return to launch
+    autopilot_interface.set_velocity_test();
     usleep(100); // give some time to let it sink in
 }

@@ -65,6 +65,7 @@ void mode_takeoff_local(Autopilot_Interface &autopilot_interface);
 void waypoint(Autopilot_Interface &autopilot_interface);
 void set_guided(Autopilot_Interface &autopilot_interface);
 void set_auto(Autopilot_Interface &autopilot_interface);
+void set_velocity_test(Autopilot_Interface &autopilot_interface);
 
 
 
