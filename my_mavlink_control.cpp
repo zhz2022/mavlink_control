@@ -276,7 +276,7 @@ int mode_selecter()
     std::cout << "9:quit           10:return to launch"  << std::endl;
     std::cout << "11:takeoff_local 12:waypoint        "  << std::endl;
     std::cout << "13:set guided    14:set auto        "  << std::endl;
-    std::cout << "15:set vel test  16:move_up         "  << std::endl;
+    std::cout << "15:print_msgs    16:move_up         "  << std::endl;
     std::cout << "17:move_down     18:xxxx         "  << std::endl;
     std::cout << "===================================="  << std::endl;
     std::cin  >> mode;
