@@ -441,7 +441,7 @@ void print_msg_test(Autopilot_Interface &autopilot_interface){
 		// mavlink_local_position_ned_t pos = autopilot_interface.current_messages.local_position_ned;
         Mavlink_Messages msgs = autopilot_interface.current_messages;
 		// printf("%i CURRENT POSITION XYZ = [ % .4f , % .4f , % .4f ] \n", i, pos.x, pos.y, pos.z);
-        std::cout << "Current heartbeat: custom_mode,type,autopilot,base_mode,system_status,mavlink_version" << msgs.heartbeat.custom_mode << "," msgs.heartbeat.type << "," << msgs.heartbeat.autopilot << "," << msgs.heartbeat.base_mode << "," << msgs.heartbeat.system_status << "," << msgs.heartbeat.mavlink_version << std::endl;
+        std::cout << "Current heartbeat: custom_mode,type,autopilot,base_mode,system_status,mavlink_version" << msgs.heartbeat.custom_mode << "," << msgs.heartbeat.type << "," << msgs.heartbeat.autopilot << "," << msgs.heartbeat.base_mode << "," << msgs.heartbeat.system_status << "," << msgs.heartbeat.mavlink_version << std::endl;
         std::cout << "Current position: " << msgs.local_position_ned.x << " " << msgs.local_position_ned.y << " " << msgs.local_position_ned.z << std::endl;
 		// std::cout << "Current velocity: " << msgs.local_velocity_ned.x << " " << msgs.local_velocity_ned.y << " " << msgs.local_velocity_ned.z << std::end
         // std::cout << "Current acceleration: " << msgs.local_acceleration_ned.x << " " << msgs.local_acceleration_ned.y << " " << msgs.local_acceleration_ned.z << std::
