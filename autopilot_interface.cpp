@@ -754,8 +754,8 @@ set_velocity_test()
 	// com.type_mask        = MAVLINK_MSG_SET_POSITION_TARGET_LOCAL_NED_VELOCITY;
 	com.type_mask        = MAVLINK_MSG_SET_POSITION_TARGET_LOCAL_NED_POSITION;
 	com.x                = 1000; // 
-	com.y                = 1000; // 
-	com.z                = -1000; // 
+	com.y                = 0; // 
+	com.z                = 0; // 
 	// com.vx               = 100; //
 	// com.vy               = 100; // 
 	// com.vz               = -10; // 
@@ -771,8 +771,8 @@ set_velocity_test()
 
 	// Send the message
 	int len = port->write_message(message);
-	printf("mydebug===================");
-	printf("%d",len);
+	// printf("mydebug===================");
+	// printf("%d",len);
 	// Done!
 	return len;
 }
@@ -850,7 +850,7 @@ waypoint()
 	com.param4           = 0; // 
 	com.x                = int(-35.361297*1e7); // 
 	com.y                = int(149.161120*1e7); // 
-	com.z                = 20; // 
+	com.z                = -20; // 
 
 	// Encode
 	mavlink_message_t message;

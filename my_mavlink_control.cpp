@@ -429,8 +429,10 @@ void waypoint(Autopilot_Interface &autopilot_interface){
 void set_guided(Autopilot_Interface &autopilot_interface){
     std::cout << "setmode_guided started" << std::endl;
     // return to launch
-    autopilot_interface.do_setmode_guided();
-    usleep(100); // give some time to let it sink in
+    for(int i = 1; i <= 30000; i++){
+        autopilot_interface.do_setmode_guided();
+        usleep(100); // give some time to let it sink in
+    }
 }
 void set_auto(Autopilot_Interface &autopilot_interface){
     std::cout << "set_auto started" << std::endl;
@@ -441,7 +443,7 @@ void set_auto(Autopilot_Interface &autopilot_interface){
 void set_velocity_test(Autopilot_Interface &autopilot_interface){
     std::cout << "set_velocity_test started" << std::endl;
     // return to launch
-    for(int i = 1; i <= 100000; i++){
+    for(int i = 1; i <= 30000; i++){
         autopilot_interface.set_velocity_test();
         usleep(100); // give some time to let it sink in
         // sleep(1);
