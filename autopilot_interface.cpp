@@ -744,7 +744,7 @@ do_setmode_auto()
 // ------------------------------------------------------------------------------
 int
 Autopilot_Interface::
-set_velocity_test()
+set_velocity(float vx,float vy,float vz)
 {
 	// Prepare command for takeoff_local mode
 	mavlink_set_position_target_local_ned_t com = { 0 };
@@ -756,9 +756,9 @@ set_velocity_test()
 	// com.x                = 1000; // 
 	// com.y                = 0; // 
 	// com.z                = 0; // 
-	com.vx               = 100; //
-	com.vy               = 0; // 
-	com.vz               = 0; // 
+	com.vx               = vx; //
+	com.vy               = vy; // 
+	com.vz               = vz; // 
 	// com.afx              = 10; //
 	// com.afy              = 10; // 
 	// com.afz              = -0; //

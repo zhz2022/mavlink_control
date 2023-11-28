@@ -285,7 +285,7 @@ public:
 	int  waypoint();
 	int  do_setmode_guided();
 	int  do_setmode_auto();
-	int  set_velocity_test();
+	int  set_velocity(float vx,float vy,float vz);
 
 
 private:
