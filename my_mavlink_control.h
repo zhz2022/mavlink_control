@@ -66,6 +66,7 @@ void waypoint(Autopilot_Interface &autopilot_interface);
 void set_guided(Autopilot_Interface &autopilot_interface);
 void set_auto(Autopilot_Interface &autopilot_interface);
 void set_velocity_test(Autopilot_Interface &autopilot_interface);
-
+void mode_move_up(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp);
+void mode_move_down(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp);
 
 
