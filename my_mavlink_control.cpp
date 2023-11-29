@@ -17,7 +17,7 @@
 
 int gl_mode_select = 0;
 enum Mode {INIT=1,TAKEOFF,MOVE_FORWARD,MOVE_BACKWARD,MOVE_LEFT,MOVE_RIGHT,STOP,LAND,QUIT,RTL,\
-TAKEOFF_LOCAL,WAYPOINT,SET_GUIDED,SET_AUTO,PRINT_MSG,MOVE_UP,MOVE_DOWN};
+TAKEOFF_LOCAL,WAYPOINT,SET_GUIDED,SET_AUTO,PRINT_MSG,MOVE_UP,MOVE_DOWN,CIRCLE};
 
 // ------------------------------------------------------------------------------
 //   Main
@@ -135,6 +135,10 @@ int main(int argc, char **argv)
                 break;
             case MOVE_DOWN:
                 mode_move_down(autopilot_interface,sp);
+                gl_mode_select = mode_selecter();
+                break;
+            case CIRCLE:
+                mode_circle(autopilot_interface);
                 gl_mode_select = mode_selecter();
                 break;
             default :
@@ -277,7 +281,7 @@ int mode_selecter()
     std::cout << "11:takeoff_local 12:waypoint        "  << std::endl;
     std::cout << "13:set guided    14:set auto        "  << std::endl;
     std::cout << "15:print_msgs    16:move_up         "  << std::endl;
-    std::cout << "17:move_down     18:xxxx         "  << std::endl;
+    std::cout << "17:move_down     18:set circle         "  << std::endl;
     std::cout << "===================================="  << std::endl;
     std::cin  >> mode;
     std::cout << ":mode selected to: "<< mode            << std::endl;
@@ -429,6 +433,12 @@ void set_auto(Autopilot_Interface &autopilot_interface){
     std::cout << "set_auto started" << std::endl;
     // return to launch
     autopilot_interface.do_setmode_auto();
+    usleep(100); // give some time to let it sink in
+}
+void mode_circle(Autopilot_Interface &autopilot_interface){
+    std::cout << "mode_circle started" << std::endl;
+    // circle
+    autopilot_interface.circle();
     usleep(100); // give some time to let it sink in
 }
 void print_msg_test(Autopilot_Interface &autopilot_interface){

@@ -863,6 +863,34 @@ waypoint()
 	return len;
 }
 // ------------------------------------------------------------------------------
+//   CIRCLE Mode
+// ------------------------------------------------------------------------------
+int
+Autopilot_Interface::
+circle()
+{
+	// Prepare command for circle mode
+	mavlink_command_long_t com = { 0 };
+	com.target_system    = system_id;
+	com.target_component = autopilot_id;
+	com.command          = MAV_CMD_DO_SET_MODE;
+	com.confirmation     = true;
+	com.param1           = 1; // TODO:
+	com.param2           = 4; // 4GUIDED 6RTL 7CIRCLE
+	// com.param1           = (float) flag; // flag >0.5 => start, <0.5 => stop
+
+	// Encode
+	mavlink_message_t message;
+	mavlink_msg_command_long_encode(system_id, companion_id, &message, &com);
+
+	// Send the message
+	int len = port->write_message(message);
+
+	// Done!
+	return len;
+}
+
+// ------------------------------------------------------------------------------
 //   STARTUP
 // ------------------------------------------------------------------------------
 void
