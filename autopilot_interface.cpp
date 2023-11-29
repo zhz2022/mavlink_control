@@ -876,7 +876,7 @@ circle()
 	com.command          = MAV_CMD_DO_SET_MODE;
 	com.confirmation     = true;
 	com.param1           = 1; // TODO:
-	com.param2           = 4; // 4GUIDED 6RTL 7CIRCLE
+	com.param2           = 7; // 4GUIDED 6RTL 7CIRCLE
 	// com.param1           = (float) flag; // flag >0.5 => start, <0.5 => stop
 
 	// Encode
