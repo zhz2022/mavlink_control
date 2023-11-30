@@ -302,6 +302,7 @@ void mode_init(Autopilot_Interface &autopilot_interface){
 
 	printf("SEND OFFBOARD COMMANDS\n");
 }
+/*
 void mode_takeoff(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t ip,mavlink_set_position_target_local_ned_t sp){
     std::cout << "mode_takeoff started" << std::endl;
 	// Example 1 - Fly up by to 2m
@@ -476,3 +477,4 @@ void mode_move(Autopilot_Interface &autopilot_interface,float vn,float ve,float 
     usleep(100); // give some time to let it sink in
 }
 // void mode_rotate(Autopilot_Interface &autopilot_interface,float vn,float ve,float vd);
+*/
