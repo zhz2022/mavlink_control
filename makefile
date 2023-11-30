@@ -1,4 +1,4 @@
-all: my_mavlink_control mavlink_control
+all: my_mavlink_control
 #all: mavlink_control my_mavlink_control udp_example
 
 mavlink_control: mavlink_control.cpp serial_port.cpp udp_port.cpp autopilot_interface.cpp
