@@ -457,14 +457,11 @@ void print_msg_test(Autopilot_Interface &autopilot_interface){
         << "drop_rate_comm: " << msgs.sys_status.drop_rate_comm << "," << "errors_comm: " << msgs.sys_status.errors_comm << "," << "errors_count1: " << msgs.sys_status.errors_count1 << "," << "errors_count2: " << msgs.sys_status.errors_count2 << "," \
         << "errors_count3: " << msgs.sys_status.errors_count3 << "," << "errors_count4: " << msgs.sys_status.errors_count4 << "," << "battery_remaining: " << msgs.sys_status.battery_remaining << "," << "onboard_control_sensors_present_extended: " \
         << msgs.sys_status.onboard_control_sensors_present_extended << "," << "onboard_control_sensors_enabled_extended: " << msgs.sys_status.onboard_control_sensors_enabled_extended << "," << "onboard_control_sensors_health_extended: " << msgs.sys_status.onboard_control_sensors_health_extended << std::endl;
-        // std::cout << "Current velocity: " << msgs.local_velocity_ned.x << " " << msgs.local_velocity_ned.y << " " << msgs.local_velocity_ned.z << std::end
-        // std::cout << "Current acceleration: " << msgs.local_acceleration_ned.x << " " << msgs.local_acceleration_ned.y << " " << msgs.local_acceleration_ned.z << std::
-        // std::cout << "Current yaw: " << msgs.local_position_ned.yaw << std::endl;
-        // std::cout << "Current yaw rate: " << msgs.local_position_ned.yaw_rate << std::endl;
-        // std::cout << "Current altitude: " << msgs.local_position_ned.altitude << std::endl;
-        // std::cout << "Current altitude rate: " << msgs.local_position_ned.altitude_rate << std::endl;
-        std::cout << "Current globally_set_position_ned: " << msgs.global_position_int.lat << " " << msgs.global_position_int.lon << " " << msgs.global_position_int.alt << std::endl;
-        // std::cout << "Current globally_set_velocity_ned: " << msgs.global_velocity_ned.x << " " << msgs.global_velocity_ned.y << " " << msgs.global_velocity_ned.z << std::endl;
+        std::cout << "Current velocity: " << msgs.local_position_ned.vx << " " << msgs.local_position_ned.vy << " " << msgs.local_position_ned.vz << std::endl;
+
+        std::cout << "Current pose: " << msgs.attitude.roll << " " << msgs.attitude.pitch << " " << msgs.attitude.yaw << " " << std::endl;
+        std::cout << "Current globally_set_position_ned: " << msgs.global_position_int.lat << " " << msgs.global_position_int.lon << " " << msgs.global_position_int.alt << msgs.global_position_int.relative_alt << std::endl;
+        std::cout << "Current globally_set_velocity_ned: " << msgs.global_position_int.vx << " " << msgs.global_position_int.vy << " " << msgs.global_position_int.vz << msgs.global_position_int.hdg << std::endl;
         // std::cout << "Current globally_set_acceleration_ned: " << msgs.global_acceleration_ned.x << " " << msgs.global_acceleration_ned.y << " " << ms
         // std::cout << "Current battery_state: " << msgs.battery_state << std::endl;
         std::cout << "Current battery_voltage: " << msgs.sys_status.voltage_battery << std::endl;
