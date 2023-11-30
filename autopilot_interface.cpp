@@ -716,7 +716,7 @@ do_setmode_guided()
 // ------------------------------------------------------------------------------
 int
 Autopilot_Interface::
-do_setmode_auto()
+set_mode(int mode_number)
 {
 	// Prepare command for takeoff_local mode
 	mavlink_command_long_t com = { 0 };
@@ -725,7 +725,7 @@ do_setmode_auto()
 	com.command          = MAV_CMD_DO_SET_MODE;
 	com.confirmation     = true;
 	com.param1           = 1; // TODO:4不可以？
-	com.param2           = 3; // 3AUTO4GUIDED 6RTL
+	com.param2           = mode_number; // 3AUTO4GUIDED 6RTL
 	// com.param6           = 0.0; // 
 	// com.param7           = -40.0; // 
 
@@ -744,7 +744,7 @@ do_setmode_auto()
 // ------------------------------------------------------------------------------
 int
 Autopilot_Interface::
-set_velocity(float vx,float vy,float vz)
+set_velocity(float vn,float ve,float vd)
 {
 	// Prepare command for takeoff_local mode
 	mavlink_set_position_target_local_ned_t com = { 0 };
@@ -756,9 +756,9 @@ set_velocity(float vx,float vy,float vz)
 	// com.x                = 1000; // 
 	// com.y                = 0; // 
 	// com.z                = 0; // 
-	com.vx               = vx; //
-	com.vy               = vy; // 
-	com.vz               = vz; // 
+	com.vx               = vn; //
+	com.vy               = ve; // 
+	com.vz               = vd; // 
 	// com.afx              = 10; //
 	// com.afy              = 10; // 
 	// com.afz              = -0; //

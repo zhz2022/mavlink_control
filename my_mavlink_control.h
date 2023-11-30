@@ -69,5 +69,6 @@ void print_msg_test(Autopilot_Interface &autopilot_interface);
 void mode_move_up(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp);
 void mode_move_down(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp);
 void mode_circle(Autopilot_Interface &autopilot_interface);
+void mode_move(Autopilot_Interface &autopilot_interface,float vn,float ve,float vd);
 
 
