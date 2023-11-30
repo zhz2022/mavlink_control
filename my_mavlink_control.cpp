@@ -24,128 +24,92 @@ TAKEOFF_LOCAL,WAYPOINT,SET_GUIDED,SET_AUTO,PRINT_MSG,MOVE_UP,MOVE_DOWN,CIRCLE};
 // ------------------------------------------------------------------------------
 int main(int argc, char **argv)
 {
-    // char *uart_name = (char *)"/dev/ttyUSB0";
-    // int baudrate = 57600;
+    char *uart_name = (char *)"/dev/ttyUSB0";
+    int baudrate = 57600;
 
-    // bool use_udp = false;
-    // char *udp_ip = (char *)"127.0.0.1";
-    // int udp_port = 14550;
-    // // do the parse, will throw an int if it fails
-    // parse_commandline(argc, argv, uart_name, baudrate, use_udp, udp_ip, udp_port);
-    // Generic_Port *port;
-    // if (use_udp)
-    // {
-    //     port = new UDP_Port(udp_ip, udp_port);
-    // }
-    // else
-    // {
-    //     port = new Serial_Port(uart_name, baudrate);
-    // }
+    bool use_udp = false;
+    char *udp_ip = (char *)"127.0.0.1";
+    int udp_port = 14550;
+    // do the parse, will throw an int if it fails
+    parse_commandline(argc, argv, uart_name, baudrate, use_udp, udp_ip, udp_port);
+    Generic_Port *port;
+    if (use_udp)
+    {
+        port = new UDP_Port(udp_ip, udp_port);
+    }
+    else
+    {
+        port = new Serial_Port(uart_name, baudrate);
+    }
 
-    // Autopilot_Interface autopilot_interface(port);
+    Autopilot_Interface autopilot_interface(port);
 
-    // port_quit = port;
-    // autopilot_interface_quit = &autopilot_interface;
-    // signal(SIGINT, quit_handler);
+    port_quit = port;
+    autopilot_interface_quit = &autopilot_interface;
+    signal(SIGINT, quit_handler);
 
-    // port->start();
-    // // autopilot_interface.start();
+    port->start();
+    // autopilot_interface.start();
 
-    // // autopilot_interface.enable_offboard_control();
-	// // usleep(100); // give some time to let it sink in
+    // autopilot_interface.enable_offboard_control();
+	// usleep(100); // give some time to let it sink in
 
-	// // // now the autopilot is accepting setpoint commands
+	// // now the autopilot is accepting setpoint commands
 
-    // // autopilot_interface.arm_disarm(true);
-    // // usleep(100); // give some time to let it sink in
+    // autopilot_interface.arm_disarm(true);
+    // usleep(100); // give some time to let it sink in
 
-	// // printf("SEND OFFBOARD COMMANDS\n");
+	// printf("SEND OFFBOARD COMMANDS\n");
 
-	// // initialize command data strtuctures
-	// mavlink_set_position_target_local_ned_t sp;
-	// mavlink_set_position_target_local_ned_t ip = autopilot_interface.initial_position;
+	// initialize command data strtuctures
+	mavlink_set_position_target_local_ned_t sp;
+	mavlink_set_position_target_local_ned_t ip = autopilot_interface.initial_position;
 
 
-    // while(1){
-    //     usleep(100);
-    //     switch (gl_mode_select){
-    //         case INIT:
-    //             mode_init(autopilot_interface);
-    //             gl_mode_select = mode_selecter();
-    //             break;
-    //         case TAKEOFF:
-    //             mode_takeoff(autopilot_interface,ip,sp);
-    //             gl_mode_select = mode_selecter();
-    //             break;
-    //         case MOVE_FORWARD:
-    //             mode_move_forward(autopilot_interface,sp);
-    //             gl_mode_select = mode_selecter();
-    //             break;
-    //         case MOVE_BACKWARD:
-    //             mode_move_backward(autopilot_interface,sp);
-    //             gl_mode_select = mode_selecter();
-    //             break;
-    //         case MOVE_LEFT:
-    //             mode_move_left(autopilot_interface,sp);
-    //             gl_mode_select = mode_selecter();
-    //             break;
-    //         case MOVE_RIGHT:
-    //             mode_move_right(autopilot_interface,sp);
-    //             gl_mode_select = mode_selecter();
-    //             break;
-    //         case STOP:
-    //             mode_stop(autopilot_interface,sp);
-    //             gl_mode_select = mode_selecter();
-    //             break;
-    //         case LAND:
-    //             mode_land(autopilot_interface);
-    //             gl_mode_select = mode_selecter();
-    //             break;
-    //         case QUIT:
-    //             mode_quit(autopilot_interface,port);
-    //             gl_mode_select = mode_selecter();
-    //             break;
-    //         case RTL:
-    //             mode_rtl(autopilot_interface);
-    //             gl_mode_select = mode_selecter();
-    //             break;
-    //         case TAKEOFF_LOCAL:
-    //             mode_takeoff_local(autopilot_interface);
-    //             gl_mode_select = mode_selecter();
-    //             break;
-    //         case WAYPOINT:
-    //             waypoint(autopilot_interface);
-    //             gl_mode_select = mode_selecter();
-    //             break;
-    //         case SET_GUIDED:
-    //             set_guided(autopilot_interface);
-    //             gl_mode_select = mode_selecter();
-    //             break;
-    //         case SET_AUTO:
-    //             set_auto(autopilot_interface);
-    //             gl_mode_select = mode_selecter();
-    //             break;
-    //         case PRINT_MSG:
-    //             print_msg_test(autopilot_interface);
-    //             gl_mode_select = mode_selecter();
-    //             break;
-    //         case MOVE_UP:
-    //             mode_move_up(autopilot_interface,sp);
-    //             gl_mode_select = mode_selecter();
-    //             break;
-    //         case MOVE_DOWN:
-    //             mode_move_down(autopilot_interface,sp);
-    //             gl_mode_select = mode_selecter();
-    //             break;
-    //         case CIRCLE:
-    //             mode_circle(autopilot_interface);
-    //             gl_mode_select = mode_selecter();
-    //             break;
-    //         default :
-    //             std::cout << "无效的模式选择" << std::endl;
-    //             gl_mode_select = mode_selecter();
-    //     }
-    // }
+    while(1){
+        usleep(100);
+        switch (gl_mode_select){
+            case INIT:
+                mode_init(autopilot_interface);
+                gl_mode_select = mode_selecter();
+                break;
+            case TAKEOFF:
+                mode_takeoff(autopilot_interface,ip,sp);
+                gl_mode_select = mode_selecter();
+                break;
+            case LAND:
+                mode_land(autopilot_interface);
+                gl_mode_select = mode_selecter();
+                break;
+            case QUIT:
+                mode_quit(autopilot_interface,port);
+                gl_mode_select = mode_selecter();
+                break;
+            case RTL:
+                mode_rtl(autopilot_interface);
+                gl_mode_select = mode_selecter();
+                break;
+            case TAKEOFF_LOCAL:
+                mode_takeoff_local(autopilot_interface);
+                gl_mode_select = mode_selecter();
+                break;
+            case WAYPOINT:
+                waypoint(autopilot_interface);
+                gl_mode_select = mode_selecter();
+                break;
+            case PRINT_MSG:
+                print_msg_test(autopilot_interface);
+                gl_mode_select = mode_selecter();
+                break;
+            case CIRCLE:
+                mode_circle(autopilot_interface);
+                gl_mode_select = mode_selecter();
+                break;
+            default :
+                std::cout << "无效的模式选择" << std::endl;
+                gl_mode_select = mode_selecter();
+        }
+    }
     return 0;
 }
 
@@ -302,7 +266,7 @@ void mode_init(Autopilot_Interface &autopilot_interface){
 
 	printf("SEND OFFBOARD COMMANDS\n");
 }
-/*
+
 void mode_takeoff(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t ip,mavlink_set_position_target_local_ned_t sp){
     std::cout << "mode_takeoff started" << std::endl;
 	// Example 1 - Fly up by to 2m
@@ -317,70 +281,6 @@ void mode_takeoff(Autopilot_Interface &autopilot_interface,mavlink_set_position_
 
 	// Wait for 8 seconds, check position
 	for (int i=0; i < 8; i++)
-	{
-		mavlink_local_position_ned_t pos = autopilot_interface.current_messages.local_position_ned;
-		printf("%i CURRENT POSITION XYZ = [ % .4f , % .4f , % .4f ] \n", i, pos.x, pos.y, pos.z);
-		sleep(1);
-	}
-}
-void mode_move_forward(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
-	std::cout << "mode_move_forward started" << std::endl;
-    for(int i = 1; i <= 30000; i++){
-        autopilot_interface.set_velocity(100,0,0);
-        usleep(100); // give some time to let it sink in
-        // sleep(1);
-    }
-}
-void mode_move_backward(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
-	std::cout << "mode_move_backward started" << std::endl;
-    for(int i = 1; i <= 30000; i++){
-        autopilot_interface.set_velocity(-100,0,0);
-        usleep(100); // give some time to let it sink in
-        // sleep(1);
-    }
-}
-void mode_move_left(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
-	std::cout << "mode_move_left started" << std::endl;
-    for(int i = 1; i <= 30000; i++){
-        autopilot_interface.set_velocity(0,-100,0);
-        usleep(100); // give some time to let it sink in
-        // sleep(1);
-    }
-}
-void mode_move_right(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
-	std::cout << "mode_move_right started" << std::endl;
-    for(int i = 1; i <= 30000; i++){
-        autopilot_interface.set_velocity(0,100,0);
-        usleep(100); // give some time to let it sink in
-        // sleep(1);
-    }
-}
-void mode_move_up(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
-	std::cout << "mode_move_up started" << std::endl;
-    for(int i = 1; i <= 30000; i++){
-        autopilot_interface.set_velocity(0,0,-10);
-        usleep(100); // give some time to let it sink in
-        // sleep(1);
-    }
-}
-void mode_move_down(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
-	std::cout << "mode_move_down started" << std::endl;
-    for(int i = 1; i <= 30000; i++){
-        autopilot_interface.set_velocity(0,100,10);
-        usleep(100); // give some time to let it sink in
-        // sleep(1);
-    }
-}
-void mode_stop(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
-	std::cout << "mode_stop started" << std::endl;
-    set_velocity(  0.0       , // [m/s]
-				   0.0       , // [m/s]
-				   0.0       , // [m/s]
-				   sp        );
-	// SEND THE COMMAND
-	autopilot_interface.update_setpoint(sp);
-	// Wait for 4 seconds, check position
-	for (int i=0; i < 2; i++)
 	{
 		mavlink_local_position_ned_t pos = autopilot_interface.current_messages.local_position_ned;
 		printf("%i CURRENT POSITION XYZ = [ % .4f , % .4f , % .4f ] \n", i, pos.x, pos.y, pos.z);
@@ -424,18 +324,6 @@ void waypoint(Autopilot_Interface &autopilot_interface){
     autopilot_interface.waypoint();
     usleep(100); // give some time to let it sink in
 }
-void set_guided(Autopilot_Interface &autopilot_interface){
-    std::cout << "setmode_guided started" << std::endl;
-    // set guided
-        autopilot_interface.do_setmode_guided();
-        usleep(100); // give some time to let it sink in
-}
-void set_auto(Autopilot_Interface &autopilot_interface){
-    std::cout << "set_auto started" << std::endl;
-    // return to launch
-    autopilot_interface.do_setmode_auto();
-    usleep(100); // give some time to let it sink in
-}
 void mode_circle(Autopilot_Interface &autopilot_interface){
     std::cout << "mode_circle started" << std::endl;
     // circle
@@ -477,4 +365,3 @@ void mode_move(Autopilot_Interface &autopilot_interface,float vn,float ve,float 
     usleep(100); // give some time to let it sink in
 }
 // void mode_rotate(Autopilot_Interface &autopilot_interface,float vn,float ve,float vd);
-*/

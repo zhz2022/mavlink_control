@@ -44,6 +44,7 @@
  * @author Trent Lukaczyk, <aerialhedgehog@gmail.com>
  * @author Jaycee Lock,    <jaycee.lock@gmail.com>
  * @author Lorenz Meier,   <lm@inf.ethz.ch>
+ * @author ZhangPeng,      <zhangpengbjut@sina.com>
  *
  */
 
@@ -457,7 +458,6 @@ write_setpoint()
 	return;
 }
 
-
 // ------------------------------------------------------------------------------
 //   Start Off-Board Mode
 // ------------------------------------------------------------------------------
@@ -712,7 +712,7 @@ set_mode(int mode_number)
 	return len;
 }
 // ------------------------------------------------------------------------------
-//   MAV_CMD_DO_SET_MODE Mode auto
+//   set_velocity
 // ------------------------------------------------------------------------------
 int
 Autopilot_Interface::
@@ -743,67 +743,10 @@ set_velocity(float vn,float ve,float vd)
 
 	// Send the message
 	int len = port->write_message(message);
-	// printf("mydebug===================");
-	// printf("%d",len);
 	// Done!
 	return len;
 }
-/*
-// ------------------------------------------------------------------------------
-//   MAV_CMD_NAV_WAYPOINT Mode
-// ------------------------------------------------------------------------------
-int
-Autopilot_Interface::
-waypoint()
-{
-	// Prepare command for MAV_CMD_NAV_WAYPOINT mode
-	mavlink_command_int_t com = { 0 };
-	com.target_system    = system_id;
-	com.target_component = autopilot_id;
-	com.frame            = MAV_FRAME_GLOBAL_RELATIVE_ALT_INT;
-    com.current          = 2;
-    com.autocontinue     = 0;
-	com.command          = MAV_CMD_NAV_WAYPOINT;
-	com.param1           = 0; // 
-	com.param2           = 0; // 
-	com.param3           = 0; // 
-	com.param4           = 0; // 
-	com.x                = 0; // 
-	com.y                = 0; // 
-	com.z                = 0; // 
 
-	// Encode
-	mavlink_message_t message;
-	mavlink_msg_command_int_encode(system_id, companion_id, &message, &com);
-
-	// Send the message
-	int len = port->write_message(message);
-
-	// Done!
-	return len;
-}*/
-// ------------------------------------------------------------------------------
-//   set MAV_CMD_NAV_WAYPOINT Mode
-// ------------------------------------------------------------------------------
-// # create mission item list
-// target_locations = ((-35.361297, 149.161120, 50.0),
-//                     (-35.360780, 149.167151, 50.0),
-//                     (-35.365115, 149.167647, 50.0),
-//                     (-35.364419, 149.161575, 50.0))
-// target_component=vehicle.target_component,
-// seq=seq,
-// frame=dialect.MAV_FRAME_GLOBAL_RELATIVE_ALT,
-// command=dialect.MAV_CMD_NAV_WAYPOINT,
-// current=0,
-// autocontinue=0,
-// param1=0,
-// param2=0,
-// param3=0,
-// param4=0,
-// x=int(target_locations[seq - 2][0] * 1e7),
-// y=int(target_locations[seq - 2][1] * 1e7),
-// z=target_locations[seq - 2][2],
-// mission_type=dialect.MAV_MISSION_TYPE_MISSION)
 int
 Autopilot_Interface::
 waypoint()
