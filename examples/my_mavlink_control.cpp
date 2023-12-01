@@ -49,19 +49,6 @@ int main(int argc, char **argv)
     signal(SIGINT, quit_handler);
 
     port->start();
-    // autopilot_interface.start();
-
-    // autopilot_interface.enable_offboard_control();
-	// usleep(100); // give some time to let it sink in
-
-	// // now the autopilot is accepting setpoint commands
-
-    // autopilot_interface.arm_disarm(true);
-    // usleep(100); // give some time to let it sink in
-
-	// printf("SEND OFFBOARD COMMANDS\n");
-
-	// initialize command data strtuctures
 	mavlink_set_position_target_local_ned_t sp;
 	mavlink_set_position_target_local_ned_t ip = autopilot_interface.initial_position;
 
