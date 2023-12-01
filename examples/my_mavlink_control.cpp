@@ -24,44 +24,12 @@ TAKEOFF_LOCAL,WAYPOINT,SET_GUIDED,SET_AUTO,PRINT_MSG,MOVE_UP,MOVE_DOWN,CIRCLE};
 // ------------------------------------------------------------------------------
 int main(int argc, char **argv)
 {
-    char *uart_name = (char *)"/dev/ttyUSB0";
-    int baudrate = 57600;
-
-    bool use_udp = false;
-    char *udp_ip = (char *)"127.0.0.1";
-    int udp_port = 14550;
-    // do the parse, will throw an int if it fails
-    parse_commandline(argc, argv, uart_name, baudrate, use_udp, udp_ip, udp_port);
-    Generic_Port *port;
-    if (use_udp)
-    {
-        port = new UDP_Port(udp_ip, udp_port);
-    }
-    else
-    {
-        port = new Serial_Port(uart_name, baudrate);
-    }
-
-    Autopilot_Interface autopilot_interface(port);
-
-    port_quit = port;
-    autopilot_interface_quit = &autopilot_interface;
-    signal(SIGINT, quit_handler);
-
-    port->start();
-	mavlink_set_position_target_local_ned_t sp;
-	mavlink_set_position_target_local_ned_t ip = autopilot_interface.initial_position;
-
 
     while(1){
         usleep(100);
         switch (gl_mode_select){
             case INIT:
                 mode_init(autopilot_interface);
-                gl_mode_select = mode_selecter();
-                break;
-            case TAKEOFF:
-                mode_takeoff(autopilot_interface,ip,sp);
                 gl_mode_select = mode_selecter();
                 break;
             case LAND:
@@ -252,27 +220,6 @@ void mode_init(Autopilot_Interface &autopilot_interface){
     usleep(100); // give some time to let it sink in
 
 	printf("SEND OFFBOARD COMMANDS\n");
-}
-
-void mode_takeoff(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t ip,mavlink_set_position_target_local_ned_t sp){
-    std::cout << "mode_takeoff started" << std::endl;
-	// Example 1 - Fly up by to 2m
-	set_position( ip.x ,       // [m]
-			 	  ip.y ,       // [m]
-				  ip.z - 12.0 , // [m]
-				  sp         );
-    sp.type_mask |= MAVLINK_MSG_SET_POSITION_TARGET_LOCAL_NED_TAKEOFF;
-	// SEND THE COMMAND
-	autopilot_interface.update_setpoint(sp);
-	// NOW pixhawk will try to move
-
-	// Wait for 8 seconds, check position
-	for (int i=0; i < 8; i++)
-	{
-		mavlink_local_position_ned_t pos = autopilot_interface.current_messages.local_position_ned;
-		printf("%i CURRENT POSITION XYZ = [ % .4f , % .4f , % .4f ] \n", i, pos.x, pos.y, pos.z);
-		sleep(1);
-	}
 }
 void mode_land(Autopilot_Interface &autopilot_interface){
     std::cout << "mode_land started" << std::endl;
