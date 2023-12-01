@@ -49,6 +49,5 @@ public:
 
 private:
 
-
-}
+};
 #endif // PORT_MANGEMENT_H_
