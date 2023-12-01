@@ -30,7 +30,6 @@ Port_Mangement(int argc, char **argv, char *&uart_name, int &baudrate,
     signal(SIGINT, quit_handler);
 
     port->start();
-    return;
 }
 Port_Mangement::
 ~Port_Mangement()
