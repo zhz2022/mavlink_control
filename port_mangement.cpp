@@ -1,10 +1,24 @@
 #include "port_mangement.h"
 
+Port_Mangement::
+Port_Mangement()
+{
+        char *uart_name = (char *)"/dev/ttyUSB0";
+    int baudrate = 57600;
+
+    bool use_udp = false;
+    char *udp_ip = (char *)"127.0.0.1";
+    int udp_port = 14550;
+    ;
+}
+
 // ------------------------------------------------------------------------------
 //   Parse Command Line
 // ------------------------------------------------------------------------------
 // throws EXIT_FAILURE if could not open the port
-void parse_commandline(int argc, char **argv, char *&uart_name, int &baudrate,
+void
+Port_Mangement::
+parse_commandline(int argc, char **argv, char *&uart_name, int &baudrate,
                        bool &use_udp, char *&udp_ip, int &udp_port)
 {
 
@@ -121,7 +135,9 @@ void port_mangement(int argc, char **argv)
 //   Quit Signal Handler
 // ------------------------------------------------------------------------------
 // this function is called when you press Ctrl-C
-void quit_handler(int sig)
+void 
+Port_Mangement::
+quit_handler(int sig)
 {
     printf("\n");
     printf("TERMINATING AT USER REQUEST\n");
