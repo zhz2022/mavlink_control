@@ -13,7 +13,7 @@ Port_Mangement(int argc, char **argv, char *&uart_name, int &baudrate,
     int udp_port = 14550;
     // do the parse, will throw an int if it fails
     parse_commandline(argc, argv, uart_name, baudrate, use_udp, udp_ip, udp_port);
-    Generic_Port *port;
+    // Generic_Port *port;
     if (use_udp)
     {
         port = new UDP_Port(udp_ip, udp_port);
@@ -35,7 +35,9 @@ Port_Mangement(int argc, char **argv, char *&uart_name, int &baudrate,
 Port_Mangement::
 ~Port_Mangement()
 {
-    ;
+	autopilot_interface.stop();
+	port->stop();
+	delete port;
 }
 
 // ------------------------------------------------------------------------------
