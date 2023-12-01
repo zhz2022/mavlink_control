@@ -25,6 +25,7 @@ TAKEOFF_LOCAL,WAYPOINT,SET_GUIDED,SET_AUTO,PRINT_MSG,MOVE_UP,MOVE_DOWN,CIRCLE};
 int main(int argc, char **argv)
 {
     Port_Mangement port_mangement;
+    Autopilot_Interface autopilot_interface(port);
     while(1){
         usleep(100);
         switch (gl_mode_select){
