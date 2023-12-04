@@ -35,7 +35,8 @@ int main(int argc, char **argv)
                 gl_mode_select = mode_selecter();
                 break;
             case LAND:
-                mode_land(autopilot_interface);
+                autopilot_interface.land();
+                usleep(100); // give some time to let it sink in
                 gl_mode_select = mode_selecter();
                 break;
             case QUIT:
@@ -222,12 +223,6 @@ void mode_init(Autopilot_Interface &autopilot_interface){
     usleep(100); // give some time to let it sink in
 
 	printf("SEND OFFBOARD COMMANDS\n");
-}
-void mode_land(Autopilot_Interface &autopilot_interface){
-    std::cout << "mode_land started" << std::endl;
-    // land
-    autopilot_interface.land();
-    usleep(100); // give some time to let it sink in
 }
 void mode_quit(Autopilot_Interface &autopilot_interface, Generic_Port *port){
     std::cout << "mode_quit started" << std::endl;
