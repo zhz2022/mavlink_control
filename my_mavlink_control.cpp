@@ -24,15 +24,16 @@ TAKEOFF_LOCAL,WAYPOINT,SET_GUIDED,SET_AUTO,PRINT_MSG,MOVE_UP,MOVE_DOWN,CIRCLE};
 // ------------------------------------------------------------------------------
 int main(int argc, char **argv)
 {
+    Generic_Port *port;
+
     char *uart_name = (char *)"/dev/ttyUSB0";
     int baudrate = 57600;
-
     bool use_udp = false;
     char *udp_ip = (char *)"127.0.0.1";
     int udp_port = 14550;
     // do the parse, will throw an int if it fails
     parse_commandline(argc, argv, uart_name, baudrate, use_udp, udp_ip, udp_port);
-    Generic_Port *port;
+    
     if (use_udp)
     {
         port = new UDP_Port(udp_ip, udp_port);
