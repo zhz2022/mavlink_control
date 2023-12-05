@@ -45,9 +45,10 @@ int main(int argc, char **argv)
 
     Autopilot_Interface autopilot_interface(port);
 
-    // port_quit = port;
-    // autopilot_interface_quit = &autopilot_interface;
-    signal(SIGINT, quit_handler );
+    port_quit = port;
+    autopilot_interface_quit = &autopilot_interface;
+    signal(SIGINT, quit_handler);
+
     port->start();
 
     while(1){
@@ -190,4 +191,36 @@ void print_msg_test(Autopilot_Interface &autopilot_interface){
         std::cout << "Current battery_voltage: " << msgs.sys_status.voltage_battery << std::endl;
 		sleep(1);
 	}
+}
+
+// ------------------------------------------------------------------------------
+//   Quit Signal Handler
+// ------------------------------------------------------------------------------
+// this function is called when you press Ctrl-C
+void quit_handler(int sig ,Autopilot_Interface *autopilot_interface_quit,Generic_Port *port_quit)
+{
+    printf("\n");
+    printf("TERMINATING AT USER REQUEST\n");
+    printf("\n");
+
+    // autopilot interface
+    try
+    {
+        autopilot_interface_quit->handle_quit(sig);
+    }
+    catch (int error)
+    {
+    }
+
+    // port
+    try
+    {
+        port_quit->stop();
+    }
+    catch (int error)
+    {
+    }
+
+    // end program here
+    exit(0);
 }
