@@ -16,7 +16,7 @@
 #include "my_mavlink_control.h"
 
 int gl_mode_select = 0;
-enum Mode {INIT=1,TAKEOFF,MOVE,LAND,QUIT,RTL,\
+enum Mode {INIT=1,TAKEOFF,MOVE_FORWARD,MOVE_BACKWARD,MOVE_LEFT,MOVE_RIGHT,STOP,LAND,QUIT,RTL,\
 TAKEOFF_LOCAL,WAYPOINT,SET_GUIDED,SET_AUTO,PRINT_MSG,MOVE_UP,MOVE_DOWN,CIRCLE};
 
 // ------------------------------------------------------------------------------
