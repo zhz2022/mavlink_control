@@ -182,22 +182,11 @@ void print_msg_test(Autopilot_Interface &autopilot_interface){
 	{
 		// mavlink_local_position_ned_t pos = autopilot_interface.current_messages.local_position_ned;
         Mavlink_Messages msgs = autopilot_interface.current_messages;
-		// printf("%i CURRENT POSITION XYZ = [ % .4f , % .4f , % .4f ] \n", i, pos.x, pos.y, pos.z);
-        std::cout << "Current heartbeat: custom_mode,type,autopilot,base_mode,system_status,mavlink_version :" << msgs.heartbeat.custom_mode << "," << msgs.heartbeat.type << "," << msgs.heartbeat.autopilot << "," << msgs.heartbeat.base_mode \
-        << "," << msgs.heartbeat.system_status << "," << msgs.heartbeat.mavlink_version << std::endl;
         std::cout << "Current position: " << msgs.local_position_ned.x << " " << msgs.local_position_ned.y << " " << msgs.local_position_ned.z << std::endl;
-		std::cout << "Current sys_status" << "onboard_control_sensors_present: " << msgs.sys_status.onboard_control_sensors_present << "," << "onboard_control_sensors_enabled: " << msgs.sys_status.onboard_control_sensors_enabled << "," << "onboard_control_sensors_health: " \
-        << msgs.sys_status.onboard_control_sensors_health << "," << "load: " << msgs.sys_status.load << "," << "voltage_battery: " << msgs.sys_status.voltage_battery << "," << "current_battery: " << msgs.sys_status.current_battery << "," \
-        << "drop_rate_comm: " << msgs.sys_status.drop_rate_comm << "," << "errors_comm: " << msgs.sys_status.errors_comm << "," << "errors_count1: " << msgs.sys_status.errors_count1 << "," << "errors_count2: " << msgs.sys_status.errors_count2 << "," \
-        << "errors_count3: " << msgs.sys_status.errors_count3 << "," << "errors_count4: " << msgs.sys_status.errors_count4 << "," << "battery_remaining: " << msgs.sys_status.battery_remaining << "," << "onboard_control_sensors_present_extended: " \
-        << msgs.sys_status.onboard_control_sensors_present_extended << "," << "onboard_control_sensors_enabled_extended: " << msgs.sys_status.onboard_control_sensors_enabled_extended << "," << "onboard_control_sensors_health_extended: " << msgs.sys_status.onboard_control_sensors_health_extended << std::endl;
         std::cout << "Current velocity: " << msgs.local_position_ned.vx << " " << msgs.local_position_ned.vy << " " << msgs.local_position_ned.vz << std::endl;
-
         std::cout << "Current pose: " << msgs.attitude.roll << " " << msgs.attitude.pitch << " " << msgs.attitude.yaw << " " << std::endl;
         std::cout << "Current globally_set_position_ned: " << msgs.global_position_int.lat << " " << msgs.global_position_int.lon << " " << msgs.global_position_int.alt << msgs.global_position_int.relative_alt << std::endl;
         std::cout << "Current globally_set_velocity_ned: " << msgs.global_position_int.vx << " " << msgs.global_position_int.vy << " " << msgs.global_position_int.vz << msgs.global_position_int.hdg << std::endl;
-        // std::cout << "Current globally_set_acceleration_ned: " << msgs.global_acceleration_ned.x << " " << msgs.global_acceleration_ned.y << " " << ms
-        // std::cout << "Current battery_state: " << msgs.battery_state << std::endl;
         std::cout << "Current battery_voltage: " << msgs.sys_status.voltage_battery << std::endl;
 		sleep(1);
 	}
