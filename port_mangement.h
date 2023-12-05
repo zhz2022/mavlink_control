@@ -37,27 +37,4 @@ Autopilot_Interface *autopilot_interface_quit;
 Generic_Port *port_quit;
 void quit_handler( int sig );
 
-/*
-class Port_Mangement
-{
-public:
-	Port_Mangement(int argc, char **argv, char *&uart_name, int &baudrate,
-		bool &use_udp, char *&udp_ip, int &udp_port);
-	// Port_Mangement(const char *target_ip_, int udp_port_);
-	virtual ~Port_Mangement();
-	void initialize_defaults();
-
-	void parse_commandline(int argc, char **argv, char *&uart_name, int &baudrate,
-		bool &use_udp, char *&udp_ip, int &udp_port);
-
-	Generic_Port *port;
-	// quit handler
-	Autopilot_Interface *autopilot_interface_quit;
-	Generic_Port *port_quit;
-	void quit_handler( int sig );
-
-private:
-
-};
-*/
 #endif // PORT_MANGEMENT_H_
