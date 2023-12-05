@@ -1,8 +1,7 @@
-makefile
 CC := g++
 CFLAGS := -g -Wall -I third_party/mavlink/v2.0 -I examples -I .
 LDFLAGS := -shared
-
+all: mavlink_control.so
 # 编译common_usage的依赖为.so共享库
 mavlink_control.so: port_mangement.o mode_selecter.o serial_port.o udp_port.o autopilot_interface.o
 	$(CC) $(LDFLAGS) $^ -o $@
