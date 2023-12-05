@@ -48,24 +48,7 @@ int main(int argc, char **argv)
     port_quit = port;
     autopilot_interface_quit = &autopilot_interface;
     signal(SIGINT, quit_handler);
-
     port->start();
-    // autopilot_interface.start();
-
-    // autopilot_interface.enable_offboard_control();
-	// usleep(100); // give some time to let it sink in
-
-	// // now the autopilot is accepting setpoint commands
-
-    // autopilot_interface.arm_disarm(true);
-    // usleep(100); // give some time to let it sink in
-
-	// printf("SEND OFFBOARD COMMANDS\n");
-
-	// initialize command data strtuctures
-	mavlink_set_position_target_local_ned_t sp;
-	mavlink_set_position_target_local_ned_t ip = autopilot_interface.initial_position;
-
 
     while(1){
         usleep(100);
@@ -74,32 +57,9 @@ int main(int argc, char **argv)
                 mode_init(autopilot_interface);
                 gl_mode_select = mode_selecter();
                 break;
-            case TAKEOFF:
-                mode_takeoff(autopilot_interface,ip,sp);
-                gl_mode_select = mode_selecter();
-                break;
-            case MOVE_FORWARD:
-                mode_move_forward(autopilot_interface,sp);
-                gl_mode_select = mode_selecter();
-                break;
-            case MOVE_BACKWARD:
-                mode_move_backward(autopilot_interface,sp);
-                gl_mode_select = mode_selecter();
-                break;
-            case MOVE_LEFT:
-                mode_move_left(autopilot_interface,sp);
-                gl_mode_select = mode_selecter();
-                break;
-            case MOVE_RIGHT:
-                mode_move_right(autopilot_interface,sp);
-                gl_mode_select = mode_selecter();
-                break;
-            case STOP:
-                mode_stop(autopilot_interface,sp);
-                gl_mode_select = mode_selecter();
-                break;
             case LAND:
-                mode_land(autopilot_interface);
+                autopilot_interface.land();
+                usleep(100); // give some time to let it sink in
                 gl_mode_select = mode_selecter();
                 break;
             case QUIT:
@@ -118,24 +78,8 @@ int main(int argc, char **argv)
                 waypoint(autopilot_interface);
                 gl_mode_select = mode_selecter();
                 break;
-            case SET_GUIDED:
-                set_guided(autopilot_interface);
-                gl_mode_select = mode_selecter();
-                break;
-            case SET_AUTO:
-                set_auto(autopilot_interface);
-                gl_mode_select = mode_selecter();
-                break;
             case PRINT_MSG:
                 print_msg_test(autopilot_interface);
-                gl_mode_select = mode_selecter();
-                break;
-            case MOVE_UP:
-                mode_move_up(autopilot_interface,sp);
-                gl_mode_select = mode_selecter();
-                break;
-            case MOVE_DOWN:
-                mode_move_down(autopilot_interface,sp);
                 gl_mode_select = mode_selecter();
                 break;
             case CIRCLE:
@@ -303,6 +247,7 @@ void mode_init(Autopilot_Interface &autopilot_interface){
 
 	printf("SEND OFFBOARD COMMANDS\n");
 }
+<<<<<<< HEAD:my_mavlink_control.cpp
 void mode_takeoff(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t ip,mavlink_set_position_target_local_ned_t sp){
     std::cout << "mode_takeoff started" << std::endl;
 	// Example 1 - Fly up by to 2m
@@ -393,6 +338,8 @@ void mode_land(Autopilot_Interface &autopilot_interface){
     autopilot_interface.land();
     usleep(100); // give some time to let it sink in
 }
+=======
+>>>>>>> d289fd51c28f5e34c11bead5a6fa19b1bb66ba42:examples/my_mavlink_control.cpp
 void mode_quit(Autopilot_Interface &autopilot_interface, Generic_Port *port){
     std::cout << "mode_quit started" << std::endl;
     // disarm autopilot
@@ -424,18 +371,6 @@ void waypoint(Autopilot_Interface &autopilot_interface){
     autopilot_interface.waypoint();
     usleep(100); // give some time to let it sink in
 }
-void set_guided(Autopilot_Interface &autopilot_interface){
-    std::cout << "setmode_guided started" << std::endl;
-    // set guided
-        autopilot_interface.do_setmode_guided();
-        usleep(100); // give some time to let it sink in
-}
-void set_auto(Autopilot_Interface &autopilot_interface){
-    std::cout << "set_auto started" << std::endl;
-    // return to launch
-    autopilot_interface.do_setmode_auto();
-    usleep(100); // give some time to let it sink in
-}
 void mode_circle(Autopilot_Interface &autopilot_interface){
     std::cout << "mode_circle started" << std::endl;
     // circle
@@ -458,17 +393,22 @@ void print_msg_test(Autopilot_Interface &autopilot_interface){
         << "drop_rate_comm: " << msgs.sys_status.drop_rate_comm << "," << "errors_comm: " << msgs.sys_status.errors_comm << "," << "errors_count1: " << msgs.sys_status.errors_count1 << "," << "errors_count2: " << msgs.sys_status.errors_count2 << "," \
         << "errors_count3: " << msgs.sys_status.errors_count3 << "," << "errors_count4: " << msgs.sys_status.errors_count4 << "," << "battery_remaining: " << msgs.sys_status.battery_remaining << "," << "onboard_control_sensors_present_extended: " \
         << msgs.sys_status.onboard_control_sensors_present_extended << "," << "onboard_control_sensors_enabled_extended: " << msgs.sys_status.onboard_control_sensors_enabled_extended << "," << "onboard_control_sensors_health_extended: " << msgs.sys_status.onboard_control_sensors_health_extended << std::endl;
-        // std::cout << "Current velocity: " << msgs.local_velocity_ned.x << " " << msgs.local_velocity_ned.y << " " << msgs.local_velocity_ned.z << std::end
-        // std::cout << "Current acceleration: " << msgs.local_acceleration_ned.x << " " << msgs.local_acceleration_ned.y << " " << msgs.local_acceleration_ned.z << std::
-        // std::cout << "Current yaw: " << msgs.local_position_ned.yaw << std::endl;
-        // std::cout << "Current yaw rate: " << msgs.local_position_ned.yaw_rate << std::endl;
-        // std::cout << "Current altitude: " << msgs.local_position_ned.altitude << std::endl;
-        // std::cout << "Current altitude rate: " << msgs.local_position_ned.altitude_rate << std::endl;
-        std::cout << "Current globally_set_position_ned: " << msgs.global_position_int.lat << " " << msgs.global_position_int.lon << " " << msgs.global_position_int.alt << std::endl;
-        // std::cout << "Current globally_set_velocity_ned: " << msgs.global_velocity_ned.x << " " << msgs.global_velocity_ned.y << " " << msgs.global_velocity_ned.z << std::endl;
+        std::cout << "Current velocity: " << msgs.local_position_ned.vx << " " << msgs.local_position_ned.vy << " " << msgs.local_position_ned.vz << std::endl;
+
+        std::cout << "Current pose: " << msgs.attitude.roll << " " << msgs.attitude.pitch << " " << msgs.attitude.yaw << " " << std::endl;
+        std::cout << "Current globally_set_position_ned: " << msgs.global_position_int.lat << " " << msgs.global_position_int.lon << " " << msgs.global_position_int.alt << msgs.global_position_int.relative_alt << std::endl;
+        std::cout << "Current globally_set_velocity_ned: " << msgs.global_position_int.vx << " " << msgs.global_position_int.vy << " " << msgs.global_position_int.vz << msgs.global_position_int.hdg << std::endl;
         // std::cout << "Current globally_set_acceleration_ned: " << msgs.global_acceleration_ned.x << " " << msgs.global_acceleration_ned.y << " " << ms
         // std::cout << "Current battery_state: " << msgs.battery_state << std::endl;
         std::cout << "Current battery_voltage: " << msgs.sys_status.voltage_battery << std::endl;
 		sleep(1);
 	}
 }
+
+//Need to loop
+void mode_move(Autopilot_Interface &autopilot_interface,float vn,float ve,float vd)
+{
+    autopilot_interface.set_velocity(vn,ve,vd);//plus down minus up
+    usleep(100); // give some time to let it sink in
+}
+// void mode_rotate(Autopilot_Interface &autopilot_interface,float vn,float ve,float vd);
