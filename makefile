@@ -1,5 +1,5 @@
 CC := g++
-CFLAGS := -g -Wall -I third_party/mavlink/v2.0 -I examples -I .
+CFLAGS := -g -Wall -fPIC -I third_party/mavlink/v2.0 -I examples -I .
 LDFLAGS := -shared
 all: mavlink_control.so
 # 编译common_usage的依赖为.so共享库
