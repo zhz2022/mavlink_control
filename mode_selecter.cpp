@@ -22,12 +22,7 @@ int mode_selecter()
 void mode_init(Autopilot_Interface &autopilot_interface){
     std::cout << "mode_init started" << std::endl;
     autopilot_interface.start();
-
-    // autopilot_interface.enable_offboard_control();
 	usleep(100); // give some time to let it sink in
-
-	// now the autopilot is accepting setpoint commands
-
     autopilot_interface.arm_disarm(true);
     usleep(100); // give some time to let it sink in
 
@@ -41,7 +36,6 @@ void mode_land(Autopilot_Interface &autopilot_interface){
 }
 void mode_quit(Autopilot_Interface &autopilot_interface, Generic_Port *port){
     std::cout << "mode_quit started" << std::endl;
-    // disarm autopilot
     autopilot_interface.arm_disarm(false);
     std::cout << "mode_quit started disarm" << std::endl;
     usleep(100); // give some time to let it sink in
@@ -54,25 +48,21 @@ void mode_quit(Autopilot_Interface &autopilot_interface, Generic_Port *port){
 }
 void mode_rtl(Autopilot_Interface &autopilot_interface){
     std::cout << "mode_rtl started" << std::endl;
-    // return to launch
     autopilot_interface.return_to_launch();
     usleep(100); // give some time to let it sink in
 }
 void mode_takeoff_local(Autopilot_Interface &autopilot_interface){
     std::cout << "mode_takeoff_local started" << std::endl;
-    // takeoff local(0,0,40)
     autopilot_interface.takeoff_local();
     usleep(100); // give some time to let it sink in
 }
 void waypoint(Autopilot_Interface &autopilot_interface){
     std::cout << "enable_offboard_control started" << std::endl;
-    // return to launch
     autopilot_interface.waypoint();
     usleep(100); // give some time to let it sink in
 }
 void mode_circle(Autopilot_Interface &autopilot_interface){
     std::cout << "mode_circle started" << std::endl;
-    // circle
     autopilot_interface.circle();
     usleep(100); // give some time to let it sink in
 }
@@ -81,7 +71,6 @@ void print_msg_test(Autopilot_Interface &autopilot_interface){
 	// Wait for 4 seconds, check position
 	for (int i=0; i < 4; i++)
 	{
-		// mavlink_local_position_ned_t pos = autopilot_interface.current_messages.local_position_ned;
         Mavlink_Messages msgs = autopilot_interface.current_messages;
         std::cout << "Current position: " << msgs.local_position_ned.x << " " << msgs.local_position_ned.y << " " << msgs.local_position_ned.z << std::endl;
         std::cout << "Current velocity: " << msgs.local_position_ned.vx << " " << msgs.local_position_ned.vy << " " << msgs.local_position_ned.vz << std::endl;
