@@ -1,12 +1,23 @@
 CC := g++
 CFLAGS := -g -Wall -fPIC -I third_party/mavlink/v2.0 -I examples -I .
 LDFLAGS := -shared
-all: mavlink_control.so
+
+all: mavlink_control.so common_usage my_mavlink_control
+
+common_usage: common_usage.o port_mangement.o mode_selecter.o serial_port.o udp_port.o autopilot_interface.o
+	$(CC) $(LDFLAGS) $^ -o $@
+my_mavlink_control: my_mavlink_control.o port_mangement.o mode_selecter.o serial_port.o udp_port.o autopilot_interface.o
+	$(CC) $(LDFLAGS) $^ -o $@
+
+mavlink
 # 编译common_usage的依赖为.so共享库
 mavlink_control.so: port_mangement.o mode_selecter.o serial_port.o udp_port.o autopilot_interface.o
 	$(CC) $(LDFLAGS) $^ -o $@
 
 # 编译每个源文件为目标文件
+my_mavlink_control.o: ./examples/my_mavlink_control.cpp
+	$(CC) $(CFLAGS) -c $< -o $@
+
 common_usage.o: ./examples/common_usage.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
@@ -27,7 +38,7 @@ autopilot_interface.o: autopilot_interface.cpp
 
 # 清理生成的文件
 clean:
-	rm -f *.so *.o
+	rm -f *.so *.o my_mavlink_control common_usage
 
 # all: my_mavlink_control common_usage
 # #all: mavlink_control my_mavlink_control 
