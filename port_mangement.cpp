@@ -91,7 +91,7 @@ void parse_commandline(int argc, char **argv, char *&uart_name, int &baudrate,
 //   Quit Signal Handler
 // ------------------------------------------------------------------------------
 // this function is called when you press Ctrl-C
-void quit_handler(int sig)
+void quit_handler(int sig ,Autopilot_Interface *autopilot_interface_quit,Generic_Port *port_quit)
 {
     printf("\n");
     printf("TERMINATING AT USER REQUEST\n");
