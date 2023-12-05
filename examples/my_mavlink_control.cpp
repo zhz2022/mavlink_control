@@ -233,6 +233,20 @@ int mode_selecter()
     std::cout << "===================================="  << std::endl;
     return mode;
 }
+void mode_init(Autopilot_Interface &autopilot_interface){
+    std::cout << "mode_init started" << std::endl;
+    autopilot_interface.start();
+
+    // autopilot_interface.enable_offboard_control();
+	usleep(100); // give some time to let it sink in
+
+	// now the autopilot is accepting setpoint commands
+
+    autopilot_interface.arm_disarm(true);
+    usleep(100); // give some time to let it sink in
+
+	printf("SEND OFFBOARD COMMANDS\n");
+}
 void mode_land(Autopilot_Interface &autopilot_interface){
     std::cout << "mode_land started" << std::endl;
     // land
