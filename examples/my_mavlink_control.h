@@ -33,7 +33,7 @@ using namespace std;
 #include "autopilot_interface.h"
 #include "serial_port.h"
 #include "udp_port.h"
-// #include "port_mangement.h"
+#include "port_mangement.h"
 
 // ------------------------------------------------------------------------------
 //   Prototypes
