@@ -59,32 +59,32 @@ int main(int argc, char **argv)
                 gl_mode_select = mode_selecter();
                 break;
             case MY_MOVE_FORWARD:
-                move_ned_duration(1,0,0,1);//plus down minus up
+                move_ned_duration(autopilot_interface,1,0,0,1);//plus down minus up
                 usleep(100); // give some time to let it sink in
                 gl_mode_select = mode_selecter();
                 break;
             case MY_MOVE_BACKWARD:
-                move_ned_duration(-1,0,0,1);//plus down minus up
+                move_ned_duration(autopilot_interface,-1,0,0,1);//plus down minus up
                 usleep(100); // give some time to let it sink in
                 gl_mode_select = mode_selecter();
                 break;
             case MY_MOVE_LEFT:
-                move_ned_duration(0,-1,0,1);//plus down minus up
+                move_ned_duration(autopilot_interface,0,-1,0,1);//plus down minus up
                 usleep(100); // give some time to let it sink in
                 gl_mode_select = mode_selecter();
                 break;
             case MY_MOVE_RIGHT:
-                move_ned_duration(0,1,0,1);//plus down minus up
+                move_ned_duration(autopilot_interface,0,1,0,1);//plus down minus up
                 usleep(100); // give some time to let it sink in
                 gl_mode_select = mode_selecter();
                 break;
             case MY_MOVE_UP:
-                move_ned_duration(0,0,-1,1);//plus down minus up
+                move_ned_duration(autopilot_interface,0,0,-1,1);//plus down minus up
                 usleep(100); // give some time to let it sink in
                 gl_mode_select = mode_selecter();
                 break;
             case MY_MOVE_DOWN:
-                move_ned_duration(0,0,1,1);//plus down minus up
+                move_ned_duration(autopilot_interface,0,0,1,1);//plus down minus up
                 usleep(100); // give some time to let it sink in
                 gl_mode_select = mode_selecter();
                 break;
