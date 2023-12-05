@@ -101,6 +101,14 @@ int main(int argc, char **argv)
                 mode_rtl(autopilot_interface);
                 gl_mode_select = mode_selecter();
                 break;
+            case MY_GUIDED:
+                do_set_mode(autopilot_interface,GUIDED);
+                gl_mode_select = mode_selecter();
+                break;
+            case MY_AUTO:
+                do_set_mode(autopilot_interface,AUTO);
+                gl_mode_select = mode_selecter();
+                break;
             case MY_TAKEOFF_LOCAL:
                 mode_takeoff_local(autopilot_interface);
                 gl_mode_select = mode_selecter();
