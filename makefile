@@ -8,7 +8,7 @@ my_mavlink_control: ./examples/my_mavlink_control.cpp port_mangement.cpp mode_se
 	g++ -g -Wall -I third_party/mavlink/v2.0 -I examples -I . ./examples/my_mavlink_control.cpp port_mangement.cpp mode_selecter.cpp serial_port.cpp udp_port.cpp autopilot_interface.cpp -o my_mavlink_control -lpthread
 
 common_usage: ./examples/common_usage.cpp port_mangement.cpp mode_selecter.cpp serial_port.cpp udp_port.cpp autopilot_interface.cpp
-	g++ -g -Wall -I third_party/mavlink/v2.0 -I examples -I . ./examples/common_usage.cpp port_mangement.cpp mode_selecter.cpp serial_port.cpp udp_port.cpp autopilot_interface.cpp -o my_mavlink_control -lpthread
+	g++ -g -Wall -I third_party/mavlink/v2.0 -I examples -I . ./examples/common_usage.cpp port_mangement.cpp mode_selecter.cpp serial_port.cpp udp_port.cpp autopilot_interface.cpp -o common_usage -lpthread
 
 git_submodule:
 	git submodule update --init --recursive
