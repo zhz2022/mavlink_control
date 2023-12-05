@@ -44,7 +44,9 @@ int main(int argc, char **argv)
     }
 
     Autopilot_Interface autopilot_interface(port);
-
+    
+    Autopilot_Interface *autopilot_interface_quit;
+    Generic_Port *port_quit;
     port_quit = port;
     autopilot_interface_quit = &autopilot_interface;
     signal(SIGINT, quit_handler);
