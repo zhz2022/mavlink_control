@@ -59,6 +59,5 @@ void set_guided(Autopilot_Interface &autopilot_interface);
 void set_auto(Autopilot_Interface &autopilot_interface);
 void print_msg_test(Autopilot_Interface &autopilot_interface);
 void mode_circle(Autopilot_Interface &autopilot_interface);
-void mode_move(Autopilot_Interface &autopilot_interface,float vn,float ve,float vd);
 
 
