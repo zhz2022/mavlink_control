@@ -1,6 +1,8 @@
 CC := g++
 CFLAGS := -g -Wall -fPIC -I third_party/mavlink/v2.0 -I examples -I .
-LDFLAGS := -shared -lpthread -L.
+LDFLAGS := -shared -lpthread 
+# 库文件
+DLIBS = lmavlink_control
 
 all: mavlink_control.so my_mavlink_control common_usage
 
@@ -8,10 +10,10 @@ mavlink_control.so: port_mangement.o mode_selecter.o serial_port.o udp_port.o au
 	$(CC) $(LDFLAGS) $^ -o $@
 
 my_mavlink_control: ./examples/my_mavlink_control.cpp mavlink_control.so
-	$(CC) $(CFLAGS) -L. $< -o $@ -lmavlink_control
+	$(CC) $(CFLAGS) -L. $< -o $@ $(DLIBS)
 
 common_usage: ./examples/common_usage.cpp mavlink_control.so
-	$(CC) $(CFLAGS) -L. $< -o $@ -lmavlink_control
+	$(CC) $(CFLAGS) -L. $< -o $@ $(DLIBS)
 
 port_mangement.o: port_mangement.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
