@@ -233,113 +233,12 @@ int mode_selecter()
     std::cout << "===================================="  << std::endl;
     return mode;
 }
-void mode_init(Autopilot_Interface &autopilot_interface){
-    std::cout << "mode_init started" << std::endl;
-    autopilot_interface.start();
-
-    // autopilot_interface.enable_offboard_control();
-	usleep(100); // give some time to let it sink in
-
-	// now the autopilot is accepting setpoint commands
-
-    autopilot_interface.arm_disarm(true);
-    usleep(100); // give some time to let it sink in
-
-	printf("SEND OFFBOARD COMMANDS\n");
-}
-<<<<<<< HEAD:my_mavlink_control.cpp
-void mode_takeoff(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t ip,mavlink_set_position_target_local_ned_t sp){
-    std::cout << "mode_takeoff started" << std::endl;
-	// Example 1 - Fly up by to 2m
-	set_position( ip.x ,       // [m]
-			 	  ip.y ,       // [m]
-				  ip.z - 12.0 , // [m]
-				  sp         );
-    sp.type_mask |= MAVLINK_MSG_SET_POSITION_TARGET_LOCAL_NED_TAKEOFF;
-	// SEND THE COMMAND
-	autopilot_interface.update_setpoint(sp);
-	// NOW pixhawk will try to move
-
-	// Wait for 8 seconds, check position
-	for (int i=0; i < 8; i++)
-	{
-		mavlink_local_position_ned_t pos = autopilot_interface.current_messages.local_position_ned;
-		printf("%i CURRENT POSITION XYZ = [ % .4f , % .4f , % .4f ] \n", i, pos.x, pos.y, pos.z);
-		sleep(1);
-	}
-}
-void mode_move_forward(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
-	std::cout << "mode_move_forward started" << std::endl;
-    for(int i = 1; i <= 20000; i++){ //simulation time:10S
-        autopilot_interface.set_velocity(1,0,0);
-        usleep(100); // give some time to let it sink in
-        // sleep(1);
-    }
-}
-void mode_move_backward(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
-	std::cout << "mode_move_backward started" << std::endl;
-    for(int i = 1; i <= 20000; i++){//simulation time:10S
-        autopilot_interface.set_velocity(-1,0,0);
-        usleep(100); // give some time to let it sink in
-        // sleep(1);
-    }
-}
-void mode_move_left(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
-	std::cout << "mode_move_left started" << std::endl;
-    for(int i = 1; i <= 20000; i++){//simulation time:10S
-        autopilot_interface.set_velocity(0,-1,0);
-        usleep(100); // give some time to let it sink in
-        // sleep(1);
-    }
-}
-void mode_move_right(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
-	std::cout << "mode_move_right started" << std::endl;
-    for(int i = 1; i <= 20000; i++){//simulation time:10S
-        autopilot_interface.set_velocity(0,1,0);
-        usleep(100); // give some time to let it sink in
-        // sleep(1);
-    }
-}
-void mode_move_up(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
-	std::cout << "mode_move_up started" << std::endl;
-    for(int i = 1; i <= 20000; i++){
-        autopilot_interface.set_velocity(0,0,-1);
-        usleep(100); // give some time to let it sink in
-        // sleep(1);
-    }
-}
-void mode_move_down(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
-	std::cout << "mode_move_down started" << std::endl;
-    for(int i = 1; i <= 20000; i++){
-        autopilot_interface.set_velocity(0,0,1);
-        usleep(100); // give some time to let it sink in
-        // sleep(1);
-    }
-}
-void mode_stop(Autopilot_Interface &autopilot_interface,mavlink_set_position_target_local_ned_t sp){
-	std::cout << "mode_stop started" << std::endl;
-    set_velocity(  0.0       , // [m/s]
-				   0.0       , // [m/s]
-				   0.0       , // [m/s]
-				   sp        );
-	// SEND THE COMMAND
-	autopilot_interface.update_setpoint(sp);
-	// Wait for 4 seconds, check position
-	for (int i=0; i < 2; i++)
-	{
-		mavlink_local_position_ned_t pos = autopilot_interface.current_messages.local_position_ned;
-		printf("%i CURRENT POSITION XYZ = [ % .4f , % .4f , % .4f ] \n", i, pos.x, pos.y, pos.z);
-		sleep(1);
-	}
-}
 void mode_land(Autopilot_Interface &autopilot_interface){
     std::cout << "mode_land started" << std::endl;
     // land
     autopilot_interface.land();
     usleep(100); // give some time to let it sink in
 }
-=======
->>>>>>> d289fd51c28f5e34c11bead5a6fa19b1bb66ba42:examples/my_mavlink_control.cpp
 void mode_quit(Autopilot_Interface &autopilot_interface, Generic_Port *port){
     std::cout << "mode_quit started" << std::endl;
     // disarm autopilot
