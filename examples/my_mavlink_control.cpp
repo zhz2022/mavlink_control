@@ -197,7 +197,7 @@ void print_msg_test(Autopilot_Interface &autopilot_interface){
 //   Quit Signal Handler
 // ------------------------------------------------------------------------------
 // this function is called when you press Ctrl-C
-void quit_handler(int sig ,Autopilot_Interface *autopilot_interface_quit,Generic_Port *port_quit)
+void quit_handler(int sig )
 {
     printf("\n");
     printf("TERMINATING AT USER REQUEST\n");
