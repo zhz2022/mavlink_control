@@ -16,8 +16,8 @@
 #include "my_mavlink_control.h"
 
 int gl_mode_select = 0;
-// enum Mode {INIT=1,TAKEOFF,MOVE_FORWARD,MOVE_BACKWARD,MOVE_LEFT,MOVE_RIGHT,STOP,LAND,QUIT,RTL,\
-// TAKEOFF_LOCAL,WAYPOINT,SET_GUIDED,SET_AUTO,PRINT_MSG,MOVE_UP,MOVE_DOWN,CIRCLE};
+enum Mode {MY_INIT=1,MY_TAKEOFF,MY_MOVE_FORWARD,MY_MOVE_BACKWARD,MY_MOVE_LEFT,MY_MOVE_RIGHT,MY_STOP,MY_LAND,MY_QUIT,MY_RTL,\
+MY_TAKEOFF_LOCAL,MY_WAYPOINT,MY_GUIDED,MY_AUTO,MY_PRINT_MSG,MY_MOVE_UP,MY_MOVE_DOWN,MY_CIRCLE};
 
 // ------------------------------------------------------------------------------
 //   Main
@@ -54,37 +54,37 @@ int main(int argc, char **argv)
     while(1){
         usleep(100);
         switch (gl_mode_select){
-            case INIT:
+            case MY_INIT:
                 mode_init(autopilot_interface);
                 gl_mode_select = mode_selecter();
                 break;
-            case MOVE_FORWARD:
+            case MY_MOVE_FORWARD:
                 autopilot_interface.set_velocity(1,0,0);//plus down minus up
                 usleep(100); // give some time to let it sink in
                 gl_mode_select = mode_selecter();
                 break;
-            case LAND:
+            case MY_LAND:
                 autopilot_interface.land();
                 usleep(100); // give some time to let it sink in
                 gl_mode_select = mode_selecter();
                 break;
-            case QUIT:
+            case MY_QUIT:
                 mode_quit(autopilot_interface,port);
                 gl_mode_select = mode_selecter();
                 break;
-            case RTL:
+            case MY_RTL:
                 mode_rtl(autopilot_interface);
                 gl_mode_select = mode_selecter();
                 break;
-            case TAKEOFF_LOCAL:
+            case MY_TAKEOFF_LOCAL:
                 mode_takeoff_local(autopilot_interface);
                 gl_mode_select = mode_selecter();
                 break;
-            case WAYPOINT:
+            case MY_WAYPOINT:
                 waypoint(autopilot_interface);
                 gl_mode_select = mode_selecter();
                 break;
-            case PRINT_MSG:
+            case MY_PRINT_MSG:
                 print_msg_test(autopilot_interface);
                 gl_mode_select = mode_selecter();
                 break;
