@@ -2,7 +2,29 @@
 //   Includes
 // ------------------------------------------------------------------------------
 
-#include "common_usage.h"
+#include <iostream>
+#include <stdio.h>
+#include <cstdlib>
+#include <unistd.h>
+#include <cmath>
+#include <string.h>
+#include <inttypes.h>
+#include <fstream>
+#include <signal.h>
+#include <time.h>
+#include <sys/time.h>
+
+using std::string;
+using namespace std;
+
+#include <common/mavlink.h>
+
+#include "autopilot_interface.h"
+#include "serial_port.h"
+#include "udp_port.h"
+#include "port_mangement.h"
+#include "mode_selecter.h"
+
 
 
 // ------------------------------------------------------------------------------
@@ -11,33 +33,15 @@
 int main(int argc, char **argv)
 {
     Generic_Port *port;
+    char *uart_name = (char *)"/dev/ttyUSB0";
+    int baudrate = 57600;
     
-    if (use_udp)
-    {
-        port = new UDP_Port(udp_ip, udp_port);
-    }
-    else
-    {
-        port = new Serial_Port(uart_name, baudrate);
-    }
-
+    port = new Serial_Port(uart_name, baudrate);
     Autopilot_Interface autopilot_interface(port);
-
-    port_quit = port;
-    autopilot_interface_quit = &autopilot_interface;
-    signal(SIGINT, quit_handler);
-
     port->start();
 
-    while(1){
-        usleep(100);
-        switch (gl_mode_select){
-            case INIT:
-                mode_init(autopilot_interface);
-                gl_mode_select = mode_selecter();
-                break;
-            case MOVE:
-                autopilot_interface.set_velocity(1,0,0);//plus down minus up
-                usleep(100); // give some time to let it sink in
-                gl_mode_select = mode_selecter();
-                break;
+    mode_init(autopilot_interface);
+    mode_rtl(autopilot_interface);
+    return 0;
+
+}
