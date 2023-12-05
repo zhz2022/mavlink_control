@@ -33,15 +33,25 @@ using namespace std;
 int main(int argc, char **argv)
 {
     Generic_Port *port;
-    char *uart_name = (char *)"/dev/ttyUSB0";
-    int baudrate = 57600;
-    
-    port = new Serial_Port(uart_name, baudrate);
+
+    // char *uart_name = (char *)"/dev/ttyUSB0";
+    // int baudrate = 57600;
+    // port = new Serial_Port(uart_name, baudrate);
+
+    char *udp_ip = (char *)"127.0.0.1";
+    int udp_port = 14550;
+    port = new UDP_Port(udp_ip, udp_port);    
+
     Autopilot_Interface autopilot_interface(port);
     port->start();
 
     mode_init(autopilot_interface);
+    do_set_mode(autopilot_interface,GUIDED);
+    mode_takeoff_local(autopilot_interface);
+    move_ned_duration(autopilot_interface,1,0,0,1);
+    print_msg_test(autopilot_interface);
     mode_rtl(autopilot_interface);
+    std::cout<<"test over"<<std::ednl;
     return 0;
 
 }
