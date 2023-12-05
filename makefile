@@ -4,12 +4,11 @@ LDFLAGS := -shared
 
 all: mavlink_control.so common_usage my_mavlink_control
 
-common_usage: common_usage.o port_mangement.o mode_selecter.o serial_port.o udp_port.o autopilot_interface.o
+common_usage: common_usage.o mavlink_control.so
 	$(CC) $(LDFLAGS) $^ -o $@
 my_mavlink_control: my_mavlink_control.o port_mangement.o mode_selecter.o serial_port.o udp_port.o autopilot_interface.o
 	$(CC) $(LDFLAGS) $^ -o $@
 
-mavlink
 # 编译common_usage的依赖为.so共享库
 mavlink_control.so: port_mangement.o mode_selecter.o serial_port.o udp_port.o autopilot_interface.o
 	$(CC) $(LDFLAGS) $^ -o $@
