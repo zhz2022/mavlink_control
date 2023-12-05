@@ -1,5 +1,5 @@
 #include "port_mangement.h"
-
+/*
 Port_Mangement::
 Port_Mangement(int argc, char **argv, char *&uart_name, int &baudrate,
                        bool &use_udp, char *&udp_ip, int &udp_port)
@@ -175,3 +175,5 @@ initialize_defaults()
     char *udp_ip = (char *)"127.0.0.1";
     int udp_port = 14550;
 }
+
+*/
