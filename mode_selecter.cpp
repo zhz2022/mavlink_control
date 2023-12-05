@@ -74,7 +74,7 @@ void print_msg_test(Autopilot_Interface &autopilot_interface){
     std::cout << "Current battery_voltage: " << msgs.sys_status.voltage_battery << std::endl;
 }
 void do_set_mode(Autopilot_Interface &autopilot_interface,int mode_number){
-    autopilot_interface.circle(mode_number);
+    autopilot_interface.do_set_mode(mode_number);
     usleep(100); // give some time to let it sink in
 }
 void move_duration(Autopilot_Interface &autopilot_interface,float vn,float ve,float vd,int duration){
