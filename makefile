@@ -1,6 +1,6 @@
 CC := g++
 CFLAGS := -g -Wall -fPIC -I third_party/mavlink/v2.0 -I examples -I .
-LDFLAGS := -shared
+LDFLAGS := -shared -lpthread
 
 all: mavlink_control.so common_usage my_mavlink_control
 
