@@ -81,3 +81,7 @@ void print_msg_test(Autopilot_Interface &autopilot_interface){
 		sleep(1);
 	}
 }
+void do_set_mode(Autopilot_Interface &autopilot_interface,int mode_number){
+    autopilot_interface.circle(mode_number);
+    usleep(100); // give some time to let it sink in
+}

@@ -40,5 +40,6 @@ void set_guided(Autopilot_Interface &autopilot_interface);
 void set_auto(Autopilot_Interface &autopilot_interface);
 void print_msg_test(Autopilot_Interface &autopilot_interface);
 void mode_circle(Autopilot_Interface &autopilot_interface);
+void do_set_mode(Autopilot_Interface &autopilot_interface,int mode_number);
 
 #endif // MODE_SELECTER_H_

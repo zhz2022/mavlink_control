@@ -688,7 +688,7 @@ land()
 // ------------------------------------------------------------------------------
 int
 Autopilot_Interface::
-set_mode(int mode_number)
+do_set_mode(int mode_number)
 {
 	// Prepare command for takeoff_local mode
 	mavlink_command_long_t com = { 0 };
