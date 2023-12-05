@@ -40,8 +40,6 @@ void mode_quit(Autopilot_Interface &autopilot_interface, Generic_Port *port){
     std::cout << "mode_quit started disarm" << std::endl;
     usleep(100); // give some time to let it sink in
 
-    autopilot_interface.disable_offboard_control();
-
     autopilot_interface.stop();
     port->stop();
     delete port;
@@ -67,21 +65,22 @@ void mode_circle(Autopilot_Interface &autopilot_interface){
     usleep(100); // give some time to let it sink in
 }
 void print_msg_test(Autopilot_Interface &autopilot_interface){
-    std::cout << "set_velocity_test started" << std::endl;
-	// Wait for 4 seconds, check position
-	for (int i=0; i < 4; i++)
-	{
-        Mavlink_Messages msgs = autopilot_interface.current_messages;
-        std::cout << "Current position: " << msgs.local_position_ned.x << " " << msgs.local_position_ned.y << " " << msgs.local_position_ned.z << std::endl;
-        std::cout << "Current velocity: " << msgs.local_position_ned.vx << " " << msgs.local_position_ned.vy << " " << msgs.local_position_ned.vz << std::endl;
-        std::cout << "Current pose: " << msgs.attitude.roll << " " << msgs.attitude.pitch << " " << msgs.attitude.yaw << " " << std::endl;
-        std::cout << "Current globally_set_position_ned: " << msgs.global_position_int.lat << " " << msgs.global_position_int.lon << " " << msgs.global_position_int.alt << msgs.global_position_int.relative_alt << std::endl;
-        std::cout << "Current globally_set_velocity_ned: " << msgs.global_position_int.vx << " " << msgs.global_position_int.vy << " " << msgs.global_position_int.vz << msgs.global_position_int.hdg << std::endl;
-        std::cout << "Current battery_voltage: " << msgs.sys_status.voltage_battery << std::endl;
-		sleep(1);
-	}
+    Mavlink_Messages msgs = autopilot_interface.current_messages;
+    std::cout << "Current position: " << msgs.local_position_ned.x << " " << msgs.local_position_ned.y << " " << msgs.local_position_ned.z << std::endl;
+    std::cout << "Current velocity: " << msgs.local_position_ned.vx << " " << msgs.local_position_ned.vy << " " << msgs.local_position_ned.vz << std::endl;
+    std::cout << "Current pose: " << msgs.attitude.roll << " " << msgs.attitude.pitch << " " << msgs.attitude.yaw << " " << std::endl;
+    std::cout << "Current globally_set_position_ned: " << msgs.global_position_int.lat << " " << msgs.global_position_int.lon << " " << msgs.global_position_int.alt << msgs.global_position_int.relative_alt << std::endl;
+    std::cout << "Current globally_set_velocity_ned: " << msgs.global_position_int.vx << " " << msgs.global_position_int.vy << " " << msgs.global_position_int.vz << msgs.global_position_int.hdg << std::endl;
+    std::cout << "Current battery_voltage: " << msgs.sys_status.voltage_battery << std::endl;
 }
 void do_set_mode(Autopilot_Interface &autopilot_interface,int mode_number){
     autopilot_interface.circle(mode_number);
     usleep(100); // give some time to let it sink in
+}
+void move_duration(Autopilot_Interface &autopilot_interface,float vn,float ve,float vd,int duration){
+	std::cout << "mode_move_forward started" << std::endl;
+    for(int i = 1; i <= 10000*duration; i++){
+        autopilot_interface.set_velocity(vn,ve,vd);
+        usleep(100); // give some time to let it sink in
+    }
 }
