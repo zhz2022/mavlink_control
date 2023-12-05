@@ -25,9 +25,13 @@ using namespace std;
 #include "serial_port.h"
 #include "udp_port.h"
 
+
 // ------------------------------------------------------------------------------
 //   Prototypes
 // ------------------------------------------------------------------------------
+
+void quit_handler( int sig );
+
 /*
 class Port_Mangement
 {
