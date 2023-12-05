@@ -29,6 +29,10 @@ using namespace std;
 // ------------------------------------------------------------------------------
 //   Prototypes
 // ------------------------------------------------------------------------------
+enum Mode {INIT=1,TAKEOFF,MOVE_FORWARD,MOVE_BACKWARD,MOVE_LEFT,MOVE_RIGHT,STOP,LAND,QUIT,RTL,\
+TAKEOFF_LOCAL,WAYPOINT,SET_GUIDED,SET_AUTO,PRINT_MSG,MOVE_UP,MOVE_DOWN,CIRCLE};
+
+
 int mode_selecter();
 void mode_init(Autopilot_Interface &autopilot_interface);
 void mode_quit(Autopilot_Interface &autopilot_interface,Generic_Port *port);
