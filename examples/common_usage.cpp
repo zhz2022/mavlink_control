@@ -51,7 +51,7 @@ int main(int argc, char **argv)
     move_ned_duration(autopilot_interface,1,0,0,1);
     print_msg_test(autopilot_interface);
     mode_rtl(autopilot_interface);
-    std::cout<<"test over"<<std::ednl;
+    std::cout<<"test over"<<std::endl;
     return 0;
 
 }
