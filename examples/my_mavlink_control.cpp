@@ -58,7 +58,7 @@ int main(int argc, char **argv)
                 mode_init(autopilot_interface);
                 gl_mode_select = mode_selecter();
                 break;
-            case MOVE:
+            case MOVE_FORWARD:
                 autopilot_interface.set_velocity(1,0,0);//plus down minus up
                 usleep(100); // give some time to let it sink in
                 gl_mode_select = mode_selecter();
@@ -86,10 +86,6 @@ int main(int argc, char **argv)
                 break;
             case PRINT_MSG:
                 print_msg_test(autopilot_interface);
-                gl_mode_select = mode_selecter();
-                break;
-            case CIRCLE:
-                mode_circle(autopilot_interface);
                 gl_mode_select = mode_selecter();
                 break;
             default :
