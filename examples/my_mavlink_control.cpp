@@ -17,7 +17,7 @@
 
 int gl_mode_select = 0;
 enum Mode {MY_INIT=1,MY_TAKEOFF,MY_MOVE_FORWARD,MY_MOVE_BACKWARD,MY_MOVE_LEFT,MY_MOVE_RIGHT,MY_STOP,MY_LAND,MY_QUIT,MY_RTL,\
-MY_TAKEOFF_LOCAL,MY_WAYPOINT,MY_GUIDED,MY_AUTO,MY_PRINT_MSG,MY_MOVE_UP,MY_MOVE_DOWN,MY_CIRCLE};
+MY_TAKEOFF_LOCAL,MY_WAYPOINT,MY_GUIDED,MY_AUTO,MY_PRINT_MSG,MY_MOVE_UP,MY_MOVE_DOWN,MY_CIRCLE,MY_ZIGZAG};
 
 // ------------------------------------------------------------------------------
 //   Main
@@ -60,32 +60,26 @@ int main(int argc, char **argv)
                 break;
             case MY_MOVE_FORWARD:
                 move_ned_duration(autopilot_interface,1,0,0,1);//plus down minus up
-                usleep(100); // give some time to let it sink in
                 gl_mode_select = mode_selecter();
                 break;
             case MY_MOVE_BACKWARD:
                 move_ned_duration(autopilot_interface,-1,0,0,1);//plus down minus up
-                usleep(100); // give some time to let it sink in
                 gl_mode_select = mode_selecter();
                 break;
             case MY_MOVE_LEFT:
                 move_ned_duration(autopilot_interface,0,-1,0,1);//plus down minus up
-                usleep(100); // give some time to let it sink in
                 gl_mode_select = mode_selecter();
                 break;
             case MY_MOVE_RIGHT:
                 move_ned_duration(autopilot_interface,0,1,0,1);//plus down minus up
-                usleep(100); // give some time to let it sink in
                 gl_mode_select = mode_selecter();
                 break;
             case MY_MOVE_UP:
                 move_ned_duration(autopilot_interface,0,0,-1,1);//plus down minus up
-                usleep(100); // give some time to let it sink in
                 gl_mode_select = mode_selecter();
                 break;
             case MY_MOVE_DOWN:
                 move_ned_duration(autopilot_interface,0,0,1,1);//plus down minus up
-                usleep(100); // give some time to let it sink in
                 gl_mode_select = mode_selecter();
                 break;
             case MY_LAND:
@@ -107,6 +101,14 @@ int main(int argc, char **argv)
                 break;
             case MY_AUTO:
                 do_set_mode(autopilot_interface,AUTO);
+                gl_mode_select = mode_selecter();
+                break;
+            case MY_CIRCLE:
+                do_set_mode(autopilot_interface,CIRCLE);
+                gl_mode_select = mode_selecter();
+                break;
+            case MY_ZIGZAG:
+                do_set_mode(autopilot_interface,ZIGZAG);
                 gl_mode_select = mode_selecter();
                 break;
             case MY_TAKEOFF_LOCAL:
