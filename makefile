@@ -1,4 +1,3 @@
-makefile
 CC := g++
 CFLAGS := -g -Wall -fPIC -I third_party/mavlink/v2.0 -I examples -I .
 LDFLAGS := -shared -lpthread
