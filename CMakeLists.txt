@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 11)
 include_directories(
   third_party/mavlink/v2.0
   examples
+  .
 )
 
 set(CMAKE_CXX_FLAGS "-g -Wall -fPIC")
