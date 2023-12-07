@@ -30,6 +30,10 @@ udp_port.o: udp_port.cpp
 autopilot_interface.o: autopilot_interface.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
+install: libmavlink_control.so
+	install -d /usr/lib
+	install libmavlink_control.so /usr/lib
+
 clean:
 	rm -f *.so *.o my_mavlink_control common_usage
 
