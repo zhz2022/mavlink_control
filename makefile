@@ -5,7 +5,7 @@ DLIBS = -lmavlink_control -lpthread
 
 all: libmavlink_control.so my_mavlink_control common_usage
 
-libmavlink_control.so: port_mangement.o mode_selecter.o serial_port.o udp_port.o autopilot_interface.o
+libmavlink_control.so: port_mangement.o integrated_interface.o serial_port.o udp_port.o autopilot_interface.o
 	$(CC) $(LDFLAGS) $^ -o $@
 
 my_mavlink_control: ./examples/my_mavlink_control.cpp 
@@ -17,7 +17,7 @@ common_usage: ./examples/common_usage.cpp
 port_mangement.o: port_mangement.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
-mode_selecter.o: mode_selecter.cpp
+integrated_interface.o: integrated_interface.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
 serial_port.o: serial_port.cpp

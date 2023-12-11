@@ -11,7 +11,7 @@ include_directories(
 
 add_library(mavlink_control SHARED
   port_mangement.cpp
-  mode_selecter.cpp
+  integrated_interface.cpp
   serial_port.cpp
   udp_port.cpp
   autopilot_interface.cpp

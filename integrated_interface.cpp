@@ -1,4 +1,4 @@
-#include "mode_selecter.h"
+#include "integrated_interface.h"
 
 int mode_selecter()
 {
