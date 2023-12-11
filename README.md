@@ -11,8 +11,12 @@ Building
 ========
 
 ```
-$ cd c_uart_interface_example/
+$ cd c_uart_interface_mavlink/
+$ mkdir build
+$ cd build
+$ cmake ..
 $ make
+$ sudo make install
 ```
 
 Hardware Setup
