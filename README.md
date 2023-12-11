@@ -5,7 +5,7 @@ This is a simple MAVLink to UART interface example for *nix systems that can all
 
 This example will receive one MAVLink message and send one MAVLink message.
 
-![框图](docs/images/libmavlink_control.svg)
+![offboard control hierarchy](docs/images/libmavlink_control.svg)
 
 Building
 ========
