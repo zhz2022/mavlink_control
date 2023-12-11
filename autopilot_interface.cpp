@@ -759,10 +759,10 @@ waypoint()
     com.current          = 0;
     com.autocontinue     = 0;
 	com.command          = MAV_CMD_NAV_WAYPOINT;
-	com.param1           = 0; // 
-	com.param2           = 0; // 
-	com.param3           = 0; // 
-	com.param4           = 0; // 
+	com.param1           = 1; // 
+	com.param2           = 1; // 
+	com.param3           = 1; // 
+	// com.param4           = 0; // 
 	com.x                = int(-35.361297*1e7); // 
 	com.y                = int(149.161120*1e7); // 
 	com.z                = -20; // 
