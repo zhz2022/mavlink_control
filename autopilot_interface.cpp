@@ -762,7 +762,7 @@ waypoint()
 	com.param1           = 1; // 
 	com.param2           = 1; // 
 	com.param3           = 1; // 
-	// com.param4           = 0; // 
+	com.param4           = 0; // 
 	com.x                = int(-35.361297*1e7); // 
 	com.y                = int(149.161120*1e7); // 
 	com.z                = -20; // 
