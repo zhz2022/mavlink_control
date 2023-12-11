@@ -1,7 +1,7 @@
-C-UART Interface Example
+Mavlink C-UART Interface
 ========================
 
-This is a simple MAVLink to UART interface example for *nix systems that can allow communication between Pixhawk and an offboard computer.
+This is a simple MAVLink to UART interface example for *nix systems that can allow communication between PX4(Pixhawk/ArduPilot) and an offboard computer.
 
 This example will receive one MAVLink message and send one MAVLink message.
 
