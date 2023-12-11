@@ -757,9 +757,10 @@ waypoint()
 	mavlink_command_int_t com = { 0 };
 	com.target_system    = system_id;
 	com.target_component = autopilot_id;
-	com.frame            = MAV_FRAME_GLOBAL_RELATIVE_ALT_INT;
-    com.current          = 0;
-    com.autocontinue     = 0;
+	// com.frame            = MAV_FRAME_GLOBAL_RELATIVE_ALT_INT;
+	com.frame            = MAV_FRAME_GLOBAL;
+    com.current          = 1;
+    com.autocontinue     = 1;
 	// com.command          = MAV_CMD_NAV_WAYPOINT;
 	com.command          = MAV_CMD_DO_REPOSITION;
 	com.param1           = 1; // 
