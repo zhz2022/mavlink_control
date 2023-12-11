@@ -92,7 +92,7 @@ int main(int argc, char **argv)
                 gl_mode_select = mode_selecter();
                 break;
             case MY_RTL:
-                mode_rtl(autopilot_interface);
+                do_set_mode(autopilot_interface,RTL);
                 gl_mode_select = mode_selecter();
                 break;
             case MY_GUIDED:
