@@ -79,7 +79,7 @@ void do_set_mode(Autopilot_Interface &autopilot_interface,int mode_number){
 }
 void move_ned_duration(Autopilot_Interface &autopilot_interface,float vn,float ve,float vd,float duration){
 	std::cout << "mode_move_forward started" << std::endl;
-    for(int i = 1; i <= 20000*duration; i++){
+    for(int i = 1; i <= 2000*duration; i++){
         autopilot_interface.set_velocity(vn,ve,vd);
         usleep(100); // give some time to let it sink in
     }
