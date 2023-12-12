@@ -6,18 +6,20 @@ set(CMAKE_CXX_FLAGS "-g -Wall -fPIC")
 include_directories(
   third_party/mavlink/v2.0
   examples
+  common
   .
 )
 
-add_library(mavlink_control SHARED
-  port_mangement.cpp
-  integrated_interface.cpp
-  serial_port.cpp
-  udp_port.cpp
-  autopilot_interface.cpp
-)
+# add_library(mavlink_control SHARED
+#   port_mangement.cpp
+#   integrated_interface.cpp
+#   serial_port.cpp
+#   udp_port.cpp
+#   autopilot_interface.cpp
+# )
 
 add_subdirectory(examples)
+add_subdirectory(common)
 
 install(TARGETS mavlink_control
   LIBRARY DESTINATION /usr/lib
