@@ -751,7 +751,7 @@ set_velocity(float vn,float ve,float vd)
 // ------------------------------------------------------------------------------
 int
 Autopilot_Interface::
-waypoint()
+waypoint(double lon,double lat,float alt)
 {
 	// Prepare command for MAV_CMD_NAV_WAYPOINT mode
 	mavlink_command_int_t com = { 0 };
@@ -768,9 +768,9 @@ waypoint()
 	// com.param2           = MAV_DO_REPOSITION_FLAGS;
 	com.param3           = 1; // 
 	com.param4           = 0; // 
-	com.x                = int(-35.361297*1e7); // 
-	com.y                = int(149.161120*1e7); // 
-	com.z                = -20; // 
+	com.x                = (int)lon; // 
+	com.y                = (int)lat; // 
+	com.z                = alt; // 
 
 	// Encode
 	mavlink_message_t message;

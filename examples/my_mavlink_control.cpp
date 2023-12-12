@@ -116,7 +116,7 @@ int main(int argc, char **argv)
                 gl_mode_select = mode_selecter();
                 break;
             case MY_WAYPOINT:
-                waypoint(autopilot_interface);
+                waypoint(autopilot_interface,-35.361297*1e7,149.161120*1e7,-20);
                 gl_mode_select = mode_selecter();
                 break;
             case MY_PRINT_MSG:

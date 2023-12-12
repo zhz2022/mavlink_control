@@ -55,9 +55,8 @@ void mode_takeoff_local(Autopilot_Interface &autopilot_interface){
     autopilot_interface.takeoff_local();
     usleep(100); // give some time to let it sink in
 }
-void waypoint(Autopilot_Interface &autopilot_interface){
-    std::cout << "enable_offboard_control started" << std::endl;
-    autopilot_interface.waypoint();
+void waypoint(Autopilot_Interface &autopilot_interface,double lon,double lat,float alt){
+    autopilot_interface.waypoint(lon,lat,alt);
     usleep(100); // give some time to let it sink in
 }
 void mode_circle(Autopilot_Interface &autopilot_interface){
