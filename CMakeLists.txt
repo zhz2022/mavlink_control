@@ -21,9 +21,9 @@ include_directories(
 add_subdirectory(examples)
 add_subdirectory(common)
 
-install(TARGETS mavlink_control
-  LIBRARY DESTINATION /usr/lib
-)
+# install(TARGETS mavlink_control
+#   LIBRARY DESTINATION /usr/lib
+# )
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)

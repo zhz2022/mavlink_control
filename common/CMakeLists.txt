@@ -7,3 +7,6 @@ add_library(mavlink_control SHARED
   autopilot_interface.cpp
 )
 
+install(TARGETS mavlink_control
+  LIBRARY DESTINATION /usr/lib
+)
