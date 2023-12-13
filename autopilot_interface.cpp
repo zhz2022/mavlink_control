@@ -712,6 +712,41 @@ do_set_mode(int mode_number)
 	return len;
 }
 // ------------------------------------------------------------------------------
+//   set_offset
+// ------------------------------------------------------------------------------
+int
+Autopilot_Interface::
+set_offset(float offset_n,float offset_e,float offset_d)
+{
+	// Prepare command for takeoff_local mode
+	mavlink_set_position_target_local_ned_t com = { 0 };
+	com.coordinate_frame = MAV_FRAME_LOCAL_NED;
+	com.target_system    = system_id;
+	com.target_component = autopilot_id;
+	// com.type_mask        = MAVLINK_MSG_SET_POSITION_TARGET_LOCAL_NED_VELOCITY;
+	com.type_mask        = MAVLINK_MSG_SET_POSITION_TARGET_LOCAL_NED_POSITION;
+	com.x                = offset_n; // 
+	com.y                = offset_e; // 
+	com.z                = offset_d; // 
+	// com.vx               = vn; //
+	// com.vy               = ve; // 
+	// com.vz               = vd; // 
+	// com.afx              = 10; //
+	// com.afy              = 10; // 
+	// com.afz              = -0; //
+	// com.yaw              = 10; // 
+	// com.yaw_rate         = 10; // 
+
+	// Encode
+	mavlink_message_t message;
+	mavlink_msg_set_position_target_local_ned_encode(system_id, companion_id, &message, &com);
+
+	// Send the message
+	int len = port->write_message(message);
+	// Done!
+	return len;
+}
+// ------------------------------------------------------------------------------
 //   set_velocity
 // ------------------------------------------------------------------------------
 int

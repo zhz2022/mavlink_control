@@ -285,6 +285,7 @@ public:
 	int  land();
 	int  waypoint(double lon,double lat,float alt);
 	int  do_set_mode(int mode_number);
+	int  set_offset(float offset_n,float offset_e,float offset_d);
 	int  set_velocity(float vn,float ve,float vd);
 	int  circle();
 
