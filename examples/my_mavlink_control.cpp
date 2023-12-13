@@ -52,7 +52,7 @@ int main(int argc, char **argv)
     port->start();
 
     mavlink_set_position_target_local_ned_t sp;
-	mavlink_set_position_target_local_ned_t ip = autopilot_interface.initial_position;
+	// mavlink_set_position_target_local_ned_t ip = autopilot_interface.initial_position;
 
     while(1){
         usleep(100);
@@ -65,31 +65,30 @@ int main(int argc, char **argv)
                 autopilot_interface.arm_disarm(true);
                 usleep(100); // give some time to let it sink in
             case MY_MOVE_FORWARD:
-                // move_ned_duration(autopilot_interface,1,0,0,1);//
-                set_velocity( 100.0,0.0,0.0,sp);
+                set_velocity( 1.0,0.0,0.0,sp);
                 autopilot_interface.update_setpoint(sp);
                 gl_mode_select = mode_selecter();
                 break;
             case MY_MOVE_BACKWARD:
-                set_velocity( -100.0,0.0,0.0,sp);
+                set_velocity( -1.0,0.0,0.0,sp);
                 autopilot_interface.update_setpoint(sp);
                 gl_mode_select = mode_selecter();
                 break;
             case MY_MOVE_LEFT:
-                move_ned_duration(autopilot_interface,0,-1,0,1);//
-                gl_mode_select = mode_selecter();
+                set_velocity( 0.0,-1.0,0.0,sp);
+                autopilot_interface.update_setpoint(sp);
                 break;
             case MY_MOVE_RIGHT:
-                move_ned_duration(autopilot_interface,0,1,0,1);//
-                gl_mode_select = mode_selecter();
+                set_velocity( 0.0,1.0,0.0,sp);
+                autopilot_interface.update_setpoint(sp);
                 break;
             case MY_MOVE_UP:
-                move_ned_duration(autopilot_interface,0,0,-1,1);//
-                gl_mode_select = mode_selecter();
+                set_velocity( 0.0,0.0,-1.0,sp);
+                autopilot_interface.update_setpoint(sp);
                 break;
             case MY_MOVE_DOWN:
-                move_ned_duration(autopilot_interface,0,0,1,1);//
-                gl_mode_select = mode_selecter();
+                set_velocity( 0.0,0.0,1.0,sp);
+                autopilot_interface.update_setpoint(sp);
                 break;
             case MY_LAND:
                 autopilot_interface.land();
