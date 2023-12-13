@@ -16,7 +16,7 @@
 #include "my_mavlink_control.h"
 
 int gl_mode_select = 0;
-enum Mode {MY_INIT=1,MY_TAKEOFF,MY_MOVE_FORWARD,MY_MOVE_BACKWARD,MY_MOVE_LEFT,MY_MOVE_RIGHT,MY_STOP,MY_LAND,MY_QUIT,MY_RTL,\
+enum Mode {MY_INIT=1,MY_ARM,MY_MOVE_FORWARD,MY_MOVE_BACKWARD,MY_MOVE_LEFT,MY_MOVE_RIGHT,MY_STOP,MY_LAND,MY_QUIT,MY_RTL,\
 MY_TAKEOFF_LOCAL,MY_WAYPOINT,MY_GUIDED,MY_AUTO,MY_PRINT_MSG,MY_MOVE_UP,MY_MOVE_DOWN,MY_CIRCLE,MY_ZIGZAG};
 
 // ------------------------------------------------------------------------------
@@ -58,6 +58,9 @@ int main(int argc, char **argv)
                 mode_init(autopilot_interface);
                 gl_mode_select = mode_selecter();
                 break;
+            case MY_ARM:
+                autopilot_interface.arm_disarm(true);
+                usleep(100); // give some time to let it sink in
             case MY_MOVE_FORWARD:
                 move_ned_duration(autopilot_interface,1,0,0,1);//plus down minus up
                 gl_mode_select = mode_selecter();

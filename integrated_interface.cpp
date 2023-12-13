@@ -4,7 +4,7 @@ int mode_selecter()
 {
     int mode;
     std::cout << "请选择模式(输入number)"                 << std::endl;
-    std::cout << "1:init           2:takeoff"            << std::endl;
+    std::cout << "1:init           2:arm解锁"            << std::endl;
     std::cout << "3:forward        4:move_backward"      << std::endl;
     std::cout << "5:move_left      6:move_right"         << std::endl;
     std::cout << "7:stop           8:land"               << std::endl;
@@ -24,8 +24,8 @@ void mode_init(Autopilot_Interface &autopilot_interface){
     std::cout << "mode_init started" << std::endl;
     autopilot_interface.start();
 	usleep(100); // give some time to let it sink in
-    autopilot_interface.arm_disarm(true);
-    usleep(100); // give some time to let it sink in
+    // autopilot_interface.arm_disarm(true);
+    // usleep(100); // give some time to let it sink in
 
 	printf("SEND OFFBOARD COMMANDS\n");
 }
