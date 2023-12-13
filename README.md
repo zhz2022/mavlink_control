@@ -163,12 +163,16 @@ simulate:
 
 ```
 cd ~/ardupilot/ArduCopter
+sim_vehicle.py --console --map
+
+如果需要开QGC，QGC默认占用了14550:添加14552，代码也用这个port即可
 output add 127.0.0.1:14552
 
-sim_vehicle.py --console --map
+先在仿真中起飞
 mode guided
 arm throttle
 takeoff 40
+
 setspeed 2
 velocity 100 0 0
 
