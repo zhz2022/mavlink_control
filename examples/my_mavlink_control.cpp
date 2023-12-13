@@ -67,12 +67,12 @@ int main(int argc, char **argv)
             case MY_MOVE_FORWARD:
                 // move_ned_duration(autopilot_interface,1,0,0,1);//
                 set_velocity( 100.0,0.0,0.0,sp);
-                api.update_setpoint(sp);
+                autopilot_interface.update_setpoint(sp);
                 gl_mode_select = mode_selecter();
                 break;
             case MY_MOVE_BACKWARD:
                 set_velocity( -100.0,0.0,0.0,sp);
-                api.update_setpoint(sp);
+                autopilot_interface.update_setpoint(sp);
                 gl_mode_select = mode_selecter();
                 break;
             case MY_MOVE_LEFT:
