@@ -77,18 +77,22 @@ int main(int argc, char **argv)
             case MY_MOVE_LEFT:
                 set_velocity( 0.0,-1.0,0.0,sp);
                 autopilot_interface.update_setpoint(sp);
+                gl_mode_select = mode_selecter();
                 break;
             case MY_MOVE_RIGHT:
                 set_velocity( 0.0,1.0,0.0,sp);
                 autopilot_interface.update_setpoint(sp);
+                gl_mode_select = mode_selecter();
                 break;
             case MY_MOVE_UP:
                 set_velocity( 0.0,0.0,-1.0,sp);
                 autopilot_interface.update_setpoint(sp);
+                gl_mode_select = mode_selecter();
                 break;
             case MY_MOVE_DOWN:
                 set_velocity( 0.0,0.0,1.0,sp);
                 autopilot_interface.update_setpoint(sp);
+                gl_mode_select = mode_selecter();
                 break;
             case MY_LAND:
                 autopilot_interface.land();
