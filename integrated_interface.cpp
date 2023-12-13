@@ -84,3 +84,8 @@ void move_ned_duration(Autopilot_Interface &autopilot_interface,float vn,float v
         usleep(100); // give some time to let it sink in
     }
 }
+void move_ned_offset(Autopilot_Interface &autopilot_interface,float offset_n,float offset_e,float offset_d,mavlink_set_position_target_local_ned_t &sp){
+    mavlink_set_position_target_local_ned_t ip = autopilot_interface.current_messages.local_position_ned;
+    set_position( ip.x+offset_n , ip.y+offset_e , ip.z+offset_d , sp );
+    autopilot_interface.update_setpoint(sp);
+}

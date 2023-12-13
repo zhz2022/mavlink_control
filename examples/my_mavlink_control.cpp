@@ -136,8 +136,7 @@ int main(int argc, char **argv)
                 gl_mode_select = mode_selecter();
                 break;
             case MY_OFFSET:
-                autopilot_interface.set_offset(10,10,-10);
-                usleep(100); // give some time to let it sink in
+                move_ned_offset(autopilot_interface,100,100,-1,sp);
                 gl_mode_select = mode_selecter();
                 break;
             default :
