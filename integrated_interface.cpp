@@ -13,7 +13,7 @@ int mode_selecter()
     std::cout << "13:set guided    14:set auto        "  << std::endl;
     std::cout << "15:print_msgs    16:move_up         "  << std::endl;
     std::cout << "17:move_down     18:set circle      "  << std::endl;
-    std::cout << "19:zigzag        20:xxx             "  << std::endl;
+    std::cout << "19:zigzag        20:set offset      "  << std::endl;
     std::cout << "===================================="  << std::endl;
     std::cin  >> mode;
     std::cout << ":mode selected to: "<< mode            << std::endl;
