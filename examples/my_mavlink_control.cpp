@@ -94,6 +94,11 @@ int main(int argc, char **argv)
                 autopilot_interface.update_setpoint(sp);
                 gl_mode_select = mode_selecter();
                 break;
+            case MY_STOP:
+                set_velocity( 0.0,0.0,0.0,sp);
+                autopilot_interface.update_setpoint(sp);
+                gl_mode_select = mode_selecter();
+                break;
             case MY_LAND:
                 autopilot_interface.land();
                 usleep(100); // give some time to let it sink in
