@@ -564,6 +564,7 @@ arm_disarm( bool flag )
 
 	// Send the message
 	int len = port->write_message(message);
+	printf("write %d bytes to serial port", len);
 
 	// Done!
 	return len;
@@ -707,6 +708,7 @@ do_set_mode(int mode_number)
 
 	// Send the message
 	int len = port->write_message(message);
+	printf("write %d bytes to serial port", len);
 
 	// Done!
 	return len;

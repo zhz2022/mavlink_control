@@ -192,7 +192,7 @@ int
 Serial_Port::
 write_message(const mavlink_message_t &message)
 {
-	char buf[300];
+	char buf[300] = {0};
 
 	// Translate message to buffer
 	unsigned len = mavlink_msg_to_send_buffer((uint8_t*)buf, &message);
