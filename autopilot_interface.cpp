@@ -820,6 +820,40 @@ waypoint(double lon,double lat,float alt)
 	return len;
 }
 // ------------------------------------------------------------------------------
+//   add way_point TODO:
+// ------------------------------------------------------------------------------
+/*int
+Autopilot_Interface::
+add_waypoint(float lon,float lat,float alt,int waypoint_seq)
+{
+	// Prepare command for MAV_CMD_NAV_WAYPOINT mode
+	mavlink_mission_item_t  com = { 0 };
+	com.target_system    = system_id;
+	com.target_component = autopilot_id;
+	com.frame            = MAV_FRAME_GLOBAL;
+    com.current          = 1;
+    com.autocontinue     = 1;
+	com.seq              = waypoint_seq;
+	com.command          = MAV_CMD_NAV_WAYPOINT;
+	com.param1           = 100; // 
+	com.param2           = 0; // 
+	com.param3           = 0; // 
+	com.param4           = 0; // 
+	com.x                = (int)lon; // 
+	com.y                = (int)lat; // 
+	com.z                = alt; // 
+
+	// Encode
+	mavlink_message_t message;
+	mavlink_msg_mission_item_encode(system_id, companion_id, &message, &com);
+
+	// Send the message
+	int len = port->write_message(message);
+
+	// Done!
+	return len;
+}*/
+// ------------------------------------------------------------------------------
 //   CIRCLE Mode
 // ------------------------------------------------------------------------------
 int
