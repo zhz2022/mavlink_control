@@ -64,6 +64,7 @@ int main(int argc, char **argv)
             case MY_ARM:
                 autopilot_interface.arm_disarm(true);
                 usleep(100); // give some time to let it sink in
+                gl_mode_select = mode_selecter();
                 break;
             case MY_MOVE_FORWARD:
                 set_velocity( 1.0,0.0,0.0,sp);
