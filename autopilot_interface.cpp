@@ -830,6 +830,7 @@ add_waypoint(float lon,float lat,float alt,int waypoint_seq)
 	com.target_system    = system_id;
 	com.target_component = autopilot_id;
 	// com.frame            = MAV_FRAME_GLOBAL;
+	com.mission_type     = MAV_MISSION_TYPE_MISSION; 
 	com.frame            = MAV_FRAME_GLOBAL_RELATIVE_ALT;
     com.current          = 1;
     com.autocontinue     = 1;
