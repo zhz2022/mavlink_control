@@ -822,7 +822,7 @@ waypoint(double lon,double lat,float alt)
 // ------------------------------------------------------------------------------
 //   add way_point TODO:
 // ------------------------------------------------------------------------------
-/*int
+int
 Autopilot_Interface::
 add_waypoint(float lon,float lat,float alt,int waypoint_seq)
 {
@@ -852,7 +852,7 @@ add_waypoint(float lon,float lat,float alt,int waypoint_seq)
 
 	// Done!
 	return len;
-}*/
+}
 // ------------------------------------------------------------------------------
 //   CIRCLE Mode
 // ------------------------------------------------------------------------------
