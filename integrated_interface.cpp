@@ -56,7 +56,7 @@ void mode_takeoff_local(Autopilot_Interface &autopilot_interface){
     usleep(100); // give some time to let it sink in
 }
 void waypoint(Autopilot_Interface &autopilot_interface,double lon,double lat,float alt){
-    autopilot_interface.waypoint(lon,lat,alt);
+    autopilot_interface.waypoint_reposition(lon,lat,alt);
     usleep(100); // give some time to let it sink in
 }
 void mode_circle(Autopilot_Interface &autopilot_interface){
