@@ -90,3 +90,13 @@ void move_ned_offset(Autopilot_Interface &autopilot_interface,float offset_n,flo
     set_position( current_position.x+offset_n , current_position.y+offset_e , current_position.z+offset_d , sp );
     autopilot_interface.update_setpoint(sp);
 }
+void upload_waypoint_list(Autopilot_Interface &autopilot_interface,const std::vector<std::vector<float>>& waypoints){
+    for (const auto& waypoint : waypoints) {
+        int wp_seq = 0;
+        int lon = 0,lat =1,alt = 2;
+        // std::cout << waypoint[lon] << waypoint[lat]<< waypoint[alt]<< std::endl;
+        autopilot_interface.add_waypoint(waypoint[lon],waypoint[lat],waypoint[alt],wp_seq);
+        wp_seq ++;
+    }
+
+}

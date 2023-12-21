@@ -15,6 +15,7 @@
 #include <signal.h>
 #include <time.h>
 #include <sys/time.h>
+#include <vector>
 
 using std::string;
 using namespace std;
@@ -73,4 +74,5 @@ void mode_circle(Autopilot_Interface &autopilot_interface);
 void do_set_mode(Autopilot_Interface &autopilot_interface,int mode_number);
 void move_ned_duration(Autopilot_Interface &autopilot_interface,float vn,float ve,float vd,float duration);
 void move_ned_offset(Autopilot_Interface &autopilot_interface,float offset_n,float offset_e,float offset_d,mavlink_set_position_target_local_ned_t &sp);
+void upload_waypoint_list(Autopilot_Interface &autopilot_interface,const std::vector<std::vector<float>>& waypoints);
 #endif // MODE_SELECTER_H_
