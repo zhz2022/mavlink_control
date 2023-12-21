@@ -283,7 +283,7 @@ public:
 	int  return_to_launch();
 	int  takeoff_local();
 	int  land();
-	int  waypoint(double lon,double lat,float alt);
+	int  waypoint_reposition(double lon,double lat,float alt);
 	int  add_waypoint(float lon,float lat,float alt,int waypoint_seq);
 	int  do_set_mode(int mode_number);
 	int  set_offset(float offset_n,float offset_e,float offset_d);

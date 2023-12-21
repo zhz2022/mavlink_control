@@ -788,21 +788,18 @@ set_velocity(float vn,float ve,float vd)
 // ------------------------------------------------------------------------------
 int
 Autopilot_Interface::
-waypoint(double lon,double lat,float alt)
+waypoint_reposition(double lon,double lat,float alt)
 {
 	// Prepare command for MAV_CMD_NAV_WAYPOINT mode
 	mavlink_command_int_t com = { 0 };
 	com.target_system    = system_id;
 	com.target_component = autopilot_id;
-	// com.frame            = MAV_FRAME_GLOBAL_RELATIVE_ALT_INT;
 	com.frame            = MAV_FRAME_GLOBAL;
     com.current          = 1;
     com.autocontinue     = 1;
-	// com.command          = MAV_CMD_NAV_WAYPOINT;
 	com.command          = MAV_CMD_DO_REPOSITION;
 	com.param1           = 1; // 
 	com.param2           = 1; // 
-	// com.param2           = MAV_DO_REPOSITION_FLAGS;
 	com.param3           = 1; // 
 	com.param4           = 0; // 
 	com.x                = (int)lon; // 
@@ -826,31 +823,33 @@ int
 Autopilot_Interface::
 add_waypoint(float lon,float lat,float alt,int waypoint_seq)
 {
+	// MAV_CMD_MISSION_ITEM_INT
 	// Prepare command for MAV_CMD_NAV_WAYPOINT mode
-	mavlink_mission_item_t  com = { 0 };
+	// mavlink_mission_item_t  com = { 0 };
+	mavlink_mission_item_int_t com = { 0 };
 	com.target_system    = system_id;
 	com.target_component = autopilot_id;
 	com.frame            = MAV_FRAME_GLOBAL;
     com.current          = 1;
     com.autocontinue     = 1;
 	com.seq              = waypoint_seq;
-	// com.command          = MAV_CMD_NAV_WAYPOINT;
+	com.command          = MAV_CMD_NAV_WAYPOINT;
 	// com.param1           = 100; // 
 	// com.param2           = 0; // 
 	// com.param3           = 0; // 
 	// com.param4           = 0; //
-	com.command          = MAV_CMD_DO_REPOSITION;
+	// com.command          = MAV_CMD_DO_REPOSITION;
 	com.param1           = 1; // 
 	com.param2           = 1; // 
 	com.param3           = 1; // 
 	com.param4           = 0; // 
-	com.x                = (int)lon; // 
-	com.y                = (int)lat; // 
+	com.x                = (int)(lon* 1e7); // 
+	com.y                = (int)(lat* 1e7); // 
 	com.z                = alt; // 
 
 	// Encode
 	mavlink_message_t message;
-	mavlink_msg_mission_item_encode(system_id, companion_id, &message, &com);
+	mavlink_msg_mission_item_int_encode(system_id, companion_id, &message, &com);
 
 	// Send the message
 	int len = port->write_message(message);
