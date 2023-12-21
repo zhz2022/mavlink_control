@@ -135,7 +135,9 @@ int main(int argc, char **argv)
                 gl_mode_select = mode_selecter();
                 break;
             case MY_WAYPOINT:
-                waypoint(autopilot_interface,-35.361297*1e7,149.161120*1e7,-20);
+                // waypoint(autopilot_interface,-35.361297*1e7,149.161120*1e7,-20);
+                std::vector<std::vector<float>> waypoints = { {36.7255, 117.1751, 30}, {36.7265, 117.1751, 40}, {36.7255, 117.1751, 50} };
+                upload_waypoint_list(autopilot_interface,waypoints);
                 gl_mode_select = mode_selecter();
                 break;
             case MY_PRINT_MSG:
