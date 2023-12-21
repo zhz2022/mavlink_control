@@ -53,7 +53,7 @@ int main(int argc, char **argv)
 
     mavlink_set_position_target_local_ned_t sp;
 	// mavlink_set_position_target_local_ned_t ip = autopilot_interface.initial_position;
-
+    std::vector<std::vector<float>> waypoint_list = { {36.7255, 117.1751, 30}, {36.7265, 117.1751, 40}, {36.7255, 117.1751, 50} };
     while(1){
         usleep(100);
         switch (gl_mode_select){
@@ -136,7 +136,6 @@ int main(int argc, char **argv)
                 break;
             case MY_WAYPOINT:
                 // waypoint(autopilot_interface,-35.361297*1e7,149.161120*1e7,-20);
-                std::vector<std::vector<float>> waypoint_list = { {36.7255, 117.1751, 30}, {36.7265, 117.1751, 40}, {36.7255, 117.1751, 50} };
                 upload_waypoint_list(autopilot_interface,waypoint_list);
                 gl_mode_select = mode_selecter();
                 break;
