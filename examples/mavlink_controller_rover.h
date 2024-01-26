@@ -1,5 +1,5 @@
 /**
- * @file mavlink_control.h
+ * @file mavlink_controller_rover.h
  *
  * @brief offboard control process via mavlink, definition
  *
@@ -30,7 +30,7 @@ using namespace std;
 
 #include <common/mavlink.h>
 
-#include "autopilot_interface.h"
+#include "ardurover_interface.h"
 #include "serial_port.h"
 #include "udp_port.h"
 #include "port_mangement.h"
