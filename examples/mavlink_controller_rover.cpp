@@ -43,10 +43,10 @@ int main(int argc, char **argv)
         port = new Serial_Port(uart_name, baudrate);
     }
 
-    Autopilot_Interface autopilot_interface(port);
+    Ardurover_Interface ardurover_interface(port);
 
     port_quit = port;
-    autopilot_interface_quit = &autopilot_interface;
+    ardurover_interface_quit = &ardurover_interface;
     signal(SIGINT, quit_handler);
 
     port->start();
@@ -73,10 +73,10 @@ void quit_handler(int sig )
     printf("TERMINATING AT USER REQUEST\n");
     printf("\n");
 
-    // autopilot interface
+    // ardurover interface
     try
     {
-        autopilot_interface_quit->handle_quit(sig);
+        ardurover_interface_quit->handle_quit(sig);
     }
     catch (int error)
     {

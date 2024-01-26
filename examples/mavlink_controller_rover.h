@@ -45,6 +45,6 @@ int main(int argc, char **argv);
 // 		bool &use_udp, char *&udp_ip, int &udp_port);
 
 // quit handler
-Autopilot_Interface *autopilot_interface_quit;
+Ardurover_Interface *ardurover_interface_quit;
 Generic_Port *port_quit;
 void quit_handler( int sig );

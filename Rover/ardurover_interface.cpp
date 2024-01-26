@@ -1,9 +1,9 @@
 /**
  * @file ardurover_interface.cpp
  *
- * @brief Autopilot interface functions
+ * @brief Ardurover interface functions
  *
- * Functions for sending and recieving commands to an autopilot via MAVlink
+ * Functions for sending and recieving commands to an ardurover via MAVlink
  *
  * @author Trent Lukaczyk, <aerialhedgehog@gmail.com>
  * @author Jaycee Lock,    <jaycee.lock@gmail.com>
@@ -145,39 +145,39 @@ set_yaw_rate(float yaw_rate, mavlink_set_position_target_local_ned_t &sp)
 
 
 // ----------------------------------------------------------------------------------
-//   Autopilot Interface Class
+//   Ardurover Interface Class
 // ----------------------------------------------------------------------------------
 
 // ------------------------------------------------------------------------------
 //   Con/De structors
 // ------------------------------------------------------------------------------
-Autopilot_Interface::
-Autopilot_Interface(Generic_Port *port_)
+Ardurover_Interface::
+Ardurover_Interface(Generic_Port *port_)
 {
 	// initialize attributes
 	write_count = 0;
 
 	reading_status = 0;      // whether the read thread is running
 	writing_status = 0;      // whether the write thread is running
-	control_status = 0;      // whether the autopilot is in offboard control mode
+	control_status = 0;      // whether the ardurover is in offboard control mode
 	time_to_exit   = false;  // flag to signal thread exit
 
 	read_tid  = 0; // read thread id
 	write_tid = 0; // write thread id
 
 	system_id    = 0; // system id
-	autopilot_id = 0; // autopilot component id
+	ardurover_id = 0; // ardurover component id
 	companion_id = 0; // companion computer component id
 
 	current_messages.sysid  = system_id;
-	current_messages.compid = autopilot_id;
+	current_messages.compid = ardurover_id;
 
 	port = port_; // port management object
 
 }
 
-Autopilot_Interface::
-~Autopilot_Interface()
+Ardurover_Interface::
+~Ardurover_Interface()
 {}
 
 
@@ -185,7 +185,7 @@ Autopilot_Interface::
 //   Update Setpoint
 // ------------------------------------------------------------------------------
 void
-Autopilot_Interface::
+Ardurover_Interface::
 update_setpoint(mavlink_set_position_target_local_ned_t setpoint)
 {
 	std::lock_guard<std::mutex> lock(current_setpoint.mutex);
@@ -197,7 +197,7 @@ update_setpoint(mavlink_set_position_target_local_ned_t setpoint)
 //   Read Messages
 // ------------------------------------------------------------------------------
 void
-Autopilot_Interface::
+Ardurover_Interface::
 read_messages()
 {
 	bool success;               // receive success flag
@@ -357,7 +357,7 @@ read_messages()
 //   Write Message
 // ------------------------------------------------------------------------------
 int
-Autopilot_Interface::
+Ardurover_Interface::
 write_message(mavlink_message_t message)
 {
 	// do the write
@@ -377,7 +377,7 @@ write_message(mavlink_message_t message)
 //   Write Setpoint Message
 // ------------------------------------------------------------------------------
 void
-Autopilot_Interface::
+Ardurover_Interface::
 write_setpoint()
 {
 	// --------------------------------------------------------------------------
@@ -395,7 +395,7 @@ write_setpoint()
 	if ( not sp.time_boot_ms )
 		sp.time_boot_ms = (uint32_t) (get_time_usec()/1000);
 	sp.target_system    = system_id;
-	sp.target_component = autopilot_id;
+	sp.target_component = ardurover_id;
 
 
 	// --------------------------------------------------------------------------
@@ -421,243 +421,17 @@ write_setpoint()
 
 	return;
 }
-
-// ------------------------------------------------------------------------------
-//   Start Off-Board Mode
-// ------------------------------------------------------------------------------
-void
-Autopilot_Interface::
-enable_offboard_control()
-{
-	control_status = false;
-	printf(" the value of control_status is %d\n",control_status);
-	// Should only send this command once
-	if ( control_status == false )
-	{
-		printf("ENABLE OFFBOARD MODE\n");
-
-		// ----------------------------------------------------------------------
-		//   TOGGLE OFF-BOARD MODE
-		// ----------------------------------------------------------------------
-
-		// Sends the command to go off-board
-		int success = toggle_offboard_control( true );
-
-		// Check the command was written
-		if ( success )
-		{
-			control_status = true;
-			printf(" the value of control_status is %d\n",control_status);
-		}
-		else
-		{
-			fprintf(stderr,"Error: off-board mode not set, could not write message\n");
-			//throw EXIT_FAILURE;
-		}
-
-		printf("\n");
-
-	} // end: if not offboard_status
-
-}
-
-
-// ------------------------------------------------------------------------------
-//   Stop Off-Board Mode
-// ------------------------------------------------------------------------------
-void
-Autopilot_Interface::
-disable_offboard_control()
-{
-
-	// Should only send this command once
-	if ( control_status == true )
-	{
-		printf("DISABLE OFFBOARD MODE\n");
-
-		// ----------------------------------------------------------------------
-		//   TOGGLE OFF-BOARD MODE
-		// ----------------------------------------------------------------------
-
-		// Sends the command to stop off-board
-		int success = toggle_offboard_control( false );
-
-		// Check the command was written
-		if ( success )
-			control_status = false;
-		else
-		{
-			fprintf(stderr,"Error: off-board mode not set, could not write message\n");
-			//throw EXIT_FAILURE;
-		}
-
-		printf("\n");
-
-	} // end: if offboard_status
-
-}
-
-// ------------------------------------------------------------------------------
-//   Arm
-// ------------------------------------------------------------------------------
-int
-Autopilot_Interface::
-arm_disarm( bool flag )
-{
-	if(flag)
-	{
-		printf("ARM ROTORS\n");
-	}
-	else
-	{
-		printf("DISARM ROTORS\n");
-	}
-
-	// Prepare command for off-board mode
-	mavlink_command_long_t com = { 0 };
-	com.target_system    = system_id;
-	com.target_component = autopilot_id;
-	com.command          = MAV_CMD_COMPONENT_ARM_DISARM;
-	com.confirmation     = true;
-	com.param1           = (float) flag;
-	com.param2           = 21196;
-
-	// Encode
-	mavlink_message_t message;
-	mavlink_msg_command_long_encode(system_id, companion_id, &message, &com);
-
-	// Send the message
-	int len = port->write_message(message);
-
-	// Done!
-	return len;
-}
-
-// ------------------------------------------------------------------------------
-//   Toggle Off-Board Mode
-// ------------------------------------------------------------------------------
-int
-Autopilot_Interface::
-toggle_offboard_control( bool flag )
-{
-	// Prepare command for off-board mode
-	mavlink_command_long_t com = { 0 };
-	com.target_system    = system_id;
-	com.target_component = autopilot_id;
-	com.command          = MAV_CMD_NAV_GUIDED_ENABLE;
-	com.confirmation     = true;
-	com.param1           = (float) flag; // flag >0.5 => start, <0.5 => stop
-
-	// Encode
-	mavlink_message_t message;
-	mavlink_msg_command_long_encode(system_id, companion_id, &message, &com);
-
-	// Send the message
-	int len = port->write_message(message);
-
-	// Done!
-	return len;
-}
-
-// ------------------------------------------------------------------------------
-//   RETURN_TO_LAUNCH Mode
-// ------------------------------------------------------------------------------
-int
-Autopilot_Interface::
-return_to_launch()
-{
-	// Prepare command for off-board mode
-	mavlink_command_long_t com = { 0 };
-	com.target_system    = system_id;
-	com.target_component = autopilot_id;
-	com.command          = MAV_CMD_NAV_RETURN_TO_LAUNCH;
-	com.confirmation     = true;
-	// com.param1           = (float) flag; // flag >0.5 => start, <0.5 => stop
-
-	// Encode
-	mavlink_message_t message;
-	mavlink_msg_command_long_encode(system_id, companion_id, &message, &com);
-
-	// Send the message
-	int len = port->write_message(message);
-
-	// Done!
-	return len;
-}
-
-// ------------------------------------------------------------------------------
-//   TAKEOFF_LOCAL Mode
-// ------------------------------------------------------------------------------
-int
-Autopilot_Interface::
-takeoff_local()
-{
-	// Prepare command for takeoff_local mode
-	mavlink_command_long_t com = { 0 };
-	com.target_system    = system_id;
-	com.target_component = autopilot_id;
-	com.command          = MAV_CMD_NAV_TAKEOFF;
-	com.confirmation     = true;
-	com.param1           = 0; // 
-	com.param2           = 0; // 
-	com.param3           = 0; // 
-	com.param4           = 0; // 
-	com.param5           = 0; // 
-	com.param6           = 0; // 
-	com.param7           = 20; // 
-
-	// Encode
-	mavlink_message_t message;
-	mavlink_msg_command_long_encode(system_id, companion_id, &message, &com);
-
-	// Send the message
-	int len = port->write_message(message);
-
-	// Done!
-	return len;
-}
-// ------------------------------------------------------------------------------
-//   MAV_CMD_NAV_LAND Mode
-// ------------------------------------------------------------------------------
-int
-Autopilot_Interface::
-land()
-{
-	// Prepare command for MAV_CMD_NAV_LAND mode
-	mavlink_command_long_t com = { 0 };
-	com.target_system    = system_id;
-	com.target_component = autopilot_id;
-	com.command          = MAV_CMD_NAV_LAND;
-	com.confirmation     = true;
-	com.param1           = 0; // 
-	com.param2           = 0; // 
-	com.param3           = 0; // 
-	com.param4           = 0; // 
-	com.param5           = 0; // 
-	com.param6           = 0; // 
-	com.param7           = 0; // 
-
-	// Encode
-	mavlink_message_t message;
-	mavlink_msg_command_long_encode(system_id, companion_id, &message, &com);
-
-	// Send the message
-	int len = port->write_message(message);
-
-	// Done!
-	return len;
-}
 // ------------------------------------------------------------------------------
 //   MAV_CMD_DO_SET_MODE 
 // ------------------------------------------------------------------------------
 int
-Autopilot_Interface::
+Ardurover_Interface::
 do_set_mode(int mode_number)
 {
 	// Prepare command for takeoff_local mode
 	mavlink_command_long_t com = { 0 };
 	com.target_system    = system_id;
-	com.target_component = autopilot_id;
+	com.target_component = ardurover_id;
 	com.command          = MAV_CMD_DO_SET_MODE;
 	com.confirmation     = true;
 	com.param1           = 1; // TODO:4不可以？
@@ -676,109 +450,10 @@ do_set_mode(int mode_number)
 	return len;
 }
 // ------------------------------------------------------------------------------
-//   set_velocity
-// ------------------------------------------------------------------------------
-int
-Autopilot_Interface::
-set_velocity(float vn,float ve,float vd)
-{
-	// Prepare command for takeoff_local mode
-	mavlink_set_position_target_local_ned_t com = { 0 };
-	com.coordinate_frame = MAV_FRAME_LOCAL_NED;
-	com.target_system    = system_id;
-	com.target_component = autopilot_id;
-	com.type_mask        = MAVLINK_MSG_SET_POSITION_TARGET_LOCAL_NED_VELOCITY;
-	// com.type_mask        = MAVLINK_MSG_SET_POSITION_TARGET_LOCAL_NED_POSITION;
-	// com.x                = 1000; // 
-	// com.y                = 0; // 
-	// com.z                = 0; // 
-	com.vx               = vn; //
-	com.vy               = ve; // 
-	com.vz               = vd; // 
-	// com.afx              = 10; //
-	// com.afy              = 10; // 
-	// com.afz              = -0; //
-	// com.yaw              = 10; // 
-	// com.yaw_rate         = 10; // 
-
-	// Encode
-	mavlink_message_t message;
-	mavlink_msg_set_position_target_local_ned_encode(system_id, companion_id, &message, &com);
-
-	// Send the message
-	int len = port->write_message(message);
-	// Done!
-	return len;
-}
-// ------------------------------------------------------------------------------
-//   way_point
-// ------------------------------------------------------------------------------
-int
-Autopilot_Interface::
-waypoint(double lon,double lat,float alt)
-{
-	// Prepare command for MAV_CMD_NAV_WAYPOINT mode
-	mavlink_command_int_t com = { 0 };
-	com.target_system    = system_id;
-	com.target_component = autopilot_id;
-	// com.frame            = MAV_FRAME_GLOBAL_RELATIVE_ALT_INT;
-	com.frame            = MAV_FRAME_GLOBAL;
-    com.current          = 1;
-    com.autocontinue     = 1;
-	// com.command          = MAV_CMD_NAV_WAYPOINT;
-	com.command          = MAV_CMD_DO_REPOSITION;
-	com.param1           = 1; // 
-	com.param2           = 1; // 
-	// com.param2           = MAV_DO_REPOSITION_FLAGS;
-	com.param3           = 1; // 
-	com.param4           = 0; // 
-	com.x                = (int)lon; // 
-	com.y                = (int)lat; // 
-	com.z                = alt; // 
-
-	// Encode
-	mavlink_message_t message;
-	mavlink_msg_command_int_encode(system_id, companion_id, &message, &com);
-
-	// Send the message
-	int len = port->write_message(message);
-
-	// Done!
-	return len;
-}
-// ------------------------------------------------------------------------------
-//   CIRCLE Mode
-// ------------------------------------------------------------------------------
-int
-Autopilot_Interface::
-circle()
-{
-	// Prepare command for circle mode
-	mavlink_command_long_t com = { 0 };
-	com.target_system    = system_id;
-	com.target_component = autopilot_id;
-	com.command          = MAV_CMD_DO_SET_MODE;
-	com.confirmation     = true;
-	com.param1           = 1; // TODO:
-	com.param2           = 7; // 4GUIDED 6RTL 7CIRCLE
-	// com.param1           = (float) flag; // flag >0.5 => start, <0.5 => stop
-
-	// Encode
-	mavlink_message_t message;
-	mavlink_msg_command_long_encode(system_id, companion_id, &message, &com);
-
-	// Send the message
-	int len = port->write_message(message);
-
-	// Done!
-	return len;
-}
-
-// ------------------------------------------------------------------------------
 //   STARTUP
 // ------------------------------------------------------------------------------
 void
-Autopilot_Interface::
+Ardurover_Interface::
 start()
 {
 	int result;
@@ -800,7 +475,7 @@ start()
 
 	printf("START READ THREAD \n");
 
-	result = pthread_create( &read_tid, NULL, &start_autopilot_interface_read_thread, this );
+	result = pthread_create( &read_tid, NULL, &start_ardurover_interface_read_thread, this );
 	if ( result ) throw result;
 
 	// now we're reading messages
@@ -822,7 +497,7 @@ start()
 
 	printf("Found\n");
 
-	// now we know autopilot is sending messages
+	// now we know ardurover is sending messages
 	printf("\n");
 
 
@@ -831,7 +506,7 @@ start()
 	// --------------------------------------------------------------------------
 
 	// This comes from the heartbeat, which in theory should only come from
-	// the autopilot we're directly connected to it.  If there is more than one
+	// the ardurover we're directly connected to it.  If there is more than one
 	// vehicle then we can't expect to discover id's like this.
 	// In which case set the id's manually.
 
@@ -843,10 +518,10 @@ start()
 	}
 
 	// Component ID
-	if ( not autopilot_id )
+	if ( not ardurover_id )
 	{
-		autopilot_id = current_messages.compid;
-		printf("GOT AUTOPILOT COMPONENT ID: %i\n", autopilot_id);
+		ardurover_id = current_messages.compid;
+		printf("GOT Ardurover COMPONENT ID: %i\n", ardurover_id);
 		printf("\n");
 	}
 
@@ -887,7 +562,7 @@ start()
 	// --------------------------------------------------------------------------
 	printf("START WRITE THREAD \n");
 
-	result = pthread_create( &write_tid, NULL, &start_autopilot_interface_write_thread, this );
+	result = pthread_create( &write_tid, NULL, &start_ardurover_interface_write_thread, this );
 	if ( result ) throw result;
 
 	// wait for it to be started
@@ -908,7 +583,7 @@ start()
 //   SHUTDOWN
 // ------------------------------------------------------------------------------
 void
-Autopilot_Interface::
+Ardurover_Interface::
 stop()
 {
 	// --------------------------------------------------------------------------
@@ -933,7 +608,7 @@ stop()
 //   Read Thread
 // ------------------------------------------------------------------------------
 void
-Autopilot_Interface::
+Ardurover_Interface::
 start_read_thread()
 {
 
@@ -955,7 +630,7 @@ start_read_thread()
 //   Write Thread
 // ------------------------------------------------------------------------------
 void
-Autopilot_Interface::
+Ardurover_Interface::
 start_write_thread(void)
 {
 	if ( not writing_status == false )
@@ -977,7 +652,7 @@ start_write_thread(void)
 //   Quit Handler
 // ------------------------------------------------------------------------------
 void
-Autopilot_Interface::
+Ardurover_Interface::
 handle_quit( int sig )
 {
 
@@ -988,7 +663,7 @@ handle_quit( int sig )
 
 	}
 	catch (int error) {
-		fprintf(stderr,"Warning, could not stop autopilot interface\n");
+		fprintf(stderr,"Warning, could not stop ardurover interface\n");
 	}
 
 }
@@ -999,7 +674,7 @@ handle_quit( int sig )
 //   Read Thread
 // ------------------------------------------------------------------------------
 void
-Autopilot_Interface::
+Ardurover_Interface::
 read_thread()
 {
 	reading_status = true;
@@ -1020,7 +695,7 @@ read_thread()
 //   Write Thread
 // ------------------------------------------------------------------------------
 void
-Autopilot_Interface::
+Ardurover_Interface::
 write_thread(void)
 {
 	// signal startup
@@ -1061,7 +736,7 @@ write_thread(void)
 
 }
 
-// End Autopilot_Interface
+// End Ardurover_Interface
 
 
 // ------------------------------------------------------------------------------
@@ -1069,26 +744,26 @@ write_thread(void)
 // ------------------------------------------------------------------------------
 
 void*
-start_autopilot_interface_read_thread(void *args)
+start_ardurover_interface_read_thread(void *args)
 {
-	// takes an autopilot object argument
-	Autopilot_Interface *autopilot_interface = (Autopilot_Interface *)args;
+	// takes an ardurover object argument
+	Ardurover_Interface *ardurover_interface = (Ardurover_Interface *)args;
 
 	// run the object's read thread
-	autopilot_interface->start_read_thread();
+	ardurover_interface->start_read_thread();
 
 	// done!
 	return NULL;
 }
 
 void*
-start_autopilot_interface_write_thread(void *args)
+start_ardurover_interface_write_thread(void *args)
 {
-	// takes an autopilot object argument
-	Autopilot_Interface *autopilot_interface = (Autopilot_Interface *)args;
+	// takes an ardurover object argument
+	Ardurover_Interface *ardurover_interface = (Ardurover_Interface *)args;
 
 	// run the object's read thread
-	autopilot_interface->start_write_thread();
+	ardurover_interface->start_write_thread();
 
 	// done!
 	return NULL;

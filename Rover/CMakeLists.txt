@@ -1,5 +1,5 @@
 add_library(mavlink_control_ardurover SHARED
-  integrated_interface.cpp
+  ./integrated_interface.cpp
   ardurover_interface.cpp
 )
 

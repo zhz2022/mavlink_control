@@ -1,5 +1,5 @@
 add_library(mavlink_control_arducopter SHARED
-  integrated_interface.cpp
+  ./integrated_interface.cpp
   autopilot_interface.cpp
 )
 
