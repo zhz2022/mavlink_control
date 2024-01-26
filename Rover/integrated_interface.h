@@ -21,7 +21,7 @@ using namespace std;
 
 #include <common/mavlink.h>
 
-#include "autopilot_interface.h"
+#include "ardurover_interface.h"
 #include "serial_port.h"
 #include "udp_port.h"
 #include "port_mangement.h"
@@ -52,14 +52,12 @@ enum Mode_Number {
 };
 
 int mode_selecter();
-void mode_init(Autopilot_Interface &autopilot_interface);
-void mode_quit(Autopilot_Interface &autopilot_interface,Generic_Port *port);
-void mode_rtl(Autopilot_Interface &autopilot_interface);
-void mode_takeoff_local(Autopilot_Interface &autopilot_interface);
-void waypoint(Autopilot_Interface &autopilot_interface,double lon,double lat,float alt);
-void print_msg_test(Autopilot_Interface &autopilot_interface);
-void mode_circle(Autopilot_Interface &autopilot_interface);
-void do_set_mode(Autopilot_Interface &autopilot_interface,int mode_number);
-void move_ned_duration(Autopilot_Interface &autopilot_interface,float vn,float ve,float vd,float duration);
+void mode_init(Ardurover_Interface &ardurover_interface);
+void mode_quit(Ardurover_Interface &ardurover_interface,Generic_Port *port);
+
+void print_msg_test(Ardurover_Interface &ardurover_interface);
+
+void do_set_mode(Ardurover_Interface &ardurover_interface,int mode_number);
+
 
 #endif // MODE_SELECTER_H_

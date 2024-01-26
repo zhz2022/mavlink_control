@@ -20,52 +20,27 @@ int mode_selecter()
     std::cout << "===================================="  << std::endl;
     return mode;
 }
-void mode_init(Autopilot_Interface &autopilot_interface){
+void mode_init(Ardurover_Interface &ardurover_interface){
     std::cout << "mode_init started" << std::endl;
-    autopilot_interface.start();
+    ardurover_interface.start();
 	usleep(100); // give some time to let it sink in
-    autopilot_interface.arm_disarm(true);
+    ardurover_interface.arm_disarm(true);
     usleep(100); // give some time to let it sink in
 
 	printf("SEND OFFBOARD COMMANDS\n");
 }
-void mode_land(Autopilot_Interface &autopilot_interface){
-    std::cout << "mode_land started" << std::endl;
-    // land
-    autopilot_interface.land();
-    usleep(100); // give some time to let it sink in
-}
-void mode_quit(Autopilot_Interface &autopilot_interface, Generic_Port *port){
+void mode_quit(Ardurover_Interface &ardurover_interface, Generic_Port *port){
     std::cout << "mode_quit started" << std::endl;
-    autopilot_interface.arm_disarm(false);
+    ardurover_interface.arm_disarm(false);
     std::cout << "mode_quit started disarm" << std::endl;
     usleep(100); // give some time to let it sink in
 
-    autopilot_interface.stop();
+    ardurover_interface.stop();
     port->stop();
     delete port;
 }
-void mode_rtl(Autopilot_Interface &autopilot_interface){
-    std::cout << "mode_rtl started" << std::endl;
-    autopilot_interface.return_to_launch();
-    usleep(100); // give some time to let it sink in
-}
-void mode_takeoff_local(Autopilot_Interface &autopilot_interface){
-    std::cout << "mode_takeoff_local started" << std::endl;
-    autopilot_interface.takeoff_local();
-    usleep(100); // give some time to let it sink in
-}
-void waypoint(Autopilot_Interface &autopilot_interface,double lon,double lat,float alt){
-    autopilot_interface.waypoint(lon,lat,alt);
-    usleep(100); // give some time to let it sink in
-}
-void mode_circle(Autopilot_Interface &autopilot_interface){
-    std::cout << "mode_circle started" << std::endl;
-    autopilot_interface.circle();
-    usleep(100); // give some time to let it sink in
-}
-void print_msg_test(Autopilot_Interface &autopilot_interface){
-    Mavlink_Messages msgs = autopilot_interface.current_messages;
+void print_msg_test(Ardurover_Interface &ardurover_interface){
+    Mavlink_Messages msgs = ardurover_interface.current_messages;
     std::cout << "Current position: " << msgs.local_position_ned.x << " " << msgs.local_position_ned.y << " " << msgs.local_position_ned.z << std::endl;
     std::cout << "Current velocity: " << msgs.local_position_ned.vx << " " << msgs.local_position_ned.vy << " " << msgs.local_position_ned.vz << std::endl;
     std::cout << "Current pose: " << msgs.attitude.roll << " " << msgs.attitude.pitch << " " << msgs.attitude.yaw << " " << std::endl;
@@ -73,14 +48,7 @@ void print_msg_test(Autopilot_Interface &autopilot_interface){
     std::cout << "Current globally_set_velocity_ned: " << msgs.global_position_int.vx << " " << msgs.global_position_int.vy << " " << msgs.global_position_int.vz << msgs.global_position_int.hdg << std::endl;
     std::cout << "Current battery_voltage: " << msgs.sys_status.voltage_battery << std::endl;
 }
-void do_set_mode(Autopilot_Interface &autopilot_interface,int mode_number){
-    autopilot_interface.do_set_mode(mode_number);
+void do_set_mode(Ardurover_Interface &ardurover_interface,int mode_number){
+    ardurover_interface.do_set_mode(mode_number);
     usleep(100); // give some time to let it sink in
-}
-void move_ned_duration(Autopilot_Interface &autopilot_interface,float vn,float ve,float vd,float duration){
-	std::cout << "mode_move_forward started" << std::endl;
-    for(int i = 1; i <= 2000*duration; i++){
-        autopilot_interface.set_velocity(vn,ve,vd);
-        usleep(100); // give some time to let it sink in
-    }
 }
