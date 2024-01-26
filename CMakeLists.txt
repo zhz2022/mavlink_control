@@ -23,6 +23,7 @@ include_directories(
 add_subdirectory(examples)
 add_subdirectory(common)
 add_subdirectory(Copter)
+add_subdirectory(Rover)
 
 # install(TARGETS mavlink_control
 #   LIBRARY DESTINATION /usr/lib
