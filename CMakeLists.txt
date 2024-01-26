@@ -7,6 +7,8 @@ include_directories(
   third_party/mavlink/v2.0
   examples
   common
+  Copter
+  Rover
   .
 )
 
@@ -20,6 +22,7 @@ include_directories(
 
 add_subdirectory(examples)
 add_subdirectory(common)
+add_subdirectory(Copter)
 
 # install(TARGETS mavlink_control
 #   LIBRARY DESTINATION /usr/lib

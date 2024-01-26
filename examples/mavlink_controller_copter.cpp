@@ -13,7 +13,7 @@
 //   Includes
 // ------------------------------------------------------------------------------
 
-#include "mavlink_control_copter.h"
+#include "mavlink_controller_copter.h"
 
 int gl_mode_select = 0;
 enum Mode {MY_INIT=1,MY_TAKEOFF,MY_MOVE_FORWARD,MY_MOVE_BACKWARD,MY_MOVE_LEFT,MY_MOVE_RIGHT,MY_STOP,MY_LAND,MY_QUIT,MY_RTL,\
