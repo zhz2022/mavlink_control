@@ -163,9 +163,12 @@ simulate:
 
 ```
 cd ~/ardupilot/ArduCopter
-output add 127.0.0.1:14552
+cd ~/ardupilot/Rover
+
 
 sim_vehicle.py --console --map
+
+output add 127.0.0.1:14552
 mode guided
 arm throttle
 takeoff 40

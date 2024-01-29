@@ -3,7 +3,7 @@
 int mode_selecter()
 {
     int mode;
-    std::cout << "请选择模式(输入number)"                 << std::endl;
+    std::cout << "请选择模式(输入number)"                  << std::endl;
     std::cout << "1:init           2:takeoff"            << std::endl;
     std::cout << "3:forward        4:move_backward"      << std::endl;
     std::cout << "5:move_left      6:move_right"         << std::endl;
