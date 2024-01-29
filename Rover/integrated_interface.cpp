@@ -24,14 +24,14 @@ void mode_init(Ardurover_Interface &ardurover_interface){
     std::cout << "mode_init started" << std::endl;
     ardurover_interface.start();
 	usleep(100); // give some time to let it sink in
-    ardurover_interface.arm_disarm(true);
+    // ardurover_interface.arm_disarm(true);
     usleep(100); // give some time to let it sink in
 
 	printf("SEND OFFBOARD COMMANDS\n");
 }
 void mode_quit(Ardurover_Interface &ardurover_interface, Generic_Port *port){
     std::cout << "mode_quit started" << std::endl;
-    ardurover_interface.arm_disarm(false);
+    // ardurover_interface.arm_disarm(false);
     std::cout << "mode_quit started disarm" << std::endl;
     usleep(100); // give some time to let it sink in
 

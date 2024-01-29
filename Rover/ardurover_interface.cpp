@@ -421,6 +421,144 @@ write_setpoint()
 
 	return;
 }
+
+// ------------------------------------------------------------------------------
+//   Start Off-Board Mode
+// ------------------------------------------------------------------------------
+void
+Ardurover_Interface::
+enable_offboard_control()
+{
+	control_status = false;
+	printf(" the value of control_status is %d\n",control_status);
+	// Should only send this command once
+	if ( control_status == false )
+	{
+		printf("ENABLE OFFBOARD MODE\n");
+
+		// ----------------------------------------------------------------------
+		//   TOGGLE OFF-BOARD MODE
+		// ----------------------------------------------------------------------
+
+		// Sends the command to go off-board
+		int success = toggle_offboard_control( true );
+
+		// Check the command was written
+		if ( success )
+		{
+			control_status = true;
+			printf(" the value of control_status is %d\n",control_status);
+		}
+		else
+		{
+			fprintf(stderr,"Error: off-board mode not set, could not write message\n");
+			//throw EXIT_FAILURE;
+		}
+
+		printf("\n");
+
+	} // end: if not offboard_status
+
+}
+
+
+// ------------------------------------------------------------------------------
+//   Stop Off-Board Mode
+// ------------------------------------------------------------------------------
+void
+Ardurover_Interface::
+disable_offboard_control()
+{
+
+	// Should only send this command once
+	if ( control_status == true )
+	{
+		printf("DISABLE OFFBOARD MODE\n");
+
+		// ----------------------------------------------------------------------
+		//   TOGGLE OFF-BOARD MODE
+		// ----------------------------------------------------------------------
+
+		// Sends the command to stop off-board
+		int success = toggle_offboard_control( false );
+
+		// Check the command was written
+		if ( success )
+			control_status = false;
+		else
+		{
+			fprintf(stderr,"Error: off-board mode not set, could not write message\n");
+			//throw EXIT_FAILURE;
+		}
+
+		printf("\n");
+
+	} // end: if offboard_status
+
+}
+
+// ------------------------------------------------------------------------------
+//   Arm
+// ------------------------------------------------------------------------------
+int
+Ardurover_Interface::
+arm_disarm( bool flag )
+{
+	if(flag)
+	{
+		printf("ARM ROTORS\n");
+	}
+	else
+	{
+		printf("DISARM ROTORS\n");
+	}
+
+	// Prepare command for off-board mode
+	mavlink_command_long_t com = { 0 };
+	com.target_system    = system_id;
+	com.target_component = ardurover_id;
+	com.command          = MAV_CMD_COMPONENT_ARM_DISARM;
+	com.confirmation     = true;
+	com.param1           = (float) flag;
+	com.param2           = 21196;
+
+	// Encode
+	mavlink_message_t message;
+	mavlink_msg_command_long_encode(system_id, companion_id, &message, &com);
+
+	// Send the message
+	int len = port->write_message(message);
+
+	// Done!
+	return len;
+}
+
+// ------------------------------------------------------------------------------
+//   Toggle Off-Board Mode
+// ------------------------------------------------------------------------------
+int
+Ardurover_Interface::
+toggle_offboard_control( bool flag )
+{
+	// Prepare command for off-board mode
+	mavlink_command_long_t com = { 0 };
+	com.target_system    = system_id;
+	com.target_component = ardurover_id;
+	com.command          = MAV_CMD_NAV_GUIDED_ENABLE;
+	com.confirmation     = true;
+	com.param1           = (float) flag; // flag >0.5 => start, <0.5 => stop
+
+	// Encode
+	mavlink_message_t message;
+	mavlink_msg_command_long_encode(system_id, companion_id, &message, &com);
+
+	// Send the message
+	int len = port->write_message(message);
+
+	// Done!
+	return len;
+}
+
 // ------------------------------------------------------------------------------
 //   MAV_CMD_DO_SET_MODE 
 // ------------------------------------------------------------------------------
@@ -656,7 +794,7 @@ Ardurover_Interface::
 handle_quit( int sig )
 {
 
-	disable_offboard_control();
+	// disable_offboard_control();
 
 	try {
 		stop();
