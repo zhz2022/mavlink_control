@@ -51,15 +51,42 @@ int main(int argc, char **argv)
 
     port->start();
 
-    // while(1){
-    //     usleep(100);
-    //     switch (gl_mode_select){
+    while(1){
+        usleep(100);
+        switch (gl_mode_select){
+            // case MY_INIT:
+            //     mode_init(ardurover_interface);
+            //     gl_mode_select = mode_selecter();
+            //     break;
+            case MY_MOVE_FORWARD:
 
-    //         default :
-    //             std::cout << "无效的模式选择" << std::endl;
-    //             gl_mode_select = mode_selecter();
-    //     }
-    // }
+                gl_mode_select = mode_selecter();
+                break;
+            case MY_QUIT:
+                mode_quit(ardurover_interface,port);
+                gl_mode_select = mode_selecter();
+                break;
+            case MY_RTL:
+                do_set_mode(ardurover_interface,RTL);
+                gl_mode_select = mode_selecter();
+                break;
+            case MY_GUIDED:
+                do_set_mode(ardurover_interface,GUIDED);
+                gl_mode_select = mode_selecter();
+                break;
+            case MY_AUTO:
+                do_set_mode(ardurover_interface,AUTO);
+                gl_mode_select = mode_selecter();
+                break;
+            case MY_PRINT_MSG:
+                print_msg_test(ardurover_interface);
+                gl_mode_select = mode_selecter();
+                break;
+            default :
+                std::cout << "无效的模式选择" << std::endl;
+                gl_mode_select = mode_selecter();
+        }
+    }
     return 0;
 }
 

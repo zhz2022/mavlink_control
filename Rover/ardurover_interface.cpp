@@ -5,9 +5,6 @@
  *
  * Functions for sending and recieving commands to an ardurover via MAVlink
  *
- * @author Trent Lukaczyk, <aerialhedgehog@gmail.com>
- * @author Jaycee Lock,    <jaycee.lock@gmail.com>
- * @author Lorenz Meier,   <lm@inf.ethz.ch>
  * @author ZhangPeng,      <zhangpengbjut@sina.com>
  *
  */
