@@ -17,7 +17,7 @@
 
 int gl_mode_select = 0;
 enum Mode {MY_INIT=1,MY_TAKEOFF,MY_MOVE_FORWARD,MY_MOVE_BACKWARD,MY_MOVE_LEFT,MY_MOVE_RIGHT,MY_STOP,MY_LAND,MY_QUIT,MY_RTL,\
-MY_TAKEOFF_LOCAL,MY_WAYPOINT,MY_GUIDED,MY_AUTO,MY_PRINT_MSG,MY_MOVE_UP,MY_MOVE_DOWN,MY_CIRCLE,MY_ZIGZAG};
+MY_TAKEOFF_LOCAL,MY_WAYPOINT,MY_GUIDED,MY_AUTO,MY_PRINT_MSG};
 
 // ------------------------------------------------------------------------------
 //   Main
@@ -54,10 +54,11 @@ int main(int argc, char **argv)
     while(1){
         usleep(100);
         switch (gl_mode_select){
-            // case MY_INIT:
-            //     mode_init(ardurover_interface);
-            //     gl_mode_select = mode_selecter();
-            //     break;
+            case MY_INIT:
+                mode_init(ardurover_interface);
+                std::cout << "case 1" << std::endl;
+                gl_mode_select = mode_selecter();
+                break;
             case MY_MOVE_FORWARD:
 
                 gl_mode_select = mode_selecter();
