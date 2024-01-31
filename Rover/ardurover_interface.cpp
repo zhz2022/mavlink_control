@@ -569,10 +569,9 @@ do_set_mode(int mode_number)
 	com.target_component = ardurover_id;
 	com.command          = MAV_CMD_DO_SET_MODE;
 	com.confirmation     = true;
-	com.param1           = 1; // TODO:4不可以？
-	com.param2           = mode_number; // 3AUTO4GUIDED 6RTL
-	// com.param6           = 0.0; // 
-	// com.param7           = -40.0; // 
+	com.param1           = 1; // mode
+	com.param2           = mode_number; // custom mode
+	// com.param3           = 0.0; // custom sub mode
 
 	// Encode
 	mavlink_message_t message;

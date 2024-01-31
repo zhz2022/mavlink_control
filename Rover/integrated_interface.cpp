@@ -3,8 +3,8 @@
 int mode_selecter()
 {
     int mode;
-    std::cout << "请选择模式(输入number)"                  << std::endl;
-    std::cout << "1:init           2:takeoff"            << std::endl;
+    std::cout << "rover请选择模式(输入number)"             << std::endl;
+    std::cout << "1:init           2:arm"                << std::endl;
     std::cout << "3:forward        4:move_backward"      << std::endl;
     std::cout << "5:move_left      6:move_right"         << std::endl;
     std::cout << "7:stop           8:land"               << std::endl;
@@ -12,8 +12,8 @@ int mode_selecter()
     std::cout << "11:takeoff_local 12:waypoint        "  << std::endl;
     std::cout << "13:set guided    14:set auto        "  << std::endl;
     std::cout << "15:print_msgs    16:move_up         "  << std::endl;
-    std::cout << "17:move_down     18:set circle      "  << std::endl;
-    std::cout << "19:zigzag        20:xxx             "  << std::endl;
+    std::cout << "17:move_down     18:xxxxxx      "  << std::endl;
+    std::cout << "19:xxxxxx        20:xxx             "  << std::endl;
     std::cout << "===================================="  << std::endl;
     std::cin  >> mode;
     std::cout << ":mode selected to: "<< mode            << std::endl;

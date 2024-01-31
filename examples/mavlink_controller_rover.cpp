@@ -16,8 +16,8 @@
 #include "mavlink_controller_rover.h"
 
 int gl_mode_select = 0;
-enum Mode {MY_INIT=1,MY_TAKEOFF,MY_MOVE_FORWARD,MY_MOVE_BACKWARD,MY_MOVE_LEFT,MY_MOVE_RIGHT,MY_STOP,MY_LAND,MY_QUIT,MY_RTL,\
-MY_TAKEOFF_LOCAL,MY_WAYPOINT,MY_GUIDED,MY_AUTO,MY_PRINT_MSG};
+enum Mode {MY_INIT=1,MY_ARM,MY_MOVE_FORWARD,MY_MOVE_BACKWARD,MY_MOVE_LEFT,MY_MOVE_RIGHT,MY_STOP,MY_LAND,MY_QUIT,MY_RTL,\
+TMP,MY_WAYPOINT,MY_GUIDED,MY_AUTO,MY_PRINT_MSG};
 
 // ------------------------------------------------------------------------------
 //   Main
@@ -51,6 +51,8 @@ int main(int argc, char **argv)
 
     port->start();
 
+    mavlink_set_position_target_local_ned_t sp;
+
     while(1){
         usleep(100);
         switch (gl_mode_select){
@@ -59,8 +61,29 @@ int main(int argc, char **argv)
                 std::cout << "case 1" << std::endl;
                 gl_mode_select = mode_selecter();
                 break;
+            case MY_ARM:
+                ardurover_interface.arm_disarm(true);
+                usleep(100); // give some time to let it sink in
+                gl_mode_select = mode_selecter();
+                break;
             case MY_MOVE_FORWARD:
-
+                set_velocity( 1.0,0.0,0.0,sp);
+                ardurover_interface.update_setpoint(sp);
+                gl_mode_select = mode_selecter();
+                break;
+            case MY_MOVE_BACKWARD:
+                set_velocity( -5.0,0.0,0.0,sp);
+                ardurover_interface.update_setpoint(sp);
+                gl_mode_select = mode_selecter();
+                break;
+            case MY_MOVE_LEFT:
+                set_velocity( 0.0,-5.0,0.0,sp);
+                ardurover_interface.update_setpoint(sp);
+                gl_mode_select = mode_selecter();
+                break;
+            case MY_MOVE_RIGHT:
+                set_velocity( 0.0,5.0,0.0,sp);
+                ardurover_interface.update_setpoint(sp);
                 gl_mode_select = mode_selecter();
                 break;
             case MY_QUIT:
