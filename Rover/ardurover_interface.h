@@ -73,6 +73,7 @@ public:
 	void handle_quit( int sig );
 
 	int  do_set_mode(int mode_number);
+	int  goto_location(double lon,double lat,float alt);
 
 
 private:

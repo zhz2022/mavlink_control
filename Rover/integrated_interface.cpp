@@ -9,7 +9,7 @@ int mode_selecter()
     std::cout << "5:move_left      6:move_right"         << std::endl;
     std::cout << "7:stop           8:land"               << std::endl;
     std::cout << "9:quit           10:return to launch"  << std::endl;
-    std::cout << "11:takeoff_local 12:waypoint        "  << std::endl;
+    std::cout << "11:takeoff_local 12:goto_location   "  << std::endl;
     std::cout << "13:set guided    14:set auto        "  << std::endl;
     std::cout << "15:print_msgs    16:move_up         "  << std::endl;
     std::cout << "17:move_down     18:xxxxxx      "  << std::endl;
@@ -50,5 +50,10 @@ void print_msg_test(Ardurover_Interface &ardurover_interface){
 }
 void do_set_mode(Ardurover_Interface &ardurover_interface,int mode_number){
     ardurover_interface.do_set_mode(mode_number);
+    usleep(100); // give some time to let it sink in
+}
+
+void goto_location(Ardurover_Interface &ardurover_interface,double lon,double lat,float alt){
+    ardurover_interface.goto_location(lon,lat,alt);
     usleep(100); // give some time to let it sink in
 }

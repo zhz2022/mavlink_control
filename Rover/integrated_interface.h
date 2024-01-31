@@ -58,6 +58,7 @@ void mode_quit(Ardurover_Interface &ardurover_interface,Generic_Port *port);
 void print_msg_test(Ardurover_Interface &ardurover_interface);
 
 void do_set_mode(Ardurover_Interface &ardurover_interface,int mode_number);
+void goto_location(Ardurover_Interface &ardurover_interface,double lon,double lat,float alt);
 
 
 #endif // MODE_SELECTER_H_

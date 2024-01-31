@@ -583,6 +583,63 @@ do_set_mode(int mode_number)
 	// Done!
 	return len;
 }
+
+// ------------------------------------------------------------------------------
+//   goto_location copyed from pymavlink https://github.com/mustafa-gokce/ardupilot-software-development/blob/main/pymavlink/goto-location.py
+// ------------------------------------------------------------------------------
+int
+Ardurover_Interface::
+goto_location(double lon,double lat,float alt)
+{
+	mavlink_command_int_t com = { 0 };
+	com.target_system    = system_id;
+	com.target_component = ardurover_id;
+    // seq                  = 0;
+	com.frame            = MAV_FRAME_GLOBAL_RELATIVE_ALT_INT;
+    com.current          = 2;
+    com.autocontinue     = 0;
+	// com.command          = MAV_CMD_NAV_WAYPOINT;
+	com.command          = MAV_CMD_DO_REPOSITION;//对于任务之外的引导命令，请使用 MAV_CMD_DO_REPOSITION
+	com.param1           = 0; // 
+	com.param2           = 0; // 
+	com.param3           = 0; // 
+	com.param4           = 0; // 
+	com.x                = (int)lon; // 
+	com.y                = (int)lat; // 
+	com.z                = alt; // 
+
+	// Encode
+	mavlink_message_t message;
+	mavlink_msg_command_int_encode(system_id, companion_id, &message, &com);
+
+	// Send the message
+	int len = port->write_message(message);
+
+	// Done!
+	return len;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // ------------------------------------------------------------------------------
 //   STARTUP
 // ------------------------------------------------------------------------------

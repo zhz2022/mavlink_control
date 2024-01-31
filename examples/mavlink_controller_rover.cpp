@@ -102,6 +102,11 @@ int main(int argc, char **argv)
                 do_set_mode(ardurover_interface,AUTO);
                 gl_mode_select = mode_selecter();
                 break;
+            case MY_WAYPOINT:
+                goto_location(ardurover_interface,-35.36130812,149.16114736,30);
+                std::cout << "goto location" << std::endl;
+                gl_mode_select = mode_selecter();
+                break;
             case MY_PRINT_MSG:
                 print_msg_test(ardurover_interface);
                 gl_mode_select = mode_selecter();
