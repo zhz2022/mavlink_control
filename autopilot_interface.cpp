@@ -926,6 +926,11 @@ start()
 
 	printf("CHECK FOR MESSAGES\n");
 
+#ifdef FAKE_GPS
+    current_messages.sysid = 1;
+	current_messages.compid = 1;
+#endif
+
 	while ( not current_messages.sysid )
 	{
 		if ( time_to_exit )
