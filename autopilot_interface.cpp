@@ -967,6 +967,22 @@ start()
 	// --------------------------------------------------------------------------
 	//   GET INITIAL POSITION
 	// --------------------------------------------------------------------------
+#ifdef FAKE_GPS
+
+    initial_position.x        = 0.0;
+	initial_position.y        = 0.0;
+	initial_position.z        = 0.0;
+	initial_position.vx       = 0.0;
+	initial_position.vy       = 0.0;
+	initial_position.vz       = 0.0;
+	initial_position.yaw      = 0.0;
+	initial_position.yaw_rate = 0.0;
+
+	printf("INITIAL POSITION XYZ = [ %.4f , %.4f , %.4f ] \n", initial_position.x, initial_position.y, initial_position.z);
+	printf("INITIAL POSITION YAW = %.4f \n", initial_position.yaw);
+	printf("\n");
+
+#else
 
 	// Wait for initial position ned//TODO//gps modul needed ,other model dont?
 	while ( not ( current_messages.time_stamps.local_position_ned &&
@@ -993,7 +1009,7 @@ start()
 	printf("\n");
 
 	// we need this before starting the write thread
-
+#endif
 
 	// --------------------------------------------------------------------------
 	//   WRITE THREAD
