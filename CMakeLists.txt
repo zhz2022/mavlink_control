@@ -9,6 +9,10 @@ include_directories(
   .
 )
 
+if(FAKE_GPS)
+    add_definitions(-DFAKE_GPS)
+endif()
+
 add_library(mavlink_control SHARED
   port_mangement.cpp
   integrated_interface.cpp

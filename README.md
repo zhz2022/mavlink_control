@@ -15,6 +15,7 @@ $ cd c_uart_interface_mavlink/
 $ mkdir build
 $ cd build
 $ cmake ..
+$ cmake -DFAKE_GPS=ON ..
 $ make
 $ sudo make install
 ```
