@@ -16,9 +16,15 @@
 #include "my_mavlink_control.h"
 
 int gl_mode_select = 0;
+#ifdef PX4
+enum Mode{};
+
+int main(int argc, char **argv){
+    ;
+}
+#else
 enum Mode {MY_INIT=1,MY_ARM,MY_MOVE_FORWARD,MY_MOVE_BACKWARD,MY_MOVE_LEFT,MY_MOVE_RIGHT,MY_STOP,MY_LAND,MY_QUIT,MY_RTL,\
 MY_TAKEOFF_LOCAL,MY_WAYPOINT,MY_GUIDED,MY_AUTO,MY_PRINT_MSG,MY_MOVE_UP,MY_MOVE_DOWN,MY_CIRCLE,MY_ZIGZAG,MY_OFFSET};
-
 // ------------------------------------------------------------------------------
 //   Main
 // ------------------------------------------------------------------------------
@@ -154,7 +160,7 @@ int main(int argc, char **argv)
     }
     return 0;
 }
-
+#endif
 // ------------------------------------------------------------------------------
 //   Quit Signal Handler
 // ------------------------------------------------------------------------------

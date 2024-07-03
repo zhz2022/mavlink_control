@@ -30,7 +30,20 @@ using namespace std;
 // ------------------------------------------------------------------------------
 //   Prototypes
 // ------------------------------------------------------------------------------
-
+#ifdef PX4 //1.12.3
+enum Mode_Number {
+        MANUAL   =      1,  // manual airframe angle with automatic throttle
+        ALTITUDE =      2,  // ALTITUDE
+        POSITION =      3,  // Position
+        MISSION  =      4,  // 任务模式允许无人机执行预先定义的自主任务
+        ARCO     =      5,  // 飞行器会悬停在当前的高度和位置。
+        OFFBOARD =      6,  // automatic return to launching point
+        STABILIZED =    7,  // roll和pitch独立控制多旋翼的角速度。  6 / 10
+        
+        RTL      =      5,  // 飞行器会遵循通过MAVLink提供的飞行设定点 7/1
+        AUTO_TAKEOFF =      17,  // 飞行器会遵循通过MAVLink提供的飞行设定点 7/14
+};
+#else
 enum Mode_Number {
         STABILIZE =     0,  // manual airframe angle with manual throttle
         ACRO =          1,  // manual body-frame angular rate with manual throttle
@@ -62,7 +75,7 @@ enum Mode_Number {
         // Mode number 127 reserved for the "drone show mode" in the Skybrush
         // fork at https://github.com/skybrush-io/ardupilot
 };
-
+#endif
 int mode_selecter();
 void mode_init(Autopilot_Interface &autopilot_interface);
 void mode_quit(Autopilot_Interface &autopilot_interface,Generic_Port *port);

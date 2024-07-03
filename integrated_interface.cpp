@@ -1,5 +1,30 @@
 #include "integrated_interface.h"
 
+#ifdef PX4
+int mode_selecter()
+{
+    int mode;
+    std::cout << "请选择模式(输入number)"                 << std::endl;
+    std::cout << "1:init           2:arm解锁"            << std::endl;
+    std::cout << "3:takeoff_local  4:mode1:manual"      << std::endl;
+    std::cout << "5:mode2:altitude 6:mode3:position"      << std::endl;
+    std::cout << "7:mode4:mission  8:mode5:arco"        << std::endl;
+    std::cout << "9:mode6:offboard 10:mode7:stabilized"      << std::endl;
+    std::cout << "11:move_forward  12:move_backward"         << std::endl;
+    std::cout << "13:move_left     14:move_right"               << std::endl;
+    std::cout << "15:move_up       16:move_down "        << std::endl;
+    std::cout << "17:move_stop     18:land        "      << std::endl;
+    std::cout << "19:modeX:RTL     20:RTL    "  << std::endl;
+    std::cout << "21:waypoint      22:print_msgs         "  << std::endl;
+    std::cout << "23:offset        24:QUIT  "  << std::endl;
+    std::cout << "25:Precise_Land         26:modeX  "  << std::endl;
+    std::cout << "===================================="  << std::endl;
+    std::cin  >> mode;
+    std::cout << ":mode selected to: "<< mode            << std::endl;
+    std::cout << "===================================="  << std::endl;
+    return mode;
+}
+#else
 int mode_selecter()
 {
     int mode;
@@ -20,6 +45,9 @@ int mode_selecter()
     std::cout << "===================================="  << std::endl;
     return mode;
 }
+
+
+#endif
 void mode_init(Autopilot_Interface &autopilot_interface){
     std::cout << "mode_init started" << std::endl;
     autopilot_interface.start();

@@ -13,6 +13,15 @@ if(FAKE_GPS)
     add_definitions(-DFAKE_GPS)
 endif()
 
+if(APM_4.1.3)
+    add_definitions(-DAPM_4.1.3)
+endif()
+
+if(PX4)
+    add_definitions(-DPX4)
+endif()
+
+
 add_library(mavlink_control SHARED
   port_mangement.cpp
   integrated_interface.cpp

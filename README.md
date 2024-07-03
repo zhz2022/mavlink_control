@@ -16,6 +16,7 @@ $ mkdir build
 $ cd build
 $ cmake ..
 $ cmake -DFAKE_GPS=ON ..
+$ cmake -DPX4=ON ..
 $ make
 $ sudo make install
 ```
