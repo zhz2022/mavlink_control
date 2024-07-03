@@ -111,7 +111,7 @@ int main(int argc, char **argv)
         
             case MY_MOVE_FORWARD:
                 //set_position(x + 1.0, y, z, sp); // set_velocity(1.0, 0.0, 0.0, sp);
-                set_velocity( 1.0,0.0,0.0,sp);
+                set_velocity( 0.5,0.0,0.0,sp);
                 autopilot_interface.update_setpoint(sp);
                 sleep(1);
                 set_velocity( 0.0,0.0,0.0,sp);
@@ -121,7 +121,7 @@ int main(int argc, char **argv)
 
             case MY_MOVE_BACKWARD:
                 //set_position(x - 1.0, y, z ,sp);//set_velocity( -1.0,0.0,0.0,sp);
-                set_velocity( -1.0,0.0,0.0,sp);
+                set_velocity( -0.5,0.0,0.0,sp);
                 autopilot_interface.update_setpoint(sp);
                 sleep(1);
                 set_velocity( 0.0,0.0,0.0,sp);
@@ -130,7 +130,7 @@ int main(int argc, char **argv)
                 break;
             case MY_MOVE_LEFT:
                 //set_position( x,y -1.0,z,sp);
-                set_velocity( 0.0,-1.0,0.0,sp);
+                set_velocity( 0.0,-0.5,0.0,sp);
                 autopilot_interface.update_setpoint(sp);
                 sleep(1);
                 set_velocity( 0.0,0.0,0.0,sp);
@@ -139,7 +139,7 @@ int main(int argc, char **argv)
                 break;
             case MY_MOVE_RIGHT:
                 //set_position( x, y+1.0,z,sp);
-                set_velocity( 0.0,1.0,0.0,sp);
+                set_velocity( 0.0,0.5,0.0,sp);
                 autopilot_interface.update_setpoint(sp);
                 sleep(1);
                 set_velocity( 0.0,0.0,0.0,sp);
@@ -147,7 +147,7 @@ int main(int argc, char **argv)
                 gl_mode_select = mode_selecter();
                 break;
             case MY_MOVE_UP:
-                set_velocity( 0.0,0.0,-1.0,sp);
+                set_velocity( 0.0,0.0,-0.5,sp);
                 autopilot_interface.update_setpoint(sp);
                 sleep(1);
                 set_velocity( 0.0,0.0,0.0,sp);
@@ -157,7 +157,7 @@ int main(int argc, char **argv)
                 break;
             case MY_MOVE_DOWN:
                 //set_position( x,y,z+1.0,sp);
-                set_velocity( 0.0,0.0,+1.0,sp);
+                set_velocity( 0.0,0.0,+0.5,sp);
                 autopilot_interface.update_setpoint(sp);
                 sleep(1);
                 set_velocity( 0.0,0.0,0.0,sp);
