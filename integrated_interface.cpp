@@ -17,7 +17,6 @@ int mode_selecter()
     std::cout << "19:modeX:RTL     20:RTL    "  << std::endl;
     std::cout << "21:waypoint      22:print_msgs         "  << std::endl;
     std::cout << "23:offset        24:QUIT  "  << std::endl;
-    std::cout << "25:Precise_Land         26:modeX  "  << std::endl;
     std::cout << "===================================="  << std::endl;
     std::cin  >> mode;
     std::cout << ":mode selected to: "<< mode            << std::endl;

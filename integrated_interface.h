@@ -40,8 +40,8 @@ enum Mode_Number {
         OFFBOARD =      6,  // automatic return to launching point
         STABILIZED =    7,  // roll和pitch独立控制多旋翼的角速度。  6 / 10
         
-        RTL      =      5,  // 飞行器会遵循通过MAVLink提供的飞行设定点 7/1
-        AUTO_TAKEOFF =      17,  // 飞行器会遵循通过MAVLink提供的飞行设定点 7/14
+        
+        //AUTO_TAKEOFF =      17,  // 飞行器会遵循通过MAVLink提供的飞行设定点 7/14
 };
 #else
 enum Mode_Number {
