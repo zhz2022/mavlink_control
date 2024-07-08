@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(px4_mavlink_control_lib)
+project(mavlink_control)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_FLAGS "-g -Wall -fPIC")
 
@@ -30,14 +30,14 @@ set(SOURCES
   autopilot_interface.cpp)
 
 
-add_library(px4_mavlink_control_lib SHARED ${SOURCES})
+add_library(mavlink_control SHARED ${SOURCES})
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 
 # 安装共享库到 /usr/local/lib
-install(TARGETS px4_mavlink_control_lib
-  LIBRARY DESTINATION /usr/lib
+install(TARGETS mavlink_control
+  LIBRARY DESTINATION /usr/local/lib
 )
 
 # 安装头文件到 /usr/include
@@ -58,12 +58,12 @@ install(FILES
     ${CMAKE_SOURCE_DIR}/port_mangement.h
     ${CMAKE_SOURCE_DIR}/serial_port.h
     ${CMAKE_SOURCE_DIR}/udp_port.h
-    DESTINATION /usr/include
+    DESTINATION /usr/local/include/c_uart_interface_mavlink
     )
 
 # 安装整个 third_party/mavlink 文件夹
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/third_party/mavlink/
-DESTINATION /usr/include/mavlink
+DESTINATION /usr/local/include/mavlink
 FILES_MATCHING PATTERN "*.h"
 )
 
