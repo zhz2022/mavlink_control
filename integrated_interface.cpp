@@ -1,67 +1,84 @@
 #include "integrated_interface.h"
 
-#ifdef PX4
-int mode_selecter()
-{
-    int mode;
-    std::cout << "请选择模式(输入number)"                 << std::endl;
-    std::cout << "1:init           2:arm解锁"            << std::endl;
-    std::cout << "3:takeoff_local  4:mode1:manual"      << std::endl;
-    std::cout << "5:mode2:altitude 6:mode3:position"      << std::endl;
-    std::cout << "7:mode4:mission  8:mode5:arco"        << std::endl;
-    std::cout << "9:mode6:offboard 10:mode7:stabilized"      << std::endl;
-    std::cout << "11:move_forward  12:move_backward"         << std::endl;
-    std::cout << "13:move_left     14:move_right"               << std::endl;
-    std::cout << "15:move_up       16:move_down "        << std::endl;
-    std::cout << "17:move_stop     18:land        "      << std::endl;
-    std::cout << "19:modeX:RTL     20:RTL    "  << std::endl;
-    std::cout << "21:waypoint      22:print_msgs         "  << std::endl;
-    std::cout << "23:offset        24:QUIT  "  << std::endl;
-    std::cout << "===================================="  << std::endl;
-    std::cin  >> mode;
-    std::cout << ":mode selected to: "<< mode            << std::endl;
-    std::cout << "===================================="  << std::endl;
-    return mode;
-}
-#else
-int mode_selecter()
-{
-    int mode;
-    std::cout << "请选择模式(输入number)"                 << std::endl;
-    std::cout << "1:init           2:arm解锁"            << std::endl;
-    std::cout << "3:forward        4:move_backward"      << std::endl;
-    std::cout << "5:move_left      6:move_right"         << std::endl;
-    std::cout << "7:stop           8:land"               << std::endl;
-    std::cout << "9:quit           10:return to launch"  << std::endl;
-    std::cout << "11:takeoff_local 12:waypoint        "  << std::endl;
-    std::cout << "13:set guided    14:set auto        "  << std::endl;
-    std::cout << "15:print_msgs    16:move_up         "  << std::endl;
-    std::cout << "17:move_down     18:set circle      "  << std::endl;
-    std::cout << "19:zigzag        20:set offset      "  << std::endl;
-    std::cout << "===================================="  << std::endl;
-    std::cin  >> mode;
-    std::cout << ":mode selected to: "<< mode            << std::endl;
-    std::cout << "===================================="  << std::endl;
-    return mode;
-}
 
-
-#endif
 void mode_init(Autopilot_Interface &autopilot_interface){
     std::cout << "mode_init started" << std::endl;
     autopilot_interface.start();
 	usleep(100); // give some time to let it sink in
     // autopilot_interface.arm_disarm(true);
     // usleep(100); // give some time to let it sink in
-
 	printf("SEND OFFBOARD COMMANDS\n");
 }
+
+void mode_armed(Autopilot_Interface &autopilot_interface){
+    std::cout << "armed " << std::endl;
+    autopilot_interface.arm_disarm(true);
+    usleep(100); // give some time to let it sink in
+	printf("ARMED\n");
+}
+
+void mode_disarmed(Autopilot_Interface &autopilot_interface){
+    std::cout << "disarmed " << std::endl;
+    autopilot_interface.arm_disarm(false);
+    usleep(100); // give some time to let it sink in
+	printf("DISARMED\n");
+}
+
+void mode_takeoff_local(Autopilot_Interface &autopilot_interface){
+    std::cout << "mode_takeoff_local started" << std::endl;
+    autopilot_interface.takeoff_local(10);
+    usleep(100); // give some time to let it sink in
+}
+
+void mode_manual(Autopilot_Interface &autopilot_interface){
+    std::cout << "mode_manual" << std::endl;
+    autopilot_interface.do_set_mode(MANUAL);
+    usleep(100); // give some time to let it sink in
+}
+
+
+void mode_altitude(Autopilot_Interface &autopilot_interface){
+    std::cout << "mode_altitude started" << std::endl;
+    autopilot_interface.do_set_mode(ALTITUDE);
+    usleep(100); // give some time to let it sink in
+}
+
+void mode_position(Autopilot_Interface &autopilot_interface){
+    std::cout << "mode_position started" << std::endl;
+    autopilot_interface.do_set_mode(POSITION);
+    usleep(100); // give some time to let it sink in
+}
+
+void mode_mission(Autopilot_Interface &autopilot_interface){
+    std::cout << "mode_mission started" << std::endl;
+    autopilot_interface.do_set_mode(MISSION);
+    usleep(100); // give some time to let it sink in
+}
+
+void mode_arco(Autopilot_Interface &autopilot_interface){
+    std::cout << "mode_arco started" << std::endl;
+    autopilot_interface.do_set_mode(ARCO);
+    usleep(100); // give some time to let it sink in
+}
+
+void mode_stabilized(Autopilot_Interface &autopilot_interface){
+    std::cout << "mode_stabilized started" << std::endl;
+    autopilot_interface.do_set_mode(STABILIZED);
+    usleep(100); // give some time to let it sink in
+}
+
+void mode_offboard(Autopilot_Interface &autopilot_interface){
+    std::cout << "mode_offboard started" << std::endl;
+    autopilot_interface.do_set_mode(OFFBOARD);
+    usleep(100); // give some time to let it sink in
+}
+
 void mode_land(Autopilot_Interface &autopilot_interface){
     std::cout << "mode_land started" << std::endl;
-    // land
     autopilot_interface.land();
     usleep(100); // give some time to let it sink in
 }
+
 void mode_quit(Autopilot_Interface &autopilot_interface, Generic_Port *port){
     std::cout << "mode_quit started" << std::endl;
     autopilot_interface.arm_disarm(false);
@@ -72,25 +89,79 @@ void mode_quit(Autopilot_Interface &autopilot_interface, Generic_Port *port){
     port->stop();
     delete port;
 }
+
 void mode_rtl(Autopilot_Interface &autopilot_interface){
     std::cout << "mode_rtl started" << std::endl;
     autopilot_interface.return_to_launch();
     usleep(100); // give some time to let it sink in
 }
-void mode_takeoff_local(Autopilot_Interface &autopilot_interface){
-    std::cout << "mode_takeoff_local started" << std::endl;
-    autopilot_interface.takeoff_local();
-    usleep(100); // give some time to let it sink in
+
+void move_forward_north(Autopilot_Interface &autopilot_interface){
+    //set_position(x + 1.0, y, z, sp); // set_velocity(1.0, 0.0, 0.0, sp);
+    mavlink_set_position_target_local_ned_t sp;
+    set_velocity( 1.0,0.0,0.0,sp);
+    autopilot_interface.update_setpoint(sp);
+    sleep(1);
+    set_velocity( 0.0,0.0,0.0,sp);
+    autopilot_interface.update_setpoint(sp);
 }
+
+void move_back_south(Autopilot_Interface &autopilot_interface){
+    mavlink_set_position_target_local_ned_t sp;
+    set_velocity( -1.0,0.0,0.0,sp);
+    autopilot_interface.update_setpoint(sp);
+    sleep(1);
+    set_velocity( 0.0,0.0,0.0,sp);
+    autopilot_interface.update_setpoint(sp);
+}
+
+void move_left_west(Autopilot_Interface &autopilot_interface){
+    mavlink_set_position_target_local_ned_t sp;
+    set_velocity( 0.0,-1.0,0.0,sp);
+    autopilot_interface.update_setpoint(sp);
+    sleep(1);
+    set_velocity( 0.0,0.0,0.0,sp);
+    autopilot_interface.update_setpoint(sp);
+}
+
+void move_right_east(Autopilot_Interface &autopilot_interface){
+    mavlink_set_position_target_local_ned_t sp;
+    set_velocity( 0.0,1.0,0.0,sp);
+    autopilot_interface.update_setpoint(sp);
+    sleep(1);
+    set_velocity( 0.0,0.0,0.0,sp);
+    autopilot_interface.update_setpoint(sp);
+}
+
+void move_up(Autopilot_Interface &autopilot_interface){
+    mavlink_set_position_target_local_ned_t sp;
+    set_velocity( 0.0,0.0,-1.0,sp);
+    autopilot_interface.update_setpoint(sp);
+    sleep(1);
+    set_velocity( 0.0,0.0,0.0,sp);
+    autopilot_interface.update_setpoint(sp);
+}
+
+void move_down(Autopilot_Interface &autopilot_interface){
+    mavlink_set_position_target_local_ned_t sp;
+    set_velocity( 0.0,0.0,1.0,sp);
+    autopilot_interface.update_setpoint(sp);
+    sleep(1);
+    set_velocity( 0.0,0.0,0.0,sp);
+    autopilot_interface.update_setpoint(sp);
+}
+
+void move_stop(Autopilot_Interface &autopilot_interface){
+    mavlink_set_position_target_local_ned_t sp;
+    set_velocity( 0.0,0.0,0.0,sp);
+    autopilot_interface.update_setpoint(sp);
+}
+
 void waypoint(Autopilot_Interface &autopilot_interface,double lon,double lat,float alt){
     autopilot_interface.waypoint_reposition(lon,lat,alt);
     usleep(100); // give some time to let it sink in
 }
-void mode_circle(Autopilot_Interface &autopilot_interface){
-    std::cout << "mode_circle started" << std::endl;
-    autopilot_interface.circle();
-    usleep(100); // give some time to let it sink in
-}
+
 void print_msg_test(Autopilot_Interface &autopilot_interface){
     Mavlink_Messages msgs = autopilot_interface.current_messages;
     std::cout << "Current position: " << msgs.local_position_ned.x << " " << msgs.local_position_ned.y << " " << msgs.local_position_ned.z << std::endl;
@@ -100,10 +171,10 @@ void print_msg_test(Autopilot_Interface &autopilot_interface){
     std::cout << "Current globally_set_velocity_ned: " << msgs.global_position_int.vx << " " << msgs.global_position_int.vy << " " << msgs.global_position_int.vz << msgs.global_position_int.hdg << std::endl;
     std::cout << "Current battery_voltage: " << msgs.sys_status.voltage_battery << std::endl;
 }
-void do_set_mode(Autopilot_Interface &autopilot_interface,int mode_number){
-    autopilot_interface.do_set_mode(mode_number);
-    usleep(100); // give some time to let it sink in
-}
+// void do_set_mode(Autopilot_Interface &autopilot_interface,int mode_number){
+//     autopilot_interface.do_set_mode(mode_number);
+//     usleep(100); // give some time to let it sink in
+// }
 void move_ned_duration(Autopilot_Interface &autopilot_interface,float vn,float ve,float vd,float duration){
 	std::cout << "mode_move_forward started" << std::endl;
     for(int i = 1; i <= 2000*duration; i++){
@@ -111,12 +182,14 @@ void move_ned_duration(Autopilot_Interface &autopilot_interface,float vn,float v
         usleep(100); // give some time to let it sink in
     }
 }
+
 void move_ned_offset(Autopilot_Interface &autopilot_interface,float offset_n,float offset_e,float offset_d,mavlink_set_position_target_local_ned_t &sp){
     // mavlink_set_position_target_local_ned_t ip = autopilot_interface.current_messages.local_position_ned;
     mavlink_local_position_ned_t current_position = autopilot_interface.current_messages.local_position_ned;
     set_position( current_position.x+offset_n , current_position.y+offset_e , current_position.z+offset_d , sp );
     autopilot_interface.update_setpoint(sp);
 }
+
 void upload_waypoint_list(Autopilot_Interface &autopilot_interface,const std::vector<std::vector<float>>& waypoints){
     for (const auto& waypoint : waypoints) {
         int wp_seq = 0;
@@ -125,5 +198,32 @@ void upload_waypoint_list(Autopilot_Interface &autopilot_interface,const std::ve
         autopilot_interface.add_waypoint(waypoint[lon],waypoint[lat],waypoint[alt],wp_seq);
         wp_seq ++;
     }
-
 }
+
+// this function is called when you press Ctrl-C
+// void quit_handler(int sig )
+// {
+//     printf("\n");
+//     printf("TERMINATING AT USER REQUEST\n");
+//     printf("\n");
+
+//     // autopilot interface
+//     try
+//     {
+//         autopilot_interface_quit->handle_quit(sig);
+//     }
+//     catch (int error)
+//     {
+//     }
+
+//     // port
+//     try
+//     {
+//         port_quit->stop();
+//     }
+//     catch (int error)
+//     {
+//     }
+//     // end program here
+//     exit(0);
+// }
