@@ -281,7 +281,7 @@ public:
 
 	void handle_quit( int sig );
 	int  return_to_launch();
-	int  takeoff_local(float z);
+	int  takeoff_local();
 	int  land();
 	int  waypoint_reposition(double lon,double lat,float alt);
 	int  add_waypoint(float lon,float lat,float alt,int waypoint_seq);

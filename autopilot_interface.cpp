@@ -627,7 +627,7 @@ return_to_launch()
 // ------------------------------------------------------------------------------
 int
 Autopilot_Interface::
-takeoff_local(float z)
+takeoff_local()
 {
 	// Prepare command for takeoff_local mode
 	mavlink_command_long_t com = { 0 };
@@ -641,7 +641,7 @@ takeoff_local(float z)
 	com.param4           = 0; // 
 	com.param5           = 0; // 
 	com.param6           = 0; // 
-	com.param7           = z; // 
+	com.param7           = 2; // 
 
 	// Encode
 	mavlink_message_t message;
@@ -706,8 +706,13 @@ do_set_mode(int mode_number)
 	mavlink_message_t message;
 	mavlink_msg_command_long_encode(system_id, companion_id, &message, &com);
 
-	// Send the message
+	// SenSegmentation faultd the message
 	int len = port->write_message(message);
+	if (len <= 0) {
+        fprintf(stderr, "Failed to write message to port\n");
+    } else {
+        printf("Wrote %d bytes to serial port\n", len);
+    }
 	printf("write %d bytes to serial port", len);
 
 	// Done!
