@@ -627,7 +627,7 @@ return_to_launch()
 // ------------------------------------------------------------------------------
 int
 Autopilot_Interface::
-takeoff_local()
+takeoff_local(float z)
 {
 	// Prepare command for takeoff_local mode
 	mavlink_command_long_t com = { 0 };
@@ -641,7 +641,7 @@ takeoff_local()
 	com.param4           = 0; // 
 	com.param5           = 0; // 
 	com.param6           = 0; // 
-	com.param7           = 20; // 
+	com.param7           = z; // 
 
 	// Encode
 	mavlink_message_t message;
