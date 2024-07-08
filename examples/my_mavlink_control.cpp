@@ -6,7 +6,6 @@
  * This process connects an external MAVLink UART device to send an receive data
  * 
  * @author zhangpeng, <zhangpengbjut@sina.com>
- *
  */
 
 // ------------------------------------------------------------------------------
