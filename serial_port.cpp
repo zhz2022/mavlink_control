@@ -53,6 +53,8 @@
 // ------------------------------------------------------------------------------
 
 #include "serial_port.h"
+#include <iostream> // 添加此行以包含 std::cerr 和 std::endl
+#include <stdexcept> // 添加此行以包含 std::runtime_error
 
 
 // ----------------------------------------------------------------------------------
@@ -83,7 +85,7 @@ Serial_Port::
 	pthread_mutex_destroy(&lock);
 }
 
-void
+void//BUG
 Serial_Port::
 initialize_defaults()
 {
@@ -225,8 +227,10 @@ start()
 	// Check success
 	if (fd == -1)
 	{
-		printf("failure, could not open port.\n");
-		throw EXIT_FAILURE;
+	    std::cerr << "failure, could not open port: " << uart_name << std::endl;
+        throw std::runtime_error("Could not open port");
+		// printf("failure, could not open port.\n");
+		// throw EXIT_FAILURE;
 	}
 
 	// --------------------------------------------------------------------------
