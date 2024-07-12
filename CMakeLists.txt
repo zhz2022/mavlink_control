@@ -21,20 +21,43 @@ if(PX4)
     add_definitions(-DPX4)
 endif()
 
-
-add_library(mavlink_control SHARED
+# 设置源文件
+set(SOURCES   
   port_mangement.cpp
-  integrated_interface.cpp
+  # integrated_interface.cpp
   serial_port.cpp
   udp_port.cpp
-  autopilot_interface.cpp
-)
+  autopilot_interface.cpp)
+
+add_library(mavlink_control SHARED ${SOURCES})
 
 add_subdirectory(examples)
 
-install(TARGETS mavlink_control
-  LIBRARY DESTINATION /usr/lib
-)
-
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
+
+# 安装共享库到 /usr/local/lib
+install(TARGETS mavlink_control
+  LIBRARY DESTINATION /usr/local/lib
+)
+
+# 安装指定头文件到 /usr/include
+install(FILES 
+    # /home/lianran/c_uart_interface_mavlink/autopilot_interface.h
+    # /home/lianran/c_uart_interface_mavlink/generic_port.h
+    # /home/lianran/c_uart_interface_mavlink/integrated_interface.h
+    # DESTINATION /usr/include/c_uart_interface_mavlink
+
+    ${CMAKE_SOURCE_DIR}/autopilot_interface.h
+    ${CMAKE_SOURCE_DIR}/generic_port.h
+    ${CMAKE_SOURCE_DIR}/port_mangement.h
+    ${CMAKE_SOURCE_DIR}/serial_port.h
+    ${CMAKE_SOURCE_DIR}/udp_port.h
+    DESTINATION /usr/local/include/c_uart_interface_mavlink
+    )
+
+# 安装整个 third_party/mavlink 文件夹
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/third_party/mavlink/
+DESTINATION /usr/local/include/mavlink
+FILES_MATCHING PATTERN "*.h"
+)
