@@ -24,7 +24,7 @@ endif()
 # 设置源文件
 set(SOURCES   
   port_mangement.cpp
-  # integrated_interface.cpp
+  integrated_interface.cpp
   serial_port.cpp
   udp_port.cpp
   autopilot_interface.cpp)
@@ -53,6 +53,7 @@ install(FILES
     ${CMAKE_SOURCE_DIR}/port_mangement.h
     ${CMAKE_SOURCE_DIR}/serial_port.h
     ${CMAKE_SOURCE_DIR}/udp_port.h
+    ${CMAKE_SOURCE_DIR}/integrated_interface.h
     DESTINATION /usr/local/include/c_uart_interface_mavlink
     )
 
